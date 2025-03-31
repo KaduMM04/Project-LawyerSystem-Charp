@@ -1,0 +1,38 @@
+﻿version: '3.8'
+
+services:
+  lawyersystem-api:
+    container_name: lawyersystem-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+        - ./:/app
+        - /app/bin
+        - /app/obj
+    ports:
+      - "5000:8080"
+      - "5001:8081"
+    depends_on:
+      - lawyersystem-db
+    environment:
+        ASPNETCORE_ENVIRONMENT: Development
+        ConnectionStrings__DefaultConnection: Host=lawyersystem-db;Database=lawyersystem;Username=postgres;Password=root;
+        DOTNET_USE_POLLING_FILE_WATCHER: 'true'
+   
+  lawyersystem-db:
+    container_name: lawyersystem-db
+    image: postgres:latest
+    restart: always
+    environment:
+        POSTGRES_DB: lawyersystem
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: root
+    ports:
+        - "5433:5432"
+    volumes:
+       - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
