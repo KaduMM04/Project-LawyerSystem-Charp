@@ -150,3 +150,4 @@ C:\Users\Gustavo Sacoman\source\repos\C# Estudos\Project-LawyerSystem-Charp\Proj
 C:\Users\Gustavo Sacoman\source\repos\C# Estudos\Project-LawyerSystem-Charp\Project-LawyerSystem-CharpApi\obj\Debug\net8.0\Project-LawyerSystem-CharpApi.pdb
 C:\Users\Gustavo Sacoman\source\repos\C# Estudos\Project-LawyerSystem-Charp\Project-LawyerSystem-CharpApi\obj\Debug\net8.0\Project-LawyerSystem-CharpApi.genruntimeconfig.cache
 C:\Users\Gustavo Sacoman\source\repos\C# Estudos\Project-LawyerSystem-Charp\Project-LawyerSystem-CharpApi\obj\Debug\net8.0\ref\Project-LawyerSystem-CharpApi.dll
+C:\Users\Gustavo Sacoman\Source\Repos\C# Estudos\Project-LawyerSystem-Charp\Project-LawyerSystem-CharpApi\obj\Debug\net8.0\Project-LawyerSystem-CharpApi.sourcelink.json

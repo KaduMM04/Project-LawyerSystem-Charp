@@ -10,12 +10,13 @@ builder.Services.AddTransient<Npgsql.NpgsqlConnection>(
 
 var app = builder.Build();
 
-app.MapGet("/ping", async (Npgsql.NpgsqlConnection dbConnection) =>
+app.MapGet("/ping", async () =>
 {
     try
     {
-        await dbConnection.OpenAsync();
-        await dbConnection.CloseAsync();
+        await using var conn = new Npgsql.NpgsqlConnection(connectionString);
+        await conn.OpenAsync();
+        await conn.CloseAsync();
         return Results.Ok("pong");
     }
     catch (Exception ex)
