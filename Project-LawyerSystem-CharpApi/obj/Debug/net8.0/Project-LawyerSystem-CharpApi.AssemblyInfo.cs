@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Project-LawyerSystem-CharpApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1241d22cfd860ecc0747fc834b9369a270b83af2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Project-LawyerSystem-CharpApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Project-LawyerSystem-CharpApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
