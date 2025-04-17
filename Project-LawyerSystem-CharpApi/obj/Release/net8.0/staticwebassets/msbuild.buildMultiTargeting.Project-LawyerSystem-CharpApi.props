@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\Project-LawyerSystem-CharpApi.props" />
-</Project>
