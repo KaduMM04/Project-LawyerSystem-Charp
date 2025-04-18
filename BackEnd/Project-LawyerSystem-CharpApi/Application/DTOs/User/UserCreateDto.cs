@@ -1,17 +1,11 @@
 ﻿using Project_LawyerSystem_CharpApi.Domain.Enums;
-
-namespace Project_LawyerSystem_CharpApi.Domain.Models;
+namespace Project_LawyerSystem_CharpApi.Application.DTOs.User;
 
 /// <summary>
-/// Represents a user in the system.
+/// Represents the data transfer object for creating a new user.
 /// </summary>
-public class User
+public class UserCreateDto
 {
-    /// <summary>
-    /// Gets or sets the unique identifier for the user.
-    /// </summary>
-    public Guid Id { get; set; } = Guid.NewGuid();
-
     /// <summary>
     /// Gets or sets the name of the user.
     /// </summary>
@@ -38,7 +32,7 @@ public class User
     public Role Role { get; set; }
 
     /// <summary>
-    /// Gets or sets the ClienteId of the user.
+    /// Gets or sets the ClientId of the user.
     /// </summary>
     public Guid? ClientId { get; set; }
 
@@ -46,14 +40,4 @@ public class User
     /// Gets or sets the LawyerId of the user.
     /// </summary>
     public Guid? LawyerId { get; set; }
-
-    /// <summary>
-    /// Gets or sets the date and time when the user was created.
-    /// </summary>
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-    /// <summary>
-    /// Gets or sets the date and time when the user was last updated.
-    /// </summary>
-    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 }

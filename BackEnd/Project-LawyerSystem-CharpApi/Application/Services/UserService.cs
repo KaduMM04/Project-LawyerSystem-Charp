@@ -1,6 +1,5 @@
-﻿namespace Project_LawyerSystem_CharpApi.Application.Services
+﻿namespace Project_LawyerSystem_CharpApi.Application.Services;
+
+public class UserService
 {
-    public class UserService
-    {
-    }
 }

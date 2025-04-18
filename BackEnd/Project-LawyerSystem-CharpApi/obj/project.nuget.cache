@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "BL+zfyk6mUM=",
+  "dgSpecHash": "NNiFRiljgEA=",
   "success": true,
   "projectFilePath": "C:\\Users\\Gustavo Sacoman\\source\\repos\\C# Estudos\\Project-LawyerSystem-Charp\\BackEnd\\Project-LawyerSystem-CharpApi\\Project-LawyerSystem-CharpApi.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Gustavo Sacoman\\.nuget\\packages\\fluentvalidation\\11.11.0\\fluentvalidation.11.11.0.nupkg.sha512",
     "C:\\Users\\Gustavo Sacoman\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Gustavo Sacoman\\.nuget\\packages\\microsoft.aspnetcore.antiforgery\\2.3.0\\microsoft.aspnetcore.antiforgery.2.3.0.nupkg.sha512",
     "C:\\Users\\Gustavo Sacoman\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.3.0\\microsoft.aspnetcore.authentication.abstractions.2.3.0.nupkg.sha512",

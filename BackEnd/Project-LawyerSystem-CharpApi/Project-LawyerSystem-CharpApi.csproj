@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.3.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
@@ -31,18 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="API\Controllers\" />
     <Folder Include="API\Middlewares\" />
-    <Folder Include="Application\DTOs\" />
-    <Folder Include="Application\Mappers\" />
-    <Folder Include="Application\Validators\" />
-    <Folder Include="Application\Services\" />
-    <Folder Include="Domain\Models\" />
     <Folder Include="Domain\Interfaces\" />
-    <Folder Include="Domain\Enums\" />
-    <Folder Include="Infrastructure\Data\" />
     <Folder Include="Infrastructure\Configurations\" />
-    <Folder Include="Infrastructure\Repositories\" />
   </ItemGroup>
 
 </Project>
