@@ -3,12 +3,35 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Project_LawyerSystem_CharpApi.Application.DTOs.User;
 
+/// <summary>
+/// Represents the data transfer object for updating user information.
+/// </summary>
 public class UserUpdateDto
 {
+    public Guid Id { get; set; }
+
+    /// <summary>
+    /// Gets or sets the Name for the user.
+    /// </summary>
     public string Name { get; set; } = string.Empty;
+    /// <summary>
+    /// Gets or sets the Email of the user
+    /// </summary>
     public string Email { get; set; } = string.Empty;
-    public string Password { get; set; }
+
+    /// <summary>
+    /// Gets or sets the password of the user.
+    /// </summary>
+    public string Password { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or Sets for phone number of the user.
+    /// </summary>
     public string Phone { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the role of the user.
+    /// </summary>
     public Role Role { get; set; }
 
     /// <summary>

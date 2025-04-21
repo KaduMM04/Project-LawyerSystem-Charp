@@ -304,3 +304,4 @@ C:\Users\Gustavo Sacoman\source\repos\C# Estudos\Project-LawyerSystem-Charp\Back
 C:\Users\Gustavo Sacoman\source\repos\C# Estudos\Project-LawyerSystem-Charp\BackEnd\Project-LawyerSystem-CharpApi\obj\Debug\net8.0\Project-LawyerSystem-CharpApi.pdb
 C:\Users\Gustavo Sacoman\source\repos\C# Estudos\Project-LawyerSystem-Charp\BackEnd\Project-LawyerSystem-CharpApi\obj\Debug\net8.0\Project-LawyerSystem-CharpApi.genruntimeconfig.cache
 C:\Users\Gustavo Sacoman\source\repos\C# Estudos\Project-LawyerSystem-Charp\BackEnd\Project-LawyerSystem-CharpApi\obj\Debug\net8.0\ref\Project-LawyerSystem-CharpApi.dll
+C:\Users\Gustavo Sacoman\source\repos\C# Estudos\Project-LawyerSystem-Charp\BackEnd\Project-LawyerSystem-CharpApi\bin\Debug\net8.0\FluentValidation.dll
