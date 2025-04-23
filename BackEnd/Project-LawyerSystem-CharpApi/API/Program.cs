@@ -2,29 +2,31 @@ using System.Data.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
-    "Host=lawyersystem-db;Port=5433;Database=lawyersystem;Username=postgres;Password=postgres";
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddTransient<Npgsql.NpgsqlConnection>(
-    _ => new Npgsql.NpgsqlConnection(connectionString));
+        _ => new Npgsql
+                .NpgsqlConnection(connectionString));
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddSwaggerGen(c =>
+{
+    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+});
 var app = builder.Build();
 
-app.MapGet("/ping", async () =>
+if (app.Environment.IsDevelopment())
 {
-    try
-    {
-        await using var conn = new Npgsql.NpgsqlConnection(connectionString);
-        await conn.OpenAsync();
-        await conn.CloseAsync();
-        return Results.Ok("pong");
-    }
-    catch (Exception ex)
-    {
-        return Results.Problem($"Database connection failed: {ex.Message}");
-    }
-});
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
-app.Map("/", () => "Hello World");
-
+app.UseHttpsRedirection();
+app.UseAuthorization();
+app.MapControllers();
+app.Map("/", () => Results.Content("<h3> Use <a href='/swagger'>Swagger</a> to see all controllers</h3>",
+                                    "text/html"));
 app.Run();

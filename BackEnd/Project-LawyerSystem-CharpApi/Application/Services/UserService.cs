@@ -7,7 +7,7 @@ namespace Project_LawyerSystem_CharpApi.Application.Services;
 public class UserService
 {
 
-    public readonly IUserRepository _userRepository;
+    private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
     public UserService(IUserRepository userRepository, IMapper mapper)
     {
