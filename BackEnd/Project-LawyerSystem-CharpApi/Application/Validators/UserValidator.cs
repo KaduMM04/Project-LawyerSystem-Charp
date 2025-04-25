@@ -17,6 +17,6 @@ public class UserCreateDtoValidator : AbstractValidator<UserCreateDto>
 
         RuleFor(x => x.Phone)
             .NotEmpty().WithMessage("Phone Number is required")
-            .Length(10, 15).WithMessage("Phone number must be between 10 and 15 digits.");
+            .Length(10).WithMessage("Phone number must be 10 numbers.");
     }
 }

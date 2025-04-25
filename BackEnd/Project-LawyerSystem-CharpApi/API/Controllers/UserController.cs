@@ -30,9 +30,9 @@ public class UserController : Controller
     /// <param name="id">The unique identifier of the user.</param>
     /// <returns>The user details if found.</returns>
     [HttpGet("{id}")]
-    public IActionResult GetUserById(Guid id)
+    public async Task<IActionResult> GetUserById(Guid id)
     {
-        var result = this._userService.GetUserById(id);
+        var result = await this._userService.GetUserById(id);
         return this.Ok(result);
     }
 
@@ -41,9 +41,9 @@ public class UserController : Controller
     /// </summary>
     /// <returns>A list of users.</returns>
     [HttpGet]
-    public IActionResult GetAllUsers()
+    public async Task<IActionResult> GetAllUsers()
     {
-        var result = this._userService.getAllUser();
+        var result = await this._userService.getAllUser();
         return this.Ok(result);
     }
 
@@ -53,9 +53,9 @@ public class UserController : Controller
     /// <param name="userCreateDto">The data transfer object containing user creation details.</param>
     /// <returns>The created user details.</returns>
     [HttpPost]
-    public IActionResult CreateUser([FromBody] UserCreateDto userCreateDto)
+    public async Task<IActionResult> CreateUser([FromBody] UserCreateDto userCreateDto)
     {
-        var result = this._userService.createUser(userCreateDto);
+        var result = await this._userService.createUser(userCreateDto);
         return this.Ok(result);
     }
 }

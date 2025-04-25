@@ -27,6 +27,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
-app.Map("/", () => Results.Content("<h3> Use <a href='/swagger'>Swagger</a> to see all controllers</h3>",
-                                    "text/html"));
+app.Map("/", () => Results.Content(
+    "<h3> Use <a href='/swagger'>Swagger</a> to see all controllers</h3>", "text/html"));
 app.Run();

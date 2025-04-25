@@ -34,4 +34,9 @@ public class UserReadDto
     /// Gets or sets the LawyerId of the user, if applicable.
     /// </summary>
     public Guid? LawyerId { get; set; }
+
+    public static explicit operator UserReadDto(UserCreateDto v)
+    {
+        throw new NotImplementedException();
+    }
 }

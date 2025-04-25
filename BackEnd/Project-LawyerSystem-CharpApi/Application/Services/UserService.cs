@@ -44,7 +44,7 @@ public class UserService
         return result;
     }
 
-    public async Task<UserCreateDto> createUser(UserCreateDto userCreateDto)
+    public async Task<UserReadDto> createUser(UserCreateDto userCreateDto)
     {
         if (userCreateDto == null)
         {
@@ -57,8 +57,10 @@ public class UserService
             throw new Exception("User already exists");
         }
 
+        var userReadDto = (UserReadDto)userCreateDto;
+
         await this._userRepository.AddUserAsync(user);
         await this._userRepository.SaveChangesAsync();
-        return userCreateDto;
+        return userReadDto;
     }
 }
