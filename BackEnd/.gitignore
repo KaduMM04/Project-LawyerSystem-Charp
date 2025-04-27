@@ -1,6 +1,6 @@
 # Build results
-bin/
-obj/
+**/bin/
+**/obj/
 
 # Test results
 TestResults/

@@ -18,11 +18,13 @@ Lawyer
 OAB PK
 Area_atucao
 numero_casos FK
+Caso_id FK_
 }
 
 Cliente {
 CPF	PF
 Endereco_id FK
+Caso_id FK
 }
 
 Endereco {

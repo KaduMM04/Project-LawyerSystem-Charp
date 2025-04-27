@@ -8,10 +8,12 @@ public class UserCreateDtoValidator : AbstractValidator<UserCreateDto>
     public UserCreateDtoValidator()
     {
         RuleFor(x => x.Email)
-            .NotEmpty().WithMessage("Email is required.")
+            .NotNull().WithMessage("Email must not be null.")
+            .NotEmpty().WithMessage("Email must not be empty.")
             .EmailAddress().WithMessage("Invalid email format.");
 
         RuleFor(x => x.Name)
+            .NotNull().WithMessage("Name must not be null.")
             .NotEmpty().WithMessage("Name is required")
             .MaximumLength(100).WithMessage("Name must not exceed 100 characters.");
 

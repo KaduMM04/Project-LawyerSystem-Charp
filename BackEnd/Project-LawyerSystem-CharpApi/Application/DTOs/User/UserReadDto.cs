@@ -33,10 +33,6 @@ public class UserReadDto
     /// <summary>
     /// Gets or sets the LawyerId of the user, if applicable.
     /// </summary>
-    public Guid? LawyerId { get; set; }
+    public string? OAB { get; set; } // PK
 
-    public static explicit operator UserReadDto(UserCreateDto v)
-    {
-        throw new NotImplementedException();
-    }
 }

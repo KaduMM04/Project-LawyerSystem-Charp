@@ -46,5 +46,5 @@ public class UserUpdateDto
     /// <summary>
     /// Gets or sets the LawyerId of the user.
     /// </summary>
-    public Guid? LawyerId { get; set; }
+    public string? OAB { get; set; } // PK
 }

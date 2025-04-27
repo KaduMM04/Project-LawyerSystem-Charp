@@ -57,7 +57,10 @@ public class UserService
             throw new Exception("User already exists");
         }
 
-        var userReadDto = (UserReadDto)userCreateDto;
+        user.CreatedAt = DateTime.UtcNow;
+        user.UpdatedAt = DateTime.UtcNow;
+
+        var userReadDto = _mapper.Map<UserReadDto>(userCreateDto);
 
         await this._userRepository.AddUserAsync(user);
         await this._userRepository.SaveChangesAsync();
