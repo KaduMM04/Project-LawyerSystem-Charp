@@ -46,5 +46,22 @@ public class AppDbContext : DbContext
             .Property(u => u.Phone)
             .IsRequired()
             .HasMaxLength(15);
+
+
+        //------------------------------------------------------//
+        // Lawyers table configuration
+        modelBuilder.Entity<Lawyer>()
+            .ToTable("Lawyers")
+            .HasKey(l => l.OAB);
+            
+
+        modelBuilder.Entity<Lawyer>()
+            .Property(l => l.AreaOfExpertise)
+            .HasMaxLength(30)
+            .IsRequired();
+
+        
     }
+
+
 }
