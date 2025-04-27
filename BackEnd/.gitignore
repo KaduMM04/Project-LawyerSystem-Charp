@@ -1,0 +1,18 @@
+# Build results
+bin/
+obj/
+
+# Test results
+TestResults/
+coverage-report/
+
+# Visual Studio cache
+.vs/
+
+# User-specific files
+*.user
+*.suo
+
+# Logs e temporários
+*.log
+*.tmp
