@@ -1,12 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using Project_LawyerSystem_CharpApi.Application.Services;
+using Project_LawyerSystem_CharpApi.Domain.Interfaces;
+using Project_LawyerSystem_CharpApi.Infrastructure.Data;
 using System.Data.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddTransient<Npgsql.NpgsqlConnection>(
-        _ => new Npgsql
-                .NpgsqlConnection(connectionString));
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(connectionString));
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
@@ -16,6 +20,11 @@ builder.Services.AddSwaggerGen(c =>
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
 });
+
+builder.Services.AddScoped<ILawyerRepository>();
+builder.Services.AddScoped<LawyerService>();
+
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -23,6 +32,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

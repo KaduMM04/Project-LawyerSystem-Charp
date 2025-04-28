@@ -39,5 +39,5 @@ public class UserCreateDto
     /// <summary>
     /// Gets or sets the LawyerId of the user.
     /// </summary>
-    public string? OAB { get; set; } // FK
+    public string? LawyerOAB { get; set; } // FK
 }

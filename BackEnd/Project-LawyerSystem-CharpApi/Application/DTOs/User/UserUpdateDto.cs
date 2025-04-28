@@ -41,10 +41,10 @@ public class UserUpdateDto
     /// <summary>
     /// Gets or sets the ClientId of the user.
     /// </summary>
-    public Guid? ClientId { get; set; }
+    public string? CPF { get; set; }
 
     /// <summary>
     /// Gets or sets the LawyerId of the user.
     /// </summary>
-    public string? OAB { get; set; } // PK
+    public string? LawyerOAB { get; set; } // PK
 }

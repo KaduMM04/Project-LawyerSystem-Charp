@@ -1,7 +1,7 @@
 using AutoMapper;
 using Project_LawyerSystem_CharpApi.Application.DTOs.Lawyer;
+using Project_LawyerSystem_CharpApi.Domain.Interfaces;
 using Project_LawyerSystem_CharpApi.Domain.Models;
-using Project_LawyerSystem_CharpApi.Infrastructure.Repositories;
 
 namespace Project_LawyerSystem_CharpApi.Application.Services
 {
@@ -37,13 +37,11 @@ namespace Project_LawyerSystem_CharpApi.Application.Services
             lawyer.CreatedAt = DateTime.UtcNow;
             lawyer.UpdatedAt = DateTime.UtcNow;
 
-            
-            
+
+
             // Adicionar o advogado no banco de dados
             await _lawyerRepository.AddLawyerAsync(lawyer);
-            await _lawyerRepository.SaveChangesAsync();
 
-           
             return _mapper.Map<LawyerCreateDto>(lawyer);
         }
 

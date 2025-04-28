@@ -43,7 +43,7 @@ public class UserController : Controller
     [HttpGet]
     public async Task<IActionResult> GetAllUsers()
     {
-        var result = await this._userService.getAllUser();
+        var result = await this._userService.GetAllUser();
         return this.Ok(result);
     }
 
@@ -53,9 +53,9 @@ public class UserController : Controller
     /// <param name="userCreateDto">The data transfer object containing user creation details.</param>
     /// <returns>The created user details.</returns>
     [HttpPost]
-    public async Task<IActionResult> CreateUser([FromBody] UserCreateDto userCreateDto)
+    public async Task<IActionResult> UserPost([FromBody] UserCreateDto userCreateDto)
     {
-        var result = await this._userService.createUser(userCreateDto);
+        var result = await this._userService.CreateUser(userCreateDto);
         return this.Ok(result);
     }
 }

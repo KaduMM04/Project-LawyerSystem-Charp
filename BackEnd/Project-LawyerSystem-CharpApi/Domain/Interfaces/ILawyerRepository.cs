@@ -1,7 +1,7 @@
 using Project_LawyerSystem_CharpApi.Domain.Models;
 
 
-namespace Project_LawyerSystem_CharpApi.Infrastructure.Repositories
+namespace Project_LawyerSystem_CharpApi.Domain.Interfaces
 {
     public interface ILawyerRepository
     {
@@ -13,8 +13,5 @@ namespace Project_LawyerSystem_CharpApi.Infrastructure.Repositories
 
         // Adicionar um novo advogado
         Task AddLawyerAsync(Lawyer lawyer);
-
-
-        Task SaveChangesAsync();
     }
 }

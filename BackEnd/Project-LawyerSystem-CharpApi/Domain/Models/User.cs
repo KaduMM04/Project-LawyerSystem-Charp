@@ -45,7 +45,9 @@ public class User
     /// <summary>
     /// Gets or sets the LawyerId of the user.
     /// </summary>
-    public Guid? LawyerId { get; set; }
+    public string? LawyerOAB { get; set; }
+
+    public Lawyer? Lawyer { get; set; }
 
     /// <summary>
     /// Gets or sets the date and time when the user was created.

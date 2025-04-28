@@ -20,6 +20,7 @@ public class AppDbContext : DbContext
     /// Gets or sets the Users table.
     /// </summary>
     public DbSet<User> Users { get; set; }
+    public DbSet<Lawyer> Lawyers { get; set; }
 
     /// <summary>
     /// Configures the model for the database context.
@@ -47,20 +48,24 @@ public class AppDbContext : DbContext
             .IsRequired()
             .HasMaxLength(15);
 
-
         //------------------------------------------------------//
         // Lawyers table configuration
         modelBuilder.Entity<Lawyer>()
             .ToTable("Lawyers")
             .HasKey(l => l.OAB);
-            
 
         modelBuilder.Entity<Lawyer>()
             .Property(l => l.AreaOfExpertise)
             .HasMaxLength(30)
             .IsRequired();
 
-        
+        modelBuilder.Entity<User>()
+            .HasOne(u => u.Lawyer)
+            .WithOne(l => l.User)
+            .HasForeignKey<User>(l => l.LawyerOAB)
+            .HasPrincipalKey<Lawyer>(l => l.OAB)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
 

@@ -5,6 +5,13 @@
 /// </summary>
 public enum Role
 {
-    Advogado,
-    Cliente,
+    /// <summary>
+    /// Represents a lawyer role.
+    /// </summary>
+    Advogado = 1,
+
+    /// <summary>
+    /// Represents a client role.
+    /// </summary>
+    Cliente = 2,
 }
