@@ -5,7 +5,7 @@ namespace Project_LawyerSystem_CharpApi.Application.Mappers;
 
 public class UserProfile : Profile
 {
-   UserProfile()
+  public UserProfile()
     {
         CreateMap<User, UserReadDto>();
         CreateMap<UserCreateDto, User>();

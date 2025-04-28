@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Project_LawyerSystem_CharpApi.Application.Services;
 using Project_LawyerSystem_CharpApi.Domain.Interfaces;
 using Project_LawyerSystem_CharpApi.Infrastructure.Data;
+using Project_LawyerSystem_CharpApi.Infrastructure.Repositories;
 using System.Data.Common;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,9 +22,9 @@ builder.Services.AddSwaggerGen(c =>
     c.IncludeXmlComments(xmlPath);
 });
 
-builder.Services.AddScoped<ILawyerRepository>();
+builder.Services.AddScoped<ILawyerRepository, LawyerRepository>();
 builder.Services.AddScoped<LawyerService>();
-
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 

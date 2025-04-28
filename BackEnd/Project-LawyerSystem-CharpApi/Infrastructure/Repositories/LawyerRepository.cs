@@ -22,14 +22,14 @@ public class LawyerRepository : ILawyerRepository
     // Obter todos os advogados
     public async Task<IEnumerable<Lawyer>> GetAllLawyersAsync()
     {
-        return await _context.Lawyers.FirstOrDefaultAsync();
+        return await _context.Lawyers.ToListAsync();
     }
 
     // Adicionar um novo advogado
     public async Task AddLawyerAsync(Lawyer lawyer)
     {
         await _context.Lawyers.AddAsync(lawyer);
-        await _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 
 }

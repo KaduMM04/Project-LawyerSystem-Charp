@@ -62,5 +62,11 @@ namespace Project_LawyerSystem_CharpApi.Application.Services
             return _mapper.Map<LawyerCreateDto>(lawyer);
         }
 
+        public async Task<IEnumerable<LawyerCreateDto>> GetAllLawyersAsync()
+        {
+            var lawyers = await _lawyerRepository.GetAllLawyersAsync();
+            return _mapper.Map<IEnumerable<LawyerCreateDto>>(lawyers);
+        }
+
     }
 }
