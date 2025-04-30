@@ -12,17 +12,20 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /app
 
 # Copy the root project to folder container
-COPY ["../Project-LawyerSystem-CharpApi/Project-LawyerSystem-CharpApi.csproj", "."]
-RUN dotnet restore
+COPY Project-LawyerSystem-CharpApi/Project-LawyerSystem-CharpApi.csproj ./Project-LawyerSystem-CharpApi/
+RUN dotnet restore ./Project-LawyerSystem-CharpApi/Project-LawyerSystem-CharpApi.csproj
+
 
 # Copy the rest of the code until in container
-COPY . .
+COPY Project-LawyerSystem-CharpApi/ ./Project-LawyerSystem-CharpApi/
+WORKDIR /app/Project-LawyerSystem-CharpApi
 RUN dotnet build -c $BUILD_CONFIGURATION -o /app/build
+
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish -c $BUILD_CONFIGURATION -o /app/publish --no-restore /p:UseAppHost=false
+
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
