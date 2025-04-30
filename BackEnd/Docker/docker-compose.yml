@@ -7,12 +7,13 @@ services:
       context: ..
       dockerfile: Docker/Dockerfile
     ports:
-      - "5000:8080"
-      - "5001:8081"
+      - "5000:5000"
+      - "5001:5001"
     depends_on:
       - lawyersystem-db
     environment:
         ASPNETCORE_ENVIRONMENT: Production
+        ASPNETCORE_URLS: http://+:5000;http://+:5001
         ConnectionStrings__DefaultConnection: Host=lawyersystem-db;Database=lawyersystem;Username=postgres;Password=root;
    
   lawyersystem-db:
