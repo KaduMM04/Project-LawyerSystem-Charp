@@ -31,13 +31,21 @@ namespace Project_LawyerSystem_CharpApi.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateLawyer([FromBody] LawyerCreateDto lawyerCreateDto)
         {
-            if (lawyerCreateDto == null)
+            try
             {
-                return BadRequest("Dados do advogado inválidos.");
-            }
+                if (lawyerCreateDto == null)
+                {
+                    return BadRequest("Dados do advogado inválidos.");
+                }
 
-            var lawyerDto = await _lawyerService.CreateLawyerAsync(lawyerCreateDto);
-            return CreatedAtAction(nameof(GetLawyerByOAB), new { oab = lawyerDto.OAB }, lawyerDto);
+                var lawyerDto = await _lawyerService.CreateLawyerAsync(lawyerCreateDto);
+                return CreatedAtAction(nameof(GetLawyerByOAB), new { oab = lawyerDto.OAB }, lawyerDto);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+           
         }
 
         /// <summary>

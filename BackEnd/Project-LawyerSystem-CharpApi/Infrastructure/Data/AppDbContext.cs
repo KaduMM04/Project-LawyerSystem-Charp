@@ -48,6 +48,11 @@ public class AppDbContext : DbContext
             .IsRequired()
             .HasMaxLength(15);
 
+        modelBuilder.Entity<User>()
+            .Property(u => u.Role)
+            .HasConversion<string>()
+            .IsRequired();
+
         //------------------------------------------------------//
         // Lawyers table configuration
         modelBuilder.Entity<Lawyer>()
@@ -58,7 +63,8 @@ public class AppDbContext : DbContext
             .Property(l => l.AreaOfExpertise)
             .HasMaxLength(30)
             .IsRequired();
-
+        //------------------------------------------------------//
+        // User Conection with Lawyer
         modelBuilder.Entity<User>()
             .HasOne(u => u.Lawyer)
             .WithOne(l => l.User)

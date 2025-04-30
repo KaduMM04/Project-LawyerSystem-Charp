@@ -36,10 +36,12 @@ public class UserService(IUserRepository userRepository, IMapper mapper)
     {
         var user = await _userRepository.GetUserByIdAsync(id);
         var result = _mapper.Map<UserReadDto>(user);
+
         if (result == null)
         {
             throw new Exception("User not found");
         }
+
         return result;
     }
 
@@ -81,9 +83,19 @@ public class UserService(IUserRepository userRepository, IMapper mapper)
 
         user.CreatedAt = DateTime.UtcNow;
         user.UpdatedAt = DateTime.UtcNow;
+        try
+        {
+            int result = await _userRepository.AddUserAsync(user);
 
-        await this._userRepository.AddUserAsync(user);
-        await this._userRepository.SaveChangesAsync();
+            if(result == 0)
+            {
+                throw new Exception("There is no Changes on the db");
+            }
+
+        }catch(Exception e)
+        {
+            throw new Exception("Error creating user", e);
+        }
 
         var userReadDto = _mapper.Map<UserReadDto>(userCreateDto);
 

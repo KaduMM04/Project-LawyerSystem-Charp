@@ -1,5 +1,6 @@
 ﻿using Project_LawyerSystem_CharpApi.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Project_LawyerSystem_CharpApi.Application.DTOs.User;
 
@@ -36,6 +37,7 @@ public class UserUpdateDto
     /// <summary>
     /// Gets or sets the role of the user.
     /// </summary>
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public Role Role { get; set; }
 
     /// <summary>

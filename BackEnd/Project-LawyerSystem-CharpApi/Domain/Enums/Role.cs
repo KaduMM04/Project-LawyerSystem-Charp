@@ -1,8 +1,11 @@
-﻿namespace Project_LawyerSystem_CharpApi.Domain.Enums;
+﻿using System.Text.Json.Serialization;
+
+namespace Project_LawyerSystem_CharpApi.Domain.Enums;
 
 /// <summary>
 /// Enumeration representing user roles.
 /// </summary>
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum Role
 {
     /// <summary>

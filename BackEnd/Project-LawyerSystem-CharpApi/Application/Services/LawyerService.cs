@@ -33,11 +33,8 @@ namespace Project_LawyerSystem_CharpApi.Application.Services
                 throw new Exception("Advogado com a mesma OAB já existe.");
             }
 
-            //Gustavo falou pra por sla
             lawyer.CreatedAt = DateTime.UtcNow;
             lawyer.UpdatedAt = DateTime.UtcNow;
-
-
 
             // Adicionar o advogado no banco de dados
             await _lawyerRepository.AddLawyerAsync(lawyer);

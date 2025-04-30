@@ -14,7 +14,6 @@ public class LawyerRepository : ILawyerRepository
         _context = context;
     }
 
-
     public async Task<Lawyer> GetLawyerByOABAsync(string oab)
     {
         return await _context.Lawyers.FindAsync(oab);
@@ -28,6 +27,7 @@ public class LawyerRepository : ILawyerRepository
     // Adicionar um novo advogado
     public async Task AddLawyerAsync(Lawyer lawyer)
     {
+
         await _context.Lawyers.AddAsync(lawyer);
         await _context.SaveChangesAsync();
     }

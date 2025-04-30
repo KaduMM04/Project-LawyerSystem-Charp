@@ -27,20 +27,15 @@ public interface IUserRepository
     /// </summary>
     /// <param name="user">The user to add.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    Task<User> AddUserAsync(User user);
+    Task<int> AddUserAsync(User user);
 
     /// <summary>
     /// Updates an existing user.
     /// </summary>
     /// <param name="user">The user with updated information.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    Task<User> UpdateUserAsync(User user);
+    Task<int> UpdateUserAsync(User user);
 
-    /// <summary>
-    /// Saves changes to the repository.
-    /// </summary>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    Task<User> SaveChangesAsync();
 
     /// <summary>
     /// Gets a lawyer by their OAB (Order of Attorneys of Brazil) number.
