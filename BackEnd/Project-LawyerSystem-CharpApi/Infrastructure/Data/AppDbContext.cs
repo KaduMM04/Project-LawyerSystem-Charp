@@ -20,6 +20,10 @@ public class AppDbContext : DbContext
     /// Gets or sets the Users table.
     /// </summary>
     public DbSet<User> Users { get; set; }
+
+    /// <summary>
+    /// Gets or sets the Lawyers table.
+    /// </summary>
     public DbSet<Lawyer> Lawyers { get; set; }
 
     /// <summary>
@@ -44,6 +48,10 @@ public class AppDbContext : DbContext
             .HasMaxLength(100);
 
         modelBuilder.Entity<User>()
+            .HasIndex(u => u.Email)
+            .IsUnique();
+
+        modelBuilder.Entity<User>()
             .Property(u => u.Phone)
             .IsRequired()
             .HasMaxLength(15);
@@ -52,6 +60,21 @@ public class AppDbContext : DbContext
             .Property(u => u.Role)
             .HasConversion<string>()
             .IsRequired();
+
+        modelBuilder.Entity<User>()
+            .Property(u => u.LawyerOAB)
+            .IsRequired()
+            .HasMaxLength(8);
+
+        modelBuilder.Entity<User>()
+            .Property(u => u.Password)
+            .IsRequired()
+            .HasMaxLength(256);
+
+        modelBuilder.Entity<User>()
+            .Property(u => u.Salt)
+            .IsRequired()
+            .HasMaxLength(256);
 
         //------------------------------------------------------//
         // Lawyers table configuration
@@ -63,6 +86,7 @@ public class AppDbContext : DbContext
             .Property(l => l.AreaOfExpertise)
             .HasMaxLength(30)
             .IsRequired();
+
         //------------------------------------------------------//
         // User Conection with Lawyer
         modelBuilder.Entity<User>()

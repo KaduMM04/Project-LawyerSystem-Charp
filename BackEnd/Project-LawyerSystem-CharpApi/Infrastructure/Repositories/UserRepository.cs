@@ -21,7 +21,7 @@ public class UserRepository : IUserRepository
 
     public async Task<IEnumerable<User>> GetAllUsersAsync()
     {
-        return (IEnumerable<User>)await _context.Users.FirstOrDefaultAsync();
+        return await _context.Users.ToListAsync();
     }
 
     public async Task<int> AddUserAsync(User user)
@@ -32,15 +32,13 @@ public class UserRepository : IUserRepository
 
     public async Task<int> UpdateUserAsync(User user)
     {
-
-         _context.Users.Update(user);
-       return await _context.SaveChangesAsync();
+        _context.Users.Update(user); // Removed 'await' as Update is not asynchronous  
+        return await _context.SaveChangesAsync();
     }
 
-    public Task<Lawyer> GetLawyerByOabAsync(string oab)
+    public async Task<Lawyer> GetLawyerByOabAsync(string oab)
     {
-        _context.Lawyers.FindAsync(oab);
-        return Task.FromResult(_context.Lawyers.Find(oab));
+        return await _context.Lawyers.FindAsync(oab);
     }
 
     public async Task<User> GetUserByEmailAsync(string email)

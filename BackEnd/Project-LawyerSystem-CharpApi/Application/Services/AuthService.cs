@@ -80,9 +80,9 @@ public class AuthService
 
         var user = _mapper.Map<User>(userDto);
 
-        var salt = CriptoHelper.GenerateSalt();
+        var salt = CryptoHelper.GenerateSalt();
 
-        var hash = CriptoHelper.HashPassword(user.Password, salt);
+        var hash = CryptoHelper.HashPassword(user.Password, salt);
 
         user.Salt = salt;
         user.Password = hash;
@@ -124,7 +124,7 @@ public class AuthService
             throw new Exception("Email or Password is incorrect");
         }
 
-        var result = CriptoHelper.VerifyPassword(
+        var result = CryptoHelper.VerifyPassword(
                                 userLoginDto.Password,
                                 user.Password,
                                 user.Salt);

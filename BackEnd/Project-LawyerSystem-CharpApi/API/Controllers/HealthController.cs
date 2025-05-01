@@ -3,7 +3,7 @@
 namespace Project_LawyerSystem_CharpApi.API.Controllers;
 
 [ApiController]
-[Route("/ping")]
+[Route("/dbHealth")]
 public class HealthController : Controller
 {
     private readonly IConfiguration _configuration;
@@ -28,6 +28,6 @@ public class HealthController : Controller
             return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
         }
 
-        return Ok("Db ok");
+        return Ok("Database is working");
     }
 }

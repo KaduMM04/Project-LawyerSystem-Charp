@@ -7,23 +7,20 @@ namespace Project_LawyerSystem_CharpApi.Application.Services;
 /// <summary>
 /// Provides user-related services such as creating, retrieving, and verifying users.
 /// </summary>
-
-
-public class UserService(IUserRepository userRepository, IMapper mapper)
+public class UserService
 {
-    private readonly IUserRepository _userRepository = userRepository;
-    private readonly IMapper _mapper = mapper;
+    private readonly IUserRepository _userRepository;
+    private readonly IMapper _mapper;
 
-    public async Task<bool> UserExistsById(string Email)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UserService"/> class.
+    /// </summary>
+    /// <param name="userRepository"></param>
+    /// <param name="mapper"></param>
+    public UserService(IUserRepository userRepository, IMapper mapper)
     {
-        var userFromDb = await _userRepository.GetUserByEmailAsync(Email);
-        return userFromDb == null;
-    }
-
-    public async Task<bool> LawyerNotExists(string LawyerOAB)
-    {
-        var lawyer = await _userRepository.GetLawyerByOabAsync(LawyerOAB);
-        return lawyer == null;
+        _userRepository = userRepository;
+        _mapper = mapper;
     }
 
     /// <summary>
@@ -54,51 +51,5 @@ public class UserService(IUserRepository userRepository, IMapper mapper)
         var users = await this._userRepository.GetAllUsersAsync();
         var result = _mapper.Map<IEnumerable<UserReadDto>>(users);
         return result;
-    }
-
-    /// <summary>
-    /// Creates a new user in the database.
-    /// </summary>
-    /// <param name="userCreateDto">The user creation details.</param>
-    /// <returns>The created user details as a <see cref="UserReadDto"/>.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the user creation details are null.</exception>
-    /// <exception cref="Exception">Thrown when the user already exists.</exception>
-    public async Task<UserReadDto> CreateUser(UserCreateDto userCreateDto)
-    {
-        if (userCreateDto == null)
-        {
-            throw new ArgumentNullException(nameof(userCreateDto));
-        }
-
-        var user = _mapper.Map<User>(userCreateDto);
-        if (await UserExistsById(user.Email))
-        {
-            throw new Exception("User already exists");
-        }
-
-        if (await LawyerNotExists(user.LawyerOAB))
-        {
-            throw new Exception("Lawyer not exists");
-        }
-
-        user.CreatedAt = DateTime.UtcNow;
-        user.UpdatedAt = DateTime.UtcNow;
-        try
-        {
-            int result = await _userRepository.AddUserAsync(user);
-
-            if(result == 0)
-            {
-                throw new Exception("There is no Changes on the db");
-            }
-
-        }catch(Exception e)
-        {
-            throw new Exception("Error creating user", e);
-        }
-
-        var userReadDto = _mapper.Map<UserReadDto>(userCreateDto);
-
-        return userReadDto;
     }
 }

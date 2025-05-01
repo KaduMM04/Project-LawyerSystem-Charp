@@ -1,4 +1,5 @@
 ﻿using Project_LawyerSystem_CharpApi.Domain.Enums;
+using System.Text.Json.Serialization;
 
 namespace Project_LawyerSystem_CharpApi.Application.DTOs.User;
 
@@ -27,6 +28,7 @@ public class UserReadDto
     /// </summary>
     public string Phone { get; set; } = string.Empty;
 
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public Role Role { get; set; }
 
     /// <summary>
