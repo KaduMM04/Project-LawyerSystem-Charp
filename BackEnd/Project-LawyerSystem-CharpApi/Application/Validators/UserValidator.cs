@@ -19,6 +19,23 @@ public class UserCreateDtoValidator : AbstractValidator<UserCreateDto>
 
         RuleFor(x => x.Phone)
             .NotEmpty().WithMessage("Phone Number is required")
+            .NotNull().WithMessage("Phone number must not be null.")
             .Length(10).WithMessage("Phone number must be 10 numbers.");
+
+        RuleFor(u => u.LawyerOAB)
+            .NotEmpty().WithMessage("LawyerOAB Number is required")
+            .NotNull().NotNull().WithMessage("LawyerOAB must not be null.")
+            .Length(7, 8).WithMessage("LawyerOAB number must be between 7 and 8 characters.");
+
+        RuleFor(u => u.Role)
+            .NotEmpty().WithMessage("Role is required")
+            .NotNull().WithMessage("Role must not be null.");
+
+        RuleFor(u => u.Password)
+            .NotNull().WithMessage("Password must not be null.")
+            .NotEmpty().WithMessage("Password is required");
+
+
+
     }
 }
