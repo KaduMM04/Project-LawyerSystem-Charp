@@ -32,8 +32,14 @@ public class UserController : Controller
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUserById(Guid id)
     {
-        var result = await this._userService.GetUserById(id);
-        return this.Ok(result);
+        try
+        {
+            var result = await this._userService.GetUserById(id);
+            return this.Ok(result);
+        }catch(Exception ex)
+        {
+            return this.BadRequest(ex.Message);
+        }
     }
 
     /// <summary>
@@ -43,19 +49,14 @@ public class UserController : Controller
     [HttpGet]
     public async Task<IActionResult> GetAllUsers()
     {
-        var result = await this._userService.GetAllUser();
-        return this.Ok(result);
-    }
-
-    /// <summary>
-    /// Creates a new user.
-    /// </summary>
-    /// <param name="userCreateDto">The data transfer object containing user creation details.</param>
-    /// <returns>The created user details.</returns>
-    [HttpPost]
-    public async Task<IActionResult> UserPost([FromBody] UserCreateDto userCreateDto)
-    {
-        var result = await this._userService.CreateUser(userCreateDto);
-        return this.Ok(result);
+        try
+        {
+            var result = await this._userService.GetAllUser();
+            return this.Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return this.BadRequest(ex.Message);
+        }
     }
 }
