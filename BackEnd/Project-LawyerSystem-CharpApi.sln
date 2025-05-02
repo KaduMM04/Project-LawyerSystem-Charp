@@ -14,8 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{1F0580
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DD24B1FE-FD67-4AA6-9E0C-838FAD7920BC}"
 	ProjectSection(SolutionItems) = preProject
-		.gitignore = .gitignore
-		DB.md = DB.md
+		..\.gitignore = ..\.gitignore
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project-LawyerSystem-CharpApi.Tests", "Project-LawyerSystem-CharpApi.Tests\Project-LawyerSystem-CharpApi.Tests.csproj", "{7C11E874-C2E6-499B-B80D-E97E8B1ABA05}"
