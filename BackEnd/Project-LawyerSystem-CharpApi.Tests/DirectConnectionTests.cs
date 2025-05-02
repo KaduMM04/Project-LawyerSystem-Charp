@@ -12,7 +12,7 @@ public class DirectConnectionsTests
     [Fact]
     public async Task DirectConnection()
     {
-        var connectionString = "Host=localhost;Port=5433;Database=lawyersystem;Username=postgres;Password=root;;";
+        var connectionString = "Host=localhost;Port=5433;Database=lawyersystem;Username=postgres;Password=root;";
         await using var conn = new NpgsqlConnection(connectionString);
 
         await conn.OpenAsync();

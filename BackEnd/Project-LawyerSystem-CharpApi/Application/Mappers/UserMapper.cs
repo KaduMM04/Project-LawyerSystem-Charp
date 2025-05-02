@@ -1,6 +1,16 @@
-﻿namespace Project_LawyerSystem_CharpApi.Application.Mappers
+﻿using AutoMapper;
+using Project_LawyerSystem_CharpApi.Application.DTOs.User;
+using Project_LawyerSystem_CharpApi.Domain.Models;
+namespace Project_LawyerSystem_CharpApi.Application.Mappers;
+
+public class UserProfile : Profile
 {
-    public class UserMapper
+  public UserProfile()
     {
+        CreateMap<User, UserReadDto>();
+        CreateMap<UserCreateDto, User>();
+        CreateMap<UserUpdateDto, User>();
+        CreateMap<UserCreateDto, UserReadDto>();
     }
+
 }

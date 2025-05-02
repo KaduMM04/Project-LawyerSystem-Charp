@@ -1,6 +1,102 @@
-﻿namespace Project_LawyerSystem_CharpApi.Infrastructure.Data
+﻿using Microsoft.EntityFrameworkCore;
+using Project_LawyerSystem_CharpApi.Domain.Models;
+
+namespace Project_LawyerSystem_CharpApi.Infrastructure.Data;
+
+    /// <summary>
+    /// Database class.
+    /// </summary>
+public class AppDbContext : DbContext
 {
-    public class AppDbContext
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AppDbContext"/> class.
+    /// AppDbContext constructor.
+    /// </summary>
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
+
+    /// <summary>
+    /// Gets or sets the Users table.
+    /// </summary>
+    public DbSet<User> Users { get; set; }
+
+    /// <summary>
+    /// Gets or sets the Lawyers table.
+    /// </summary>
+    public DbSet<Lawyer> Lawyers { get; set; }
+
+    /// <summary>
+    /// Configures the model for the database context.
+    /// </summary>
+    /// <param name="modelBuilder">The builder used to configure the database model.</param>
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        // Users table configuration
+        modelBuilder.Entity<User>()
+            .ToTable("Users")
+            .HasKey(u => u.Id);
+
+        modelBuilder.Entity<User>()
+            .Property(u => u.Name)
+            .IsRequired()
+            .HasMaxLength(100);
+
+        modelBuilder.Entity<User>()
+            .Property(u => u.Email)
+            .IsRequired()
+            .HasMaxLength(100);
+
+        modelBuilder.Entity<User>()
+            .HasIndex(u => u.Email)
+            .IsUnique();
+
+        modelBuilder.Entity<User>()
+            .Property(u => u.Phone)
+            .IsRequired()
+            .HasMaxLength(15);
+
+        modelBuilder.Entity<User>()
+            .Property(u => u.Role)
+            .HasConversion<string>()
+            .IsRequired();
+
+        modelBuilder.Entity<User>()
+            .Property(u => u.LawyerOAB)
+            .IsRequired()
+            .HasMaxLength(8);
+
+        modelBuilder.Entity<User>()
+            .Property(u => u.Password)
+            .IsRequired()
+            .HasMaxLength(256);
+
+        modelBuilder.Entity<User>()
+            .Property(u => u.Salt)
+            .IsRequired()
+            .HasMaxLength(256);
+
+        //------------------------------------------------------//
+        // Lawyers table configuration
+        modelBuilder.Entity<Lawyer>()
+            .ToTable("Lawyers")
+            .HasKey(l => l.OAB);
+
+        modelBuilder.Entity<Lawyer>()
+            .Property(l => l.AreaOfExpertise)
+            .HasMaxLength(30)
+            .IsRequired();
+
+        //------------------------------------------------------//
+        // User Conection with Lawyer
+        modelBuilder.Entity<User>()
+            .HasOne(u => u.Lawyer)
+            .WithOne(l => l.User)
+            .HasForeignKey<User>(l => l.LawyerOAB)
+            .HasPrincipalKey<Lawyer>(l => l.OAB)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
+
+
 }
