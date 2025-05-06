@@ -26,6 +26,8 @@ public class AppDbContext : DbContext
     /// </summary>
     public DbSet<Lawyer> Lawyers { get; set; }
 
+    public DbSet<Address> Address { get; set; }
+
     /// <summary>
     /// Configures the model for the database context.
     /// </summary>
@@ -96,6 +98,14 @@ public class AppDbContext : DbContext
             .HasPrincipalKey<Lawyer>(l => l.OAB)
             .IsRequired(false)
             .OnDelete(DeleteBehavior.Cascade);
+
+        //------------------------------------------------------//
+        // Address table configuration
+
+        modelBuilder.Entity<Address>()
+            .ToTable("Address")
+            .HasKey(a => a.Id);
+
     }
 
 
