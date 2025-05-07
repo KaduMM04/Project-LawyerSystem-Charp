@@ -105,7 +105,43 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Address>()
             .ToTable("Address")
             .HasKey(a => a.Id);
+        modelBuilder.Entity<Address>()
+            .Property(a => a.Street)
+            .HasMaxLength(255)
+            .IsRequired();
+        modelBuilder.Entity<Address>()
+            .Property(a => a.Number)
+            .HasMaxLength(10)
+            .IsRequired();
+        modelBuilder.Entity<Address>()
+            .Property(a => a.Complement)
+            .HasMaxLength(255);
+        modelBuilder.Entity<Address>()
+            .Property(a => a.Neighborhood)
+            .HasMaxLength(255)
+            .IsRequired();
+        modelBuilder.Entity<Address>()
+            .Property(a => a.City)
+            .HasMaxLength(255)
+            .IsRequired();
+        modelBuilder.Entity<Address>()
+            .Property(a => a.State)
+            .HasMaxLength(2)
+            .IsRequired();
+        modelBuilder.Entity<Address>()
+            .Property(a => a.ZipCode)
+            .HasMaxLength(9)
+            .IsRequired();
 
+        //--------------------------------------
+        //Conection User to Address
+
+        modelBuilder.Entity<User>()
+            .HasOne(u => u.Address)
+            .WithOne(a => a.User)
+            .HasForeignKey<User>(a => a.AddressId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
 
