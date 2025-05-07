@@ -64,4 +64,9 @@ public class UserCreateDto
     [StringLength(8, ErrorMessage = "LawyerOAB must be up to")]
     [JsonPropertyName("LawyerOAB")]
     public string? LawyerOAB { get; set; } // FK
+
+
+    [JsonPropertyName("AddressId")]
+    [Required ( ErrorMessage = "Address must exist")]
+    public Guid AddressId { get; set; }
 }

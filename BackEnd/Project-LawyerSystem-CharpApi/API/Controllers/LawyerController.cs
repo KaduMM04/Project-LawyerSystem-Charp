@@ -41,7 +41,7 @@ namespace Project_LawyerSystem_CharpApi.Controllers
                 var lawyerDto = await _lawyerService.CreateLawyerAsync(lawyerCreateDto);
                 return CreatedAtAction(nameof(GetLawyerByOAB), new { oab = lawyerDto.OAB }, lawyerDto);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }

@@ -68,9 +68,14 @@ public class AuthService
             throw new NullReferenceException(nameof(userDto));
         }
 
+
         if (await _userRepository.GetLawyerByOabAsync(userDto.LawyerOAB) == null)
         {
             throw new Exception("Lawyer not exists");
+        }
+        if (await _userRepository.GetAddressByIdAsync(userDto.AddressId) == null)
+        {
+            throw new Exception("Address not exists");
         }
 
         if (await _userRepository.GetUserByEmailAsync(userDto.Email) != null)
@@ -89,7 +94,11 @@ public class AuthService
         user.CreatedAt = DateTime.UtcNow;
         user.UpdatedAt = DateTime.UtcNow;
 
-        await _userRepository.AddUserAsync(user);
+        if (await _userRepository.AddUserAsync(user) == 0)
+        {
+            throw new Exception("There were no changes in the database");
+        }
+
         return _mapper.Map<UserReadDto>(user);
     }
 

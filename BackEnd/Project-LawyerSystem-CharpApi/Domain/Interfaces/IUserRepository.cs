@@ -46,4 +46,5 @@ public interface IUserRepository
     Task<Lawyer> GetLawyerByOabAsync(string oab);
 
     Task<User> GetUserByEmailAsync(string email);
+    Task<Address> GetAddressByIdAsync(Guid AddressId);
 }

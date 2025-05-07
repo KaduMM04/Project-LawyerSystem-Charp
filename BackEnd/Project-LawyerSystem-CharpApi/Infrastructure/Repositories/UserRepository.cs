@@ -46,4 +46,8 @@ public class UserRepository : IUserRepository
        return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
     }
 
+    public async Task<Address> GetAddressByIdAsync(Guid AddressId)
+    {
+        return await _context.Address.FindAsync(AddressId);
+    }
 }

@@ -16,3 +16,5 @@ coverage-report/
 # Logs e temporários
 *.log
 *.tmp
+**/obj/Debug/net8.0/
+

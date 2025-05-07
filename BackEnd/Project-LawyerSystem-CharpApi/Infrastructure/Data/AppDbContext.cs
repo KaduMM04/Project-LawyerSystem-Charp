@@ -26,6 +26,8 @@ public class AppDbContext : DbContext
     /// </summary>
     public DbSet<Lawyer> Lawyers { get; set; }
 
+    public DbSet<Address> Address { get; set; }
+
     /// <summary>
     /// Configures the model for the database context.
     /// </summary>
@@ -95,6 +97,50 @@ public class AppDbContext : DbContext
             .HasForeignKey<User>(l => l.LawyerOAB)
             .HasPrincipalKey<Lawyer>(l => l.OAB)
             .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        //------------------------------------------------------//
+        // Address table configuration
+
+        modelBuilder.Entity<Address>()
+            .ToTable("Address")
+            .HasKey(a => a.Id);
+        modelBuilder.Entity<Address>()
+            .Property(a => a.Street)
+            .HasMaxLength(255)
+            .IsRequired();
+        modelBuilder.Entity<Address>()
+            .Property(a => a.Number)
+            .HasMaxLength(10)
+            .IsRequired();
+        modelBuilder.Entity<Address>()
+            .Property(a => a.Complement)
+            .HasMaxLength(255);
+        modelBuilder.Entity<Address>()
+            .Property(a => a.Neighborhood)
+            .HasMaxLength(255)
+            .IsRequired();
+        modelBuilder.Entity<Address>()
+            .Property(a => a.City)
+            .HasMaxLength(255)
+            .IsRequired();
+        modelBuilder.Entity<Address>()
+            .Property(a => a.State)
+            .HasMaxLength(2)
+            .IsRequired();
+        modelBuilder.Entity<Address>()
+            .Property(a => a.ZipCode)
+            .HasMaxLength(9)
+            .IsRequired();
+
+        //--------------------------------------
+        //Conection User to Address
+
+        modelBuilder.Entity<User>()
+            .HasOne(u => u.Address)
+            .WithOne(a => a.User)
+            .HasForeignKey<User>(a => a.AddressId)
+            .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
     }
 
