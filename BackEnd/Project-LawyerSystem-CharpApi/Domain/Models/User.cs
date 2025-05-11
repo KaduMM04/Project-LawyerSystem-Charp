@@ -54,6 +54,10 @@ public class User
 
     public Lawyer? Lawyer { get; set; }
 
+    public Guid AddressId { get; set; }
+
+    public Address Address { get; set; }
+
     /// <summary>
     /// Gets or sets the date and time when the user was created.
     /// </summary>
