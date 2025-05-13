@@ -54,11 +54,6 @@ public class UserCreateDto
     public Role Role { get; set; }
 
     /// <summary>
-    /// Gets or sets the ClientId of the user.
-    /// </summary>
-    public string? Cpf { get; set; }
-
-    /// <summary>
     /// Gets or sets the LawyerId of the user.
     /// </summary>
     [StringLength(8, ErrorMessage = "LawyerOAB must be up to")]

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Project_LawyerSystem_CharpApi.Application.Services;
 using Project_LawyerSystem_CharpApi.Domain.Interfaces;
@@ -18,6 +19,16 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendPolicy", builder =>
+    {
+        builder.WithOrigins("http://localhost:64344")
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
 
 // JWT configuration
 
@@ -69,6 +80,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.UseDeveloperExceptionPage();
 }
 
+app.UseCors("FrontendPolicy");
 app.UseAuthentication();
 app.MapControllers();
 

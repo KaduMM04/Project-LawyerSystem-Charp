@@ -8,7 +8,7 @@ namespace Project_LawyerSystem_CharpApi.API.Controllers;
 /// Controller responsible for handling user authentication-related actions.
 /// </summary>
 [ApiController]
-[Route("/user")]
+[Route("api/User")]
 public class AuthController : Controller
 {
     /// <summary>
@@ -31,7 +31,7 @@ public class AuthController : Controller
     /// <param name="userDto">The user data transfer object containing user details.</param>
    
     /// <returns>An <see cref="IActionResult"/> indicating the result of the operation.</returns>
-    [HttpPost("/create")]
+    [HttpPost("create")]
     public async Task<IActionResult> UserPost([FromBody] UserCreateDto userDto)
     {
         try
@@ -50,7 +50,7 @@ public class AuthController : Controller
     /// </summary>
     /// <param name="userLoginDto">The user login data transfer object containing login credentials.</param>
     /// <returns>An <see cref="IActionResult"/> containing the generated token or an error message.</returns>
-    [HttpPost("/login")]
+    [HttpPost("login")]
     public async Task<IActionResult> UserLogin([FromBody] UserLoginDto userLoginDto)
     {
         try

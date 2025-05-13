@@ -18,7 +18,7 @@ public class AddressService
         _mapper = mapper;
     }
 
-    public async Task CreateAddress(AddressDto address)
+    public async Task<Address> CreateAddress(AddressDto address)
     {
         if (address == null)
         {
@@ -29,10 +29,13 @@ public class AddressService
         addressEntity.CreatedAt = DateTime.UtcNow;
         addressEntity.UpdatedAt = DateTime.UtcNow;
         var saveDb = await _addressRepository.AddAddressAsync(addressEntity);
+
         if (saveDb == 0)
         {
             throw new Exception("There were no changes in the database");
         }
+
+        return addressEntity;
     }
 
     public async Task<IEnumerable<AddressDto>> GetAllAddress()

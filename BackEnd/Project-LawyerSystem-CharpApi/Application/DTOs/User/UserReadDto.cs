@@ -32,11 +32,6 @@ public class UserReadDto
     public Role Role { get; set; }
 
     /// <summary>
-    /// Gets or sets the ClientId of the user, if applicable.
-    /// </summary>
-    public Guid? ClientId { get; set; }
-
-    /// <summary>
     /// Gets or sets the LawyerId of the user, if applicable.
     /// </summary>
     public string? LawyerOAB { get; set; }

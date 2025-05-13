@@ -43,11 +43,6 @@ public class User
     public Role Role { get; set; }
 
     /// <summary>
-    /// Gets or sets the ClienteId of the user.
-    /// </summary>
-    public Guid? ClientId { get; set; }
-
-    /// <summary>
     /// Gets or sets the LawyerId of the user.
     /// </summary>
     public string? LawyerOAB { get; set; }

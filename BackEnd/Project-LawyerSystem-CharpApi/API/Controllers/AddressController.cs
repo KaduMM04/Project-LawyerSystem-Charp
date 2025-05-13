@@ -5,7 +5,7 @@ using Project_LawyerSystem_CharpApi.Application.Services;
 namespace Project_LawyerSystem_CharpApi.API.Controllers;
 
 [ApiController]
-[Route("Address")]
+[Route("api/Address")]
 public class AddressController : Controller
 {
 
@@ -21,9 +21,9 @@ public class AddressController : Controller
     {
         try
         {
-            await _addressService.CreateAddress(addressDto);
+            var address = await _addressService.CreateAddress(addressDto);
 
-            return Ok("Address created successfully");
+            return Ok(address);
         }
         catch (Exception ex)
         {
