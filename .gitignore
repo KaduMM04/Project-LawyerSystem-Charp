@@ -1,20 +1,28 @@
-# Build results
-**/bin/
-**/obj/
+# Build
+bin/
+obj/
 
-# Test results
+# Test & Coverage
 TestResults/
+coverage/
 coverage-report/
 
-# Visual Studio cache
+# VS
 .vs/
-
-# User-specific files
-*.user
 *.suo
+*.user
 
-# Logs e temporários
+# Temp & Logs
 *.log
 *.tmp
-**/obj/Debug/net8.0/
 
+# NuGet
+*.nupkg
+*.snupkg
+project.lock.json
+project.assets.json
+project.nuget.cache
+
+# Resharper
+_ReSharper*/
+*.DotSettings.user
