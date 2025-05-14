@@ -33,8 +33,10 @@ function RegisterUser() {
         phone: '',
         password: '',
         role: '1',
-        lawyerOAB: '',
-
+        
+        //Lawyer
+        OAB: '',
+        AreaOfExpertise: '',
         // Address Data
 
         stree: '',
@@ -44,6 +46,9 @@ function RegisterUser() {
         city: '',
         state: '',
         zipCode: ''
+
+
+        
 
     });
 
@@ -73,17 +78,36 @@ function RegisterUser() {
 
             if (!addressRes.ok) showError("Failed to create address");
 
+            const lawyerData = {
+                OAB: form.OAB,
+                AreaOfExpertise: form.AreaOfExpertise,
+            };
+
+            const lawyerRes = await fetch("http://localhost:5000/api/Lawyer", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(lawyerData),
+            });
+
+            if (!lawyerRes.ok) showError("Failed to create lawyer");
+
             const addressResult = await addressRes.json();
+            const lawyerResult = await lawyerRes.json();
+            
             console.log(addressResult);
+            console.log(lawyerResult);
             const addressId = addressResult.id;
+            const OAB = lawyerResult.oab;
+
             console.log(addressId);
+            console.log(OAB)
             const userData = {
                 name: form.name,
                 email: form.email,
                 phone: form.phone,
                 password: form.password,
                 role: form.role,
-                lawyerOAB: form.lawyerOAB,
+                lawyerOAB: OAB,
                 addressId: addressId
             };
 
@@ -93,9 +117,9 @@ function RegisterUser() {
                 body: JSON.stringify(userData),
             });
 
-            if (!useRes.ok) showError("Failed to create user");
+            if (useRes.ok) showSuccess("User created successfully!");
 
-            showSuccess("User created successfully!");
+            
         } catch (err) {
             console.error(err);
             showError("An error occurred while creating the user");
@@ -112,7 +136,11 @@ function RegisterUser() {
             <input name="email" placeholder="Email" onChange={handleChange} />
             <input name="phone" placeholder="Telefone" onChange={handleChange} />
             <input name="password" placeholder="Senha" onChange={handleChange} />
-            <input name="lawyerOAB" placeholder="OAB" onChange={handleChange} />
+            
+
+            <h2>Lawyer</h2>
+                <input name="OAB" placeholder="OAB" onChange={handleChange} />
+                <input name="AreaOfExpertise" placeholder="Area de atuação" onChange={handleChange} />
 
             <h2>Address</h2>
 

@@ -17,7 +17,7 @@ public class LawyerService
     }
 
     // Criação de um novo advogado
-    public async Task<LawyerCreateDto> CreateLawyerAsync(LawyerCreateDto lawyerCreateDto)
+    public async Task<Lawyer> CreateLawyerAsync(LawyerCreateDto lawyerCreateDto)
     {
         if (lawyerCreateDto == null)
         {
@@ -39,7 +39,7 @@ public class LawyerService
         // Adicionar o advogado no banco de dados
         await _lawyerRepository.AddLawyerAsync(lawyer);
 
-        return _mapper.Map<LawyerCreateDto>(lawyer);
+        return lawyer;
     }
 
     // Obter um advogado por OAB

@@ -7,7 +7,7 @@ namespace Project_LawyerSystem_CharpApi.Controllers
     /// <summary>
     /// Controller responsible for managing lawyer-related operations.
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/Lawyer")]
     [ApiController]
     public class LawyerController : Controller
     {
@@ -38,8 +38,8 @@ namespace Project_LawyerSystem_CharpApi.Controllers
                     return BadRequest("Dados do advogado inválidos.");
                 }
 
-                var lawyerDto = await _lawyerService.CreateLawyerAsync(lawyerCreateDto);
-                return CreatedAtAction(nameof(GetLawyerByOAB), new { oab = lawyerDto.OAB }, lawyerDto);
+                var lawyer = await _lawyerService.CreateLawyerAsync(lawyerCreateDto);
+                return Ok(lawyer);
             }
             catch (Exception e)
             {
@@ -54,7 +54,7 @@ namespace Project_LawyerSystem_CharpApi.Controllers
         /// <param name="oab">The OAB number of the lawyer to retrieve.</param>
         /// <returns>An IActionResult containing the lawyer details or a NotFound result if the lawyer does not exist.</returns>
          // GET: api/lawyer/oab/{oab}
-        [HttpGet("oab/{oab}")]
+        [HttpGet]
         public async Task<IActionResult> GetLawyerByOAB(string oab)
         {
                 var lawyerDto = await _lawyerService.GetLawyerByOABAsync(oab);
