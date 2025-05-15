@@ -1,16 +1,34 @@
 # Build
 bin/
 obj/
-
+Debug/
+Release/
 # Test & Coverage
 TestResults/
 coverage/
 coverage-report/
 
+# Test results
+TestResults/
+*.Test/obj/
+*.Test/bin/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
 # VS
 .vs/
 *.suo
 *.user
+
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea/
 
 # Temp & Logs
 *.log
