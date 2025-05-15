@@ -28,6 +28,8 @@ public class AppDbContext : DbContext
 
     public DbSet<Address> Address { get; set; }
 
+    public DbSet<Case> Cases { get; set; }
+
     /// <summary>
     /// Configures the model for the database context.
     /// </summary>
