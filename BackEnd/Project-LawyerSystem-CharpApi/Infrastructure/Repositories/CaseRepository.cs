@@ -13,14 +13,16 @@ namespace Project_LawyerSystem_CharpApi.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<int> AddCaseAsync(Case c)
+        public async Task AddCaseAsync(Case c)
         {
             await _context.Cases.AddAsync(c);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
-        public Task<IEnumerable<Case>> GetAllCases()
+        public async Task<IEnumerable<Case>> GetAllCases()
         {
-            throw new NotImplementedException();
+            return await _context.Cases
+            .Include(c => c.Lawyer) // Carregar dados do advogado
+            .ToListAsync();
         }
     }
 }

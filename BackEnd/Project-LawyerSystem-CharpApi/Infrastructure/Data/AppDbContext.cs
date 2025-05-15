@@ -137,13 +137,34 @@ public class AppDbContext : DbContext
 
         //--------------------------------------
         //Conection User to Address
-
+        
         modelBuilder.Entity<User>()
             .HasOne(u => u.Address)
             .WithOne(a => a.User)
             .HasForeignKey<User>(a => a.AddressId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
+
+
+        // Case table configuration
+        modelBuilder.Entity<Case>()
+            .ToTable("Cases")
+            .HasKey(c => c.Id);
+        modelBuilder.Entity<Case>()
+            .Property(c => c.Type)
+            .HasMaxLength(20)
+            .IsRequired();
+        modelBuilder.Entity<Case>()
+            .Property(c => c.Description)
+            .HasMaxLength(200)
+            .IsRequired();
+
+        // Relationship with Lawyer by OAB
+        modelBuilder.Entity<Case>()
+            .HasOne(c => c.Lawyer)
+            .WithMany()
+            .HasForeignKey(c => c.LawyerOAB)
+            .HasPrincipalKey(l => l.OAB);
     }
 
 

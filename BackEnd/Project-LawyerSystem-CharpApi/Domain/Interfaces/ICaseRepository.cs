@@ -5,7 +5,7 @@ namespace Project_LawyerSystem_CharpApi.Domain.Interfaces
 {
     public interface ICaseRepository
     {
-        public Task<int> AddCaseAsync(Case cases);
+        public Task AddCaseAsync(Case c);
         public Task<IEnumerable<Case>> GetAllCases();
     }
 }

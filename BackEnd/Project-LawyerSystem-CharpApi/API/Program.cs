@@ -56,6 +56,10 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<AddressService>();
+builder.Services.AddScoped<CaseService>();
+builder.Services.AddScoped<ICaseRepository, CaseRepository>();
+
+
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
