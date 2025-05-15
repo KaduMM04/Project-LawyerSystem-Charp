@@ -9,7 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{1F0580
 	ProjectSection(SolutionItems) = preProject
 		Docker\.dockerignore = Docker\.dockerignore
 		Docker\docker-compose.yml = Docker\docker-compose.yml
-		Docker\Dockerfile = Docker\Dockerfile
+		Docker\Dockerfile.api = Docker\Dockerfile.api
+		Docker\Dockerfile.front = Docker\Dockerfile.front
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DD24B1FE-FD67-4AA6-9E0C-838FAD7920BC}"
