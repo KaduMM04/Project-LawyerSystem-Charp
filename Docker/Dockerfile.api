@@ -1,0 +1,37 @@
+# Use the ASP.NET Core runtime image as the base image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+EXPOSE 5000
+EXPOSE 5001
+
+# Build stage using the .NET SDK image
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+
+# Install dotnet-ef tool
+RUN dotnet tool install --global dotnet-ef
+
+# Add the global tools directory to PATH
+ENV PATH="$PATH:/root/.dotnet/tools"
+
+# Copy the project file and restore dependencies
+COPY Project-LawyerSystem-CharpApi/Project-LawyerSystem-CharpApi.csproj Project-LawyerSystem-CharpApi/
+RUN dotnet restore Project-LawyerSystem-CharpApi/Project-LawyerSystem-CharpApi.csproj
+
+# Copy the rest of the application code
+COPY Project-LawyerSystem-CharpApi/ Project-LawyerSystem-CharpApi/
+WORKDIR /src/Project-LawyerSystem-CharpApi
+RUN dotnet build -c $BUILD_CONFIGURATION -o /app/build
+
+# Publish stage
+FROM build AS publish
+RUN dotnet publish -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+# Final stage
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+
+# Entry point
+ENTRYPOINT ["dotnet", "Project-LawyerSystem-CharpApi.dll"]

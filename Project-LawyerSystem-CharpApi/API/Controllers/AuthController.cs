@@ -1,0 +1,62 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Project_LawyerSystem_CharpApi.Application.DTOs.User;
+using Project_LawyerSystem_CharpApi.Application.Services;
+
+namespace Project_LawyerSystem_CharpApi.API.Controllers;
+
+/// <summary>
+/// Controller responsible for handling user authentication-related actions.
+/// </summary>
+[ApiController]
+[Route("api/User")]
+public class AuthController : Controller
+{
+    /// <summary>
+    /// Service for handling authentication logic.
+    /// </summary>
+    private readonly AuthService _authService;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AuthController"/> class.
+    /// </summary>
+    /// <param name="authService">The authentication service to be used.</param>
+    public AuthController(AuthService authService)
+    {
+        _authService = authService;
+    }
+
+    [HttpPost("createFull")]
+    public async Task<IActionResult> UserFullPost([FromBody] FullLawyerUserDto fullLawyerUserDto)
+    {
+        try
+        {
+            await _authService.RegisterFullUser(
+                fullLawyerUserDto.UserDto,
+                fullLawyerUserDto.AddressDto,
+                fullLawyerUserDto.LawyerCreateDto);
+            return Ok("User created successfully");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+        /// <summary>
+        /// Logs in a user and generates a token.
+        /// </summary>
+        /// <param name="userLoginDto">The user login data transfer object containing login credentials.</param>
+        /// <returns>An <see cref="IActionResult"/> containing the generated token or an error message.</returns>
+        [HttpPost("login")]
+    public async Task<IActionResult> UserLogin([FromBody] UserLoginDto userLoginDto)
+    {
+        try
+        {
+            var token = await _authService.LoginUser(userLoginDto);
+            return Ok(new { token });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+}

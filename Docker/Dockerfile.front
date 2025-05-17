@@ -1,0 +1,23 @@
+# Etapa 1: Build da aplicação
+FROM node:20-alpine AS build
+WORKDIR /app
+
+# Copia apenas os arquivos de dependências para instalar mais rápido em builds futuros
+COPY LawyerSystem.Client/package*.json ./
+RUN npm install
+
+# Copia o restante do código-fonte
+COPY LawyerSystem.Client ./
+
+# Build do projeto para produção
+RUN npm run build
+
+# Etapa 2: Servindo com Nginx
+FROM nginx:stable-alpine
+# Copia o build para a pasta padrão do Nginx
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Expondo a porta padrão do Nginx
+EXPOSE 80
+
+# Comando padrão do Nginx (já definido na imagem base)

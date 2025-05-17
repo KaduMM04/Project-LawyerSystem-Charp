@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project-LawyerSystem-CharpApi", "Project-LawyerSystem-CharpApi\Project-LawyerSystem-CharpApi.csproj", "{0095C151-4BFB-4C0C-AE8D-8F9E4A36AA45}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{1F0580BE-8623-43AD-8258-27568DD2D33E}"
+	ProjectSection(SolutionItems) = preProject
+		Docker\.dockerignore = Docker\.dockerignore
+		Docker\docker-compose.yml = Docker\docker-compose.yml
+		Docker\Dockerfile.api = Docker\Dockerfile.api
+		Docker\Dockerfile.front = Docker\Dockerfile.front
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DD24B1FE-FD67-4AA6-9E0C-838FAD7920BC}"
+	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project-LawyerSystem-CharpApi.Tests", "Project-LawyerSystem-CharpApi.Tests\Project-LawyerSystem-CharpApi.Tests.csproj", "{7C11E874-C2E6-499B-B80D-E97E8B1ABA05}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "lawyersystem.client", "LawyerSystem.Client\lawyersystem.client.esproj", "{4D7581DC-9DDA-4912-8D13-E2F109E9A718}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0095C151-4BFB-4C0C-AE8D-8F9E4A36AA45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0095C151-4BFB-4C0C-AE8D-8F9E4A36AA45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0095C151-4BFB-4C0C-AE8D-8F9E4A36AA45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0095C151-4BFB-4C0C-AE8D-8F9E4A36AA45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C11E874-C2E6-499B-B80D-E97E8B1ABA05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C11E874-C2E6-499B-B80D-E97E8B1ABA05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C11E874-C2E6-499B-B80D-E97E8B1ABA05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C11E874-C2E6-499B-B80D-E97E8B1ABA05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D7581DC-9DDA-4912-8D13-E2F109E9A718}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D7581DC-9DDA-4912-8D13-E2F109E9A718}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D7581DC-9DDA-4912-8D13-E2F109E9A718}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{4D7581DC-9DDA-4912-8D13-E2F109E9A718}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D7581DC-9DDA-4912-8D13-E2F109E9A718}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D7581DC-9DDA-4912-8D13-E2F109E9A718}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
