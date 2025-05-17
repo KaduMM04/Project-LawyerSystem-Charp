@@ -25,18 +25,15 @@ public class AuthController : Controller
         _authService = authService;
     }
 
-    /// <summary>
-    /// Register a new user.
-    /// </summary>
-    /// <param name="userDto">The user data transfer object containing user details.</param>
-   
-    /// <returns>An <see cref="IActionResult"/> indicating the result of the operation.</returns>
-    [HttpPost("create")]
-    public async Task<IActionResult> UserPost([FromBody] UserCreateDto userDto)
+    [HttpPost("createFull")]
+    public async Task<IActionResult> UserFullPost([FromBody] FullLawyerUserDto fullLawyerUserDto)
     {
         try
         {
-            await _authService.RegisterUser(userDto);
+            await _authService.RegisterFullUser(
+                fullLawyerUserDto.UserDto,
+                fullLawyerUserDto.AddressDto,
+                fullLawyerUserDto.LawyerCreateDto);
             return Ok("User created successfully");
         }
         catch (Exception ex)
@@ -44,13 +41,12 @@ public class AuthController : Controller
             return BadRequest(ex.Message);
         }
     }
-
-    /// <summary>
-    /// Logs in a user and generates a token.
-    /// </summary>
-    /// <param name="userLoginDto">The user login data transfer object containing login credentials.</param>
-    /// <returns>An <see cref="IActionResult"/> containing the generated token or an error message.</returns>
-    [HttpPost("login")]
+        /// <summary>
+        /// Logs in a user and generates a token.
+        /// </summary>
+        /// <param name="userLoginDto">The user login data transfer object containing login credentials.</param>
+        /// <returns>An <see cref="IActionResult"/> containing the generated token or an error message.</returns>
+        [HttpPost("login")]
     public async Task<IActionResult> UserLogin([FromBody] UserLoginDto userLoginDto)
     {
         try

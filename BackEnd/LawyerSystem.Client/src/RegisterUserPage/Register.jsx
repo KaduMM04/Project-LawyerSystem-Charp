@@ -39,7 +39,7 @@ function RegisterUser() {
         AreaOfExpertise: '',
         // Address Data
 
-        stree: '',
+        street: '',
         number: '',
         complement: '',
         neighborhood: '',
@@ -60,72 +60,53 @@ function RegisterUser() {
         e.preventDefault();
 
         try {
-            const addressData = {
-                street: form.street,
-                number: form.number,
-                complement: form.complement,
-                neighborhood: form.neighborhood,
-                city: form.city,
-                state: form.state,
-                zipCode: form.zipCode,
-            };
+            const data = {
+                UserDto: {
+                    name: form.name,
+                    email: form.email,
+                    phone: form.phone,
+                    password: form.password,
+                    role: form.role,
 
-            const addressRes = await fetch("http://localhost:5000/api/Address", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(addressData),
+                },
+                AddressDto: {
+                    street: form.street,
+                    number: form.number,
+                    complement: form.complement,
+                    neighborhood: form.neighborhood,
+                    city: form.city,
+                    state: form.state,
+                    zipCode: form.zipCode
+                },
+                LawyerCreateDto: {
+                    OAB: form.OAB,
+                    AreaOfExpertise: form.AreaOfExpertise
+                }
+
+
+            };
+            console.log(JSON.stringify(data, null, 2));
+
+            const response = await fetch("http://localhost:5000/api/User/createFull", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
             });
 
-            if (!addressRes.ok) showError("Failed to create address");
+            if (response.ok) {
+                showSuccess("User created successfully");
+            } else {
+                const errorData = await response.text();
+                console.error(errorData);
+                showError("An error occurred while creating the user");
+            }
 
-            const lawyerData = {
-                OAB: form.OAB,
-                AreaOfExpertise: form.AreaOfExpertise,
-            };
-
-            const lawyerRes = await fetch("http://localhost:5000/api/Lawyer", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(lawyerData),
-            });
-
-            if (!lawyerRes.ok) showError("Failed to create lawyer");
-
-            const addressResult = await addressRes.json();
-            const lawyerResult = await lawyerRes.json();
-            
-            console.log(addressResult);
-            console.log(lawyerResult);
-            const addressId = addressResult.id;
-            const OAB = lawyerResult.oab;
-
-            console.log(addressId);
-            console.log(OAB)
-            const userData = {
-                name: form.name,
-                email: form.email,
-                phone: form.phone,
-                password: form.password,
-                role: form.role,
-                lawyerOAB: OAB,
-                addressId: addressId
-            };
-
-            const useRes = await fetch("http://localhost:5000/api/User/create", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(userData),
-            });
-
-            if (useRes.ok) showSuccess("User created successfully!");
-
-            
         } catch (err) {
             console.error(err);
             showError("An error occurred while creating the user");
         }
-
-
     }
 
     return (

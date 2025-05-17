@@ -30,6 +30,7 @@ builder.Services.AddCors(options =>
     });
 });
 
+
 // JWT configuration
 
 //builder.Services.AddAuthentication(options =>

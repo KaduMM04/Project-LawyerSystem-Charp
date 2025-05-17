@@ -1,4 +1,5 @@
-﻿using Project_LawyerSystem_CharpApi.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using Project_LawyerSystem_CharpApi.Domain.Models;
 
 namespace Project_LawyerSystem_CharpApi.Domain.Interfaces;
 
@@ -47,4 +48,7 @@ public interface IUserRepository
 
     Task<User> GetUserByEmailAsync(string email);
     Task<Address> GetAddressByIdAsync(Guid AddressId);
+    Task<IDbContextTransaction> BeginTransactionAsync();
+    Task AddLawyerAsync(Lawyer lawyer);
+    Task AddAddressAsync(Address address);
 }

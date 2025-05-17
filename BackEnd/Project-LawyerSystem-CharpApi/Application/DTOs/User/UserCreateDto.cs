@@ -52,16 +52,4 @@ public class UserCreateDto
     [Required(ErrorMessage = "Role is required")]
     [EnumDataType(typeof(Role), ErrorMessage = "Invalid role")]
     public Role Role { get; set; }
-
-    /// <summary>
-    /// Gets or sets the LawyerId of the user.
-    /// </summary>
-    [StringLength(8, ErrorMessage = "LawyerOAB must be up to")]
-    [JsonPropertyName("LawyerOAB")]
-    public string? LawyerOAB { get; set; } // FK
-
-
-    [JsonPropertyName("AddressId")]
-    [Required ( ErrorMessage = "Address must exist")]
-    public Guid AddressId { get; set; }
 }

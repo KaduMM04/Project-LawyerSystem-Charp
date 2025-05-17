@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
+using Project_LawyerSystem_CharpApi.Application.DTOs.Address;
+using Project_LawyerSystem_CharpApi.Application.DTOs.Lawyer;
 using Project_LawyerSystem_CharpApi.Application.DTOs.User;
 using Project_LawyerSystem_CharpApi.Domain.Interfaces;
 using Project_LawyerSystem_CharpApi.Domain.Models;
 using Project_LawyerSystem_CharpApi.Infrastructure.Configurations;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security;
 using System.Security.Claims;
 
 namespace Project_LawyerSystem_CharpApi.Application.Services;
@@ -54,52 +57,71 @@ public class AuthService
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    /// <summary>
-    /// Registers a new user in the system.
-    /// </summary>
-    /// <param name="userDto">The user data transfer object containing user details.</param>
-    /// <returns>A <see cref="UserReadDto"/> object representing the registered user.</returns>
-    /// <exception cref="NullReferenceException">Thrown when the userDto is null.</exception>
-    /// <exception cref="Exception">Thrown when a user with the same email already exists.</exception>
-    public async Task<UserReadDto> RegisterUser(UserCreateDto userDto)
+    private async Task VerifyUser(User user)
     {
-        if (userDto == null)
+        if (user == null)
         {
-            throw new NullReferenceException(nameof(userDto));
+            throw new NullReferenceException(nameof(user));
         }
 
-
-        if (await _userRepository.GetLawyerByOabAsync(userDto.LawyerOAB) == null)
+        if (await _userRepository.GetUserByEmailAsync(user.Email) != null)
         {
-            throw new Exception("Lawyer not exists");
+            throw new Exception("This email is already used");
         }
-        if (await _userRepository.GetAddressByIdAsync(userDto.AddressId) == null)
+    }
+
+    public async Task<UserReadDto> RegisterFullUser(
+                                    UserCreateDto userDto,
+                                    AddressDto addressDto,
+                                    LawyerCreateDto lawyerDto)
+    {
+        using var transaction = await _userRepository.BeginTransactionAsync();
+
+        try
         {
-            throw new Exception("Address not exists");
-        }
 
-        if (await _userRepository.GetUserByEmailAsync(userDto.Email) != null)
+            var address = _mapper.Map<Address>(addressDto);
+            await _userRepository.AddAddressAsync(address);
+
+            var lawyer = _mapper.Map<Lawyer>(lawyerDto);
+
+            if (await _userRepository.GetLawyerByOabAsync(lawyer.OAB) != null)
+            {
+                throw new Exception("This OAB is already used");
+            }
+
+            await _userRepository.AddLawyerAsync(lawyer);
+
+            var user = _mapper.Map<User>(userDto);
+
+            await VerifyUser(user);
+
+            user.AddressId = address.Id;
+            user.LawyerOAB = lawyer.OAB;
+
+            var salt = CryptoHelper.GenerateSalt();
+
+            var hash = CryptoHelper.HashPassword(user.Password, salt);
+
+            user.Salt = salt;
+            user.Password = hash;
+            user.CreatedAt = DateTime.UtcNow;
+            user.UpdatedAt = DateTime.UtcNow;
+
+            if (await _userRepository.AddUserAsync(user) == 0)
+            {
+                throw new Exception("There were no changes in the database");
+            }
+            await transaction.CommitAsync();
+
+            return _mapper.Map<UserReadDto>(user);
+
+        }
+        catch (Exception ex)
         {
-            throw new Exception("User already exists");
+            await transaction.RollbackAsync();
+            throw new Exception("Error while registering user", ex);
         }
-
-        var user = _mapper.Map<User>(userDto);
-
-        var salt = CryptoHelper.GenerateSalt();
-
-        var hash = CryptoHelper.HashPassword(user.Password, salt);
-
-        user.Salt = salt;
-        user.Password = hash;
-        user.CreatedAt = DateTime.UtcNow;
-        user.UpdatedAt = DateTime.UtcNow;
-
-        if (await _userRepository.AddUserAsync(user) == 0)
-        {
-            throw new Exception("There were no changes in the database");
-        }
-
-        return _mapper.Map<UserReadDto>(user);
     }
 
     /// <summary>

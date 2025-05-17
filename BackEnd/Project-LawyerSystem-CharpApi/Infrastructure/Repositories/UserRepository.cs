@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Project_LawyerSystem_CharpApi.Domain.Interfaces;
 using Project_LawyerSystem_CharpApi.Domain.Models;
 using Project_LawyerSystem_CharpApi.Infrastructure.Data;
@@ -49,5 +50,22 @@ public class UserRepository : IUserRepository
     public async Task<Address> GetAddressByIdAsync(Guid AddressId)
     {
         return await _context.Address.FindAsync(AddressId);
+    }
+
+    public async Task<IDbContextTransaction> BeginTransactionAsync()
+    {
+        return await _context.Database.BeginTransactionAsync();
+    }
+
+    public async Task AddAddressAsync(Address address)
+    {
+        await _context.Address.AddAsync(address);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task AddLawyerAsync(Lawyer lawyer)
+    {
+        await _context.Lawyers.AddAsync(lawyer);
+        await _context.SaveChangesAsync();
     }
 }
