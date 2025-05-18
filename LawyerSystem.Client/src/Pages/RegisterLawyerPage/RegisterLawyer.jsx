@@ -1,9 +1,8 @@
 import React, { useState } from "react"
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import Button from '../Button.jsx'
-import image from "../../assets/react.svg"
-import Container from "../Container.jsx";
+import Button from "../../Components/Button.jsx" 
+import Container from "../../Components/Container.jsx";
 function RegisterUser() {
 
     const navigate = useNavigate();
@@ -147,7 +146,7 @@ function RegisterUser() {
             <br />
 
                 <Button
-                    type={"sutmit"}
+                       type={"submit"}
                     text={"Cadastrar Advogado"}
 
                     Class={"RegisterButton"}
