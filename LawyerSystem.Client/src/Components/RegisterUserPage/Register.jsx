@@ -1,7 +1,9 @@
 import React, { useState } from "react"
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import Button  from '../Button.jsx'
+import Button from '../Button.jsx'
+import image from "../../assets/react.svg"
+import Container from "../Container.jsx";
 function RegisterUser() {
 
     const navigate = useNavigate();
@@ -108,14 +110,18 @@ function RegisterUser() {
             }
 
         } catch (err) {
-            console.error(err);
-            showError("An error occurred while creating the user");
+            if (err.response && err.response.data && err.response.data.message) {
+                showError(err.response.data.message);
+            } else {
+                showError("An unexpected error occurred while creating the user");
+            }
         }
     }
 
 
     return (
         <>
+            <Container>
         <form onSubmit={handleSubmit}>
             <h2>User data</h2>
             <input name="name" placeholder="Nome" onChange={handleChange} />
@@ -140,11 +146,21 @@ function RegisterUser() {
 
             <br />
 
-                <button type="submit"> Create Account</button>
-                <Button type={"button"} text={"navegar teste"} onClick={() => navigate("/app")} />
+                <Button
+                    type={"sutmit"}
+                    text={"Cadastrar Advogado"}
 
+                    Class={"RegisterButton"}
+                />
+                <Button
+                    type={"reset"}
+                    text={"Cancelar"}
+                    
+                    Class={"CancelButton"}
+                                    />
         </form>
-        <ToastContainer />
+                <ToastContainer />
+            </Container>
         </>
     );
 }

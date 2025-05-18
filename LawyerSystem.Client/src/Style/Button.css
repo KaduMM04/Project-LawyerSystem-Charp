@@ -1,0 +1,56 @@
+
+/*Ptern button*/
+.PatternButton {
+    box-shadow: 1px 1px 1px 0.5px rgba(0, 0, 0, 0.2);
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    color: #000000;
+    border-radius: 8px;
+    padding: 0.6em 1.2em;
+    cursor: pointer;
+    transition: border-color 0.5s;
+
+}
+    .PatternButton:hover {
+        background-color: #f0f0f0;
+        border-color: #646cff;
+    }
+
+
+
+    /*CancelButton*/
+
+.CancelButton {
+    background-color: #ff4d4f; /* vermelho suave */
+    color: white;
+    border: none;
+    padding: 0.6em 1.2em;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .CancelButton:hover {
+        background-color: #d9363e; /* vermelho mais escuro no hover */
+    }
+
+
+    /* Register button*/
+
+.RegisterButton {
+    color: white;
+    border: none;
+    padding: 0.6em 1.2em;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: #1e90ff;
+}
+    .RegisterButton:hover {
+        background-color: #187bcd;
+    }
