@@ -1,6 +1,10 @@
 import React, { useState } from "react"
 import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import Button  from '../Button.jsx'
 function RegisterUser() {
+
+    const navigate = useNavigate();
 
     const showError = (message) => {
         toast.error(message, {
@@ -33,7 +37,7 @@ function RegisterUser() {
         phone: '',
         password: '',
         role: '1',
-        
+
         //Lawyer
         OAB: '',
         AreaOfExpertise: '',
@@ -48,7 +52,7 @@ function RegisterUser() {
         zipCode: ''
 
 
-        
+
 
     });
 
@@ -109,6 +113,7 @@ function RegisterUser() {
         }
     }
 
+
     return (
         <>
         <form onSubmit={handleSubmit}>
@@ -135,7 +140,8 @@ function RegisterUser() {
 
             <br />
 
-            <button type="submit"> Create Account</button>
+                <button type="submit"> Create Account</button>
+                <Button type={"button"} text={"navegar teste"} onClick={() => navigate("/app")} />
 
         </form>
         <ToastContainer />
