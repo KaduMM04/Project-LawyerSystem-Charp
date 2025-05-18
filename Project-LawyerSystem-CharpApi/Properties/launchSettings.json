@@ -11,7 +11,7 @@
     "Back + Front": {
       "commandName": "Executable",
       "executablePath": "cmd",
-      "commandLineArgs": "/c start cmd /c \"dotnet run --project ..\\BackEnd\\Project-LawyerSystem-CharpApi\" & start cmd /c \"cd lawyersystem.client && npm run dev\"",
+      "commandLineArgs": "/c start cmd /k \"dotnet run --project Project-LawyerSystem-CharpApi\\Project-LawyerSystem-CharpApi.csproj\" & start cmd /k \"cd LawyerSystem.Client && npm run dev\"",
       "workingDirectory": "..",
       "launchBrowser": false
     },
