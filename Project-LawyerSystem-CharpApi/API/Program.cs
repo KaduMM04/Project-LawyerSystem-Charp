@@ -68,7 +68,8 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<AddressService>();
-
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<ClientService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();

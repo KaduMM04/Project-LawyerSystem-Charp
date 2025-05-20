@@ -3,9 +3,9 @@ using Project_LawyerSystem_CharpApi.Domain.Models;
 
 namespace Project_LawyerSystem_CharpApi.Infrastructure.Data;
 
-    /// <summary>
-    /// Database class.
-    /// </summary>
+/// <summary>
+/// Database class.
+/// </summary>
 public class AppDbContext : DbContext
 {
     /// <summary>
@@ -27,6 +27,8 @@ public class AppDbContext : DbContext
     public DbSet<Lawyer> Lawyers { get; set; }
 
     public DbSet<Address> Address { get; set; }
+
+    public DbSet<Client> Clients { get; set; }
 
     /// <summary>
     /// Configures the model for the database context.
@@ -65,7 +67,7 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<User>()
             .Property(u => u.LawyerOAB)
-            .IsRequired()
+            .IsRequired(false)
             .HasMaxLength(8);
 
         modelBuilder.Entity<User>()
@@ -77,6 +79,10 @@ public class AppDbContext : DbContext
             .Property(u => u.Salt)
             .IsRequired()
             .HasMaxLength(256);
+
+        modelBuilder.Entity<User>()
+        .Property(u => u.ClientId)
+        .IsRequired(false);
 
         //------------------------------------------------------//
         // Lawyers table configuration
@@ -142,7 +148,50 @@ public class AppDbContext : DbContext
             .HasForeignKey<User>(a => a.AddressId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
+
+
+        //Client DataBase 
+        modelBuilder.Entity<Client>()
+            .ToTable("Clients")
+            .HasKey(c => c.Id);
+
+         modelBuilder.Entity<Client>()
+        .Property(c => c.Id)
+        .ValueGeneratedOnAdd();
+
+
+    modelBuilder.Entity<Client>()
+            .Property(c => c.Profission)
+            .IsRequired(false)
+            .HasMaxLength(255);
+
+        modelBuilder.Entity<Client>()
+            .Property(c => c.company_name)
+            .IsRequired(false)
+            .HasMaxLength(255);
+
+        modelBuilder.Entity<Client>()
+        .Property(c => c.marital_status)
+        .IsRequired()
+        .HasMaxLength(255);
+
+        modelBuilder.Entity<Client>()
+            .Property(c => c.Representative)
+            .IsRequired(false)
+            .HasMaxLength(255);
+
+        // Conexion User to Client   
+
+        modelBuilder.Entity<User>()
+         .HasOne(u => u.Client)
+         .WithOne(c => c.User)
+         .HasForeignKey<User>(u => u.ClientId)
+         .IsRequired(false)
+         .OnDelete(DeleteBehavior.Cascade);
+
     }
+    
+
 
 
 }
