@@ -18,7 +18,7 @@ public class ClientService
     public ClientService(IClientRepository clientRepository, IMapper mapper)
     {
         _clientRepository = clientRepository;
-        _mapper = _mapper;
+        _mapper = mapper;
     }
 
     public async Task<Client> CreateClientAsync([FromBody] ClientDto client)
