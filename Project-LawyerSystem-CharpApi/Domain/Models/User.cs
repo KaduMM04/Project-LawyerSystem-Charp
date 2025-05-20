@@ -53,6 +53,10 @@ public class User
 
     public Address Address { get; set; }
 
+    public Client? Client { get; set; }
+
+    public Guid ClientId{ get; set; }
+
     /// <summary>
     /// Gets or sets the date and time when the user was created.
     /// </summary>
