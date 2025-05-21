@@ -29,6 +29,8 @@ public class AppDbContext : DbContext
     public DbSet<Address> Address { get; set; }
 
     public DbSet<Client> Clients { get; set; }
+    
+    public DbSet<Case> Cases { get; set; }
 
     /// <summary>
     /// Configures the model for the database context.
@@ -155,15 +157,15 @@ public class AppDbContext : DbContext
             .ToTable("Clients")
             .HasKey(c => c.Id);
 
-         modelBuilder.Entity<Client>()
-        .Property(c => c.Id)
-        .ValueGeneratedOnAdd();
+        modelBuilder.Entity<Client>()
+       .Property(c => c.Id)
+       .ValueGeneratedOnAdd();
 
 
-    modelBuilder.Entity<Client>()
-            .Property(c => c.Profission)
-            .IsRequired(false)
-            .HasMaxLength(255);
+        modelBuilder.Entity<Client>()
+                .Property(c => c.Profission)
+                .IsRequired(false)
+                .HasMaxLength(255);
 
         modelBuilder.Entity<Client>()
             .Property(c => c.company_name)
@@ -189,9 +191,31 @@ public class AppDbContext : DbContext
          .IsRequired(false)
          .OnDelete(DeleteBehavior.Cascade);
 
+        // Case table configuration
+        modelBuilder.Entity<Case>()
+            .ToTable("Cases")
+            .HasKey(c => c.Id);
+        modelBuilder.Entity<Case>()
+            .Property(c => c.Type)
+            .HasMaxLength(20)
+            .IsRequired();
+        modelBuilder.Entity<Case>()
+            .Property(c => c.Description)
+            .HasMaxLength(200)
+            .IsRequired();
+
+        // Relationship with Lawyer by OAB
+        modelBuilder.Entity<Case>()
+            .HasOne(c => c.Lawyer)
+            .WithMany()
+            .HasForeignKey(c => c.LawyerOAB)
+            .HasPrincipalKey(l => l.OAB);
+
+        // Relationship with Client by id
+        modelBuilder.Entity<Case>()
+            .HasOne(c => c.Client)
+            .WithMany()
+            .HasForeignKey(c => c.ClientId)
+            .HasPrincipalKey(c => c.Id);    
     }
-    
-
-
-
 }

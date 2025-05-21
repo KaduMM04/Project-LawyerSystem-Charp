@@ -73,6 +73,38 @@ namespace Project_LawyerSystem_CharpApi.Migrations
                     b.ToTable("Address", (string)null);
                 });
 
+            modelBuilder.Entity("Project_LawyerSystem_CharpApi.Domain.Models.Case", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("LawyerOAB")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("LawyerOAB");
+
+                    b.ToTable("Cases", (string)null);
+                });
+
             modelBuilder.Entity("Project_LawyerSystem_CharpApi.Domain.Models.Client", b =>
                 {
                     b.Property<Guid>("Id")
@@ -194,6 +226,25 @@ namespace Project_LawyerSystem_CharpApi.Migrations
                         .IsUnique();
 
                     b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("Project_LawyerSystem_CharpApi.Domain.Models.Case", b =>
+                {
+                    b.HasOne("Project_LawyerSystem_CharpApi.Domain.Models.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Project_LawyerSystem_CharpApi.Domain.Models.Lawyer", "Lawyer")
+                        .WithMany()
+                        .HasForeignKey("LawyerOAB")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Lawyer");
                 });
 
             modelBuilder.Entity("Project_LawyerSystem_CharpApi.Domain.Models.User", b =>
