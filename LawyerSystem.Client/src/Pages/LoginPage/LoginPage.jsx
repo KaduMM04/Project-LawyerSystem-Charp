@@ -38,8 +38,6 @@ function LoginPage() {
 
         try {
 
-            
-
             const UserLogin = {
                     Email: form.Login,
                     Password: form.Senha

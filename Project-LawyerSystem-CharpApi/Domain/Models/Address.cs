@@ -5,11 +5,12 @@
 /// </summary>
 public class Address
 {
+
     /// <summary>
     /// Gets or sets the unique identifier for the address.
     /// </summary>
-    public Guid Id { get; set; }
-
+    public Guid Id { get; set; } = Guid.NewGuid();
+  
     /// <summary>
     /// Gets or sets the street name of the address.
     /// </summary>
