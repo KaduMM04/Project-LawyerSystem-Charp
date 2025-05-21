@@ -39,10 +39,10 @@ namespace Project_LawyerSystem_CharpApi.Application.Services
             await _caseRepository.AddCaseAsync(newCase);
         }
 
-        public async Task<IEnumerable<Case>> GetAllCases()
+        public async Task<IEnumerable<CaseReadDto>> GetAllCases()
         {
             var cases = await _caseRepository.GetAllCases();
-            return cases;
+            return _mapper.Map<IEnumerable<CaseReadDto>>(cases);
         }
     }
 }
