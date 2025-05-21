@@ -1,7 +1,8 @@
-﻿using Project_LawyerSystem_CharpApi.Domain.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
+using Project_LawyerSystem_CharpApi.Domain.Enums;
+
 namespace Project_LawyerSystem_CharpApi.Application.DTOs.User;
 
 /// <summary>
@@ -32,7 +33,7 @@ public class UserCreateDto
     /// </summary>
     [NotNull]
     [JsonPropertyName("Phone")]
-    [Required( ErrorMessage = "Phone is required")]
+    [Required(ErrorMessage = "Phone is required")]
     [StringLength(11, ErrorMessage ="Phone must be up to 11")]
     public string Phone { get; set; } = string.Empty;
 

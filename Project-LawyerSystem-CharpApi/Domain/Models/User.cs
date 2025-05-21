@@ -31,10 +31,10 @@ public class User
     /// Gets or sets the password of the user.
     /// </summary>
     public string Password { get; set; } = string.Empty;
+
     /// <summary>
     /// Gets or sets the salt used for hashing the password.
     /// </summary>
-
     public string Salt { get; set; } = string.Empty;
 
     /// <summary>
@@ -43,19 +43,34 @@ public class User
     public Role Role { get; set; }
 
     /// <summary>
-    /// Gets or sets the LawyerId of the user.
+    /// Gets or sets the Lawyer OAB (Order of Attorneys of Brazil) identifier for the user.
     /// </summary>
     public string? LawyerOAB { get; set; }
 
+    /// <summary>
+    /// Gets or sets the lawyer details associated with the user.
+    /// </summary>
     public Lawyer? Lawyer { get; set; }
 
+    /// <summary>
+    /// Gets or sets the unique identifier for the address associated with the user.
+    /// </summary>
     public Guid AddressId { get; set; }
 
-    public Address Address { get; set; }
+    /// <summary>
+    /// Gets or sets the address associated with the user.
+    /// </summary>
+    required public Address Address { get; set; }
 
+    /// <summary>
+    /// Gets or sets the client details associated with the user.
+    /// </summary>
     public Client? Client { get; set; }
 
-    public Guid? ClientId{ get; set; }
+    /// <summary>
+    /// Gets or sets the unique identifier for the client associated with the user.
+    /// </summary>
+    public Guid? ClientId { get; set; }
 
     /// <summary>
     /// Gets or sets the date and time when the user was created.

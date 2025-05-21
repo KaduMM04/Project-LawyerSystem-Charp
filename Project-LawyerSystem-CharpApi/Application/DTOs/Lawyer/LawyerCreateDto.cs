@@ -7,6 +7,10 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Project_LawyerSystem_CharpApi.Application.DTOs.Lawyer;
+
+/// <summary>
+/// Represents the data transfer object for creating a lawyer.
+/// </summary>
 public class LawyerCreateDto
 {
     /// <summary>

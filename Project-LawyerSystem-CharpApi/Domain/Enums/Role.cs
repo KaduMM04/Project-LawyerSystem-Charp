@@ -2,7 +2,7 @@
 
 /// <summary>
 /// Enumeration representing user roles.
-/// Lawyer = 1 | Client = 2.s
+/// Lawyer = 1 | Client = 2.s.
 /// </summary>
 public enum Role
 {

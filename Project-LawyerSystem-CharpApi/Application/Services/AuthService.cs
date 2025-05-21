@@ -1,4 +1,7 @@
-﻿using AutoMapper;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security;
+using System.Security.Claims;
+using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
 using Project_LawyerSystem_CharpApi.Application.DTOs.Address;
 using Project_LawyerSystem_CharpApi.Application.DTOs.Client;
@@ -7,9 +10,6 @@ using Project_LawyerSystem_CharpApi.Application.DTOs.User;
 using Project_LawyerSystem_CharpApi.Domain.Interfaces;
 using Project_LawyerSystem_CharpApi.Domain.Models;
 using Project_LawyerSystem_CharpApi.Infrastructure.Configurations;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security;
-using System.Security.Claims;
 
 namespace Project_LawyerSystem_CharpApi.Application.Services;
 
@@ -33,48 +33,17 @@ public class AuthService
     }
 
     /// <summary>
-    /// Generates a JWT token for the specified user.
+    /// Registers a full lawyer user, including their address and lawyer details.
     /// </summary>
-    /// <param name="user">The user for whom the token is generated.</param>
-    /// <returns>A JWT token as a string.</returns>
-    public string GenerateToken(User user)
-    {
-        var claims = new[]
-        {
-          new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-          new Claim(ClaimTypes.Email, user.Email.ToString()),
-          new Claim(ClaimTypes.Role, user.Role.ToString()),
-        };
-        var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("MyS3cur3K3yThatIsAtLeast32Chars!"));
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-        var token = new JwtSecurityToken(
-            issuer: "http://localhost:5000",
-            audience: "http://localhost:5000",
-            claims: claims,
-            expires: DateTime.UtcNow.AddHours(2),
-            signingCredentials: creds);
-
-        return new JwtSecurityTokenHandler().WriteToken(token);
-    }
-
-    private async Task VerifyUser(User user)
-    {
-        if (user == null)
-        {
-            throw new NullReferenceException(nameof(user));
-        }
-
-        if (await _userRepository.GetUserByEmailAsync(user.Email) != null)
-        {
-            throw new Exception("This email is already used");
-        }
-    }
-
+    /// <param name="userDto">The user details to register.</param>
+    /// <param name="addressDto">The address details of the user.</param>
+    /// <param name="lawyerDto">The lawyer-specific details of the user.</param>
+    /// <returns>A <see cref="UserReadDto"/> representing the registered user.</returns>
+    /// <exception cref="Exception">Thrown when there are issues during registration.</exception>
     public async Task<UserReadDto> RegisterFulLawyerlUser(
-                                    UserCreateDto userDto,
-                                    AddressDto addressDto,
-                                    LawyerCreateDto lawyerDto)
+        UserCreateDto userDto,
+        AddressDto addressDto,
+        LawyerCreateDto lawyerDto)
     {
         using var transaction = await _userRepository.BeginTransactionAsync();
 
@@ -136,6 +105,13 @@ public class AuthService
         }
     }
 
+    /// <summary>
+    /// Register full client.
+    /// </summary>
+    /// <param name="userCreateDto">The user details to register.</param>
+    /// <param name="addressDto">The address details of the user.</param>
+    /// <param name="clientDto">The client-specific details of the user.</param>
+    /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
     public async Task<UserReadDto> RegisterFullClientUser(
                                         UserCreateDto userCreateDto,
                                         AddressDto addressDto,
@@ -196,7 +172,7 @@ public class AuthService
             await transaction.RollbackAsync();
             throw new Exception("Error while registering user", ex);
         }
-}
+    }
 
     /// <summary>
     /// Authenticates a user by validating their credentials and generates a JWT token.
@@ -219,7 +195,7 @@ public class AuthService
 
         var user = await _userRepository.GetUserByEmailAsync(userLoginDto.Email);
 
-        if(user == null)
+        if (user == null)
         {
             throw new Exception("Email Not exist");
         }
@@ -240,5 +216,50 @@ public class AuthService
         }
 
         return GenerateToken(user);
+    }
+
+    /// <summary>
+    /// Verifiy if the user is arleady registered in the system.
+    /// </summary>
+    /// <param name="user">the user to verify.</param>
+    /// <exception cref="NullReferenceException">Case user is null.</exception>
+    /// <exception cref="Exception">Case user is already registered in the system.</exception>
+    private async Task VerifyUser(User user)
+    {
+        if (user == null)
+        {
+            throw new NullReferenceException(nameof(user));
+        }
+
+        if (await _userRepository.GetUserByEmailAsync(user.Email) != null)
+        {
+            throw new Exception("This email is already used");
+        }
+    }
+
+    /// <summary>
+    /// Generates a JWT token for the specified user.
+    /// </summary>
+    /// <param name="user">The user for whom the token is generated.</param>
+    /// <returns>A JWT token as a string.</returns>
+    private string GenerateToken(User user)
+    {
+        var claims = new[]
+        {
+          new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+          new Claim(ClaimTypes.Email, user.Email.ToString()),
+          new Claim(ClaimTypes.Role, user.Role.ToString()),
+        };
+        var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("MyS3cur3K3yThatIsAtLeast32Chars!"));
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+        var token = new JwtSecurityToken(
+            issuer: "http://localhost:5000",
+            audience: "http://localhost:5000",
+            claims: claims,
+            expires: DateTime.UtcNow.AddHours(2),
+            signingCredentials: creds);
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }

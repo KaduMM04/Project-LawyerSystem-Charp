@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Project_LawyerSystem_CharpApi.Application.DTOs.User;
 using Project_LawyerSystem_CharpApi.Application.Services;
 
-
 namespace Project_LawyerSystem_CharpApi.API.Controllers;
 
 /// <summary>
@@ -36,7 +35,8 @@ public class UserController : Controller
         {
             var result = await this._userService.GetUserById(id);
             return this.Ok(result);
-        }catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             return this.BadRequest(ex.Message);
         }
