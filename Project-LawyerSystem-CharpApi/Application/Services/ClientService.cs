@@ -18,28 +18,27 @@ public class ClientService
     public ClientService(IClientRepository clientRepository, IMapper mapper)
     {
         _clientRepository = clientRepository;
-        _mapper = _mapper;
+        _mapper = mapper;
     }
 
-    public async Task<Client> CreateClientAsync([FromBody] ClientDto client)
+    public async Task<Client> CreateClientAsync([FromBody] ClientDto clientDto)
     {
-        if (client == null)
+        if (clientDto == null)
         {
             throw new Exception("Client must not be null");
         }
 
-        var clientEntity = _mapper.Map<Client>(client);
-        clientEntity.CreatedAt = DateTime.UtcNow;
-        clientEntity.UpdatedAt = DateTime.UtcNow;
-        var saveDb = await _clientRepository.AddClientAsync(clientEntity);
+        var client = _mapper.Map<Client>(clientDto);
+        client.CreatedAt = DateTime.UtcNow;
+        client.UpdatedAt = DateTime.UtcNow;
+        var saveDb = await _clientRepository.AddClientAsync(client);
 
         if (saveDb == 0)
         {
             throw new Exception("There were no changes in the database");
 
         }
-        return clientEntity;
-
+        return client;
     }
 
     public async Task<IEnumerable<ClientDto>> GetAllClient()
@@ -54,15 +53,9 @@ public class ClientService
         if (id == null)
         {
             throw new Exception("id must be not null");
-
-
-
         }
-        var result =  await _clientRepository.GetClientById(id);
-        return _mapper.Map<ClientDto>(result);
-        
-    }
 
+        var result = await _clientRepository.GetClientById(id);
+        return _mapper.Map<ClientDto>(result);
+    }
 }
-    
-    

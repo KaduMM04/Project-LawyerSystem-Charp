@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
-using Project_LawyerSystem_CharpApi.API.Controllers;
+
 using Project_LawyerSystem_CharpApi.Application.DTOs.Client;
 using Project_LawyerSystem_CharpApi.Domain.Models;
 
@@ -16,7 +12,4 @@ public class ClientProfile : Profile
         CreateMap<ClientDto, Client>();
         CreateMap<Client, ClientDto>();
    }
-        
-
-        
 }

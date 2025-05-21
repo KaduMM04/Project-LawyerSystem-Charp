@@ -25,12 +25,12 @@ public class AuthController : Controller
         _authService = authService;
     }
 
-    [HttpPost("createFull")]
-    public async Task<IActionResult> UserFullPost([FromBody] FullLawyerUserDto fullLawyerUserDto)
+    [HttpPost("createFullLawyer")]
+    public async Task<IActionResult> UserFullLawyerPost([FromBody] FullLawyerUserDto fullLawyerUserDto)
     {
         try
         {
-            await _authService.RegisterFullUser(
+            await _authService.RegisterFulLawyerlUser(
                 fullLawyerUserDto.UserDto,
                 fullLawyerUserDto.AddressDto,
                 fullLawyerUserDto.LawyerCreateDto);
@@ -41,12 +41,31 @@ public class AuthController : Controller
             return BadRequest(ex.Message);
         }
     }
-        /// <summary>
-        /// Logs in a user and generates a token.
-        /// </summary>
-        /// <param name="userLoginDto">The user login data transfer object containing login credentials.</param>
-        /// <returns>An <see cref="IActionResult"/> containing the generated token or an error message.</returns>
-        [HttpPost("login")]
+
+    [HttpPost("createFullClient")]
+    public async Task<IActionResult> UserFullClientPost([FromBody] FullClientUserDto fullClientUserDto)
+    {
+        try
+        {
+            await _authService.RegisterFullClientUser(
+                fullClientUserDto.UserDto,
+                fullClientUserDto.AddressDto,
+                fullClientUserDto.ClientDto);
+
+            return Ok(new { message = "User created successfully" });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
+
+    /// <summary>  
+    /// Logs in a user and generates a token.  
+    /// </summary>  
+    /// <param name="userLoginDto">The user login data transfer object containing login credentials.</param>  
+    /// <returns>An <see cref="IActionResult"/> containing the generated token or an error message.</returns>  
+    [HttpPost("login")]
     public async Task<IActionResult> UserLogin([FromBody] UserLoginDto userLoginDto)
     {
         try

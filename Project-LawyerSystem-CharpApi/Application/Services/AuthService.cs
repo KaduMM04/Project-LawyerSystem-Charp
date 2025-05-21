@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
 using Project_LawyerSystem_CharpApi.Application.DTOs.Address;
+using Project_LawyerSystem_CharpApi.Application.DTOs.Client;
 using Project_LawyerSystem_CharpApi.Application.DTOs.Lawyer;
 using Project_LawyerSystem_CharpApi.Application.DTOs.User;
 using Project_LawyerSystem_CharpApi.Domain.Interfaces;
@@ -70,7 +71,7 @@ public class AuthService
         }
     }
 
-    public async Task<UserReadDto> RegisterFullUser(
+    public async Task<UserReadDto> RegisterFulLawyerlUser(
                                     UserCreateDto userDto,
                                     AddressDto addressDto,
                                     LawyerCreateDto lawyerDto)
@@ -79,11 +80,22 @@ public class AuthService
 
         try
         {
-
             var address = _mapper.Map<Address>(addressDto);
-            await _userRepository.AddAddressAsync(address);
+
+            address.CreatedAt = DateTime.UtcNow;
+            address.UpdatedAt = DateTime.UtcNow;
+
+            var dbResult = await _userRepository.AddAddressAsync(address);
+
+            if (dbResult == 0)
+            {
+                throw new Exception("There were no changes in the database");
+            }
 
             var lawyer = _mapper.Map<Lawyer>(lawyerDto);
+
+            lawyer.CreatedAt = DateTime.UtcNow;
+            lawyer.UpdatedAt = DateTime.UtcNow;
 
             if (await _userRepository.GetLawyerByOabAsync(lawyer.OAB) != null)
             {
@@ -112,10 +124,10 @@ public class AuthService
             {
                 throw new Exception("There were no changes in the database");
             }
+
             await transaction.CommitAsync();
 
             return _mapper.Map<UserReadDto>(user);
-
         }
         catch (Exception ex)
         {
@@ -123,6 +135,68 @@ public class AuthService
             throw new Exception("Error while registering user", ex);
         }
     }
+
+    public async Task<UserReadDto> RegisterFullClientUser(
+                                        UserCreateDto userCreateDto,
+                                        AddressDto addressDto,
+                                        ClientDto clientDto)
+    {
+        using var transaction = await _userRepository.BeginTransactionAsync();
+        try
+        {
+            var address = _mapper.Map<Address>(addressDto);
+            address.CreatedAt = DateTime.UtcNow;
+            address.UpdatedAt = DateTime.UtcNow;
+            var dbResult = await _userRepository.AddAddressAsync(address);
+
+            if (dbResult == 0)
+            {
+                throw new Exception("There were no changes in the database");
+            }
+
+            var client = _mapper.Map<Client>(clientDto);
+            client.CreatedAt = DateTime.UtcNow;
+            client.UpdatedAt = DateTime.UtcNow;
+            dbResult = await _userRepository.AddClientAsync(client);
+
+            if (dbResult == 0)
+            {
+                throw new Exception("There were no changes in the database");
+            }
+
+            var user = _mapper.Map<User>(userCreateDto);
+
+            await VerifyUser(user);
+
+            user.AddressId = address.Id;
+            user.ClientId = client.Id;
+
+            var salt = CryptoHelper.GenerateSalt();
+
+            var hash = CryptoHelper.HashPassword(user.Password, salt);
+
+            user.Salt = salt;
+            user.Password = hash;
+            user.CreatedAt = DateTime.UtcNow;
+            user.UpdatedAt = DateTime.UtcNow;
+
+            dbResult = await _userRepository.AddUserAsync(user);
+
+            if (dbResult == 0)
+            {
+                throw new Exception("There were no changes in the database");
+            }
+
+            await transaction.CommitAsync();
+
+            return _mapper.Map<UserReadDto>(user);
+        }
+        catch (Exception ex)
+        {
+            await transaction.RollbackAsync();
+            throw new Exception("Error while registering user", ex);
+        }
+}
 
     /// <summary>
     /// Authenticates a user by validating their credentials and generates a JWT token.
