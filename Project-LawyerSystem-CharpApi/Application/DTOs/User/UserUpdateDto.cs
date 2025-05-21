@@ -1,7 +1,7 @@
-﻿using Project_LawyerSystem_CharpApi.Domain.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
+using Project_LawyerSystem_CharpApi.Domain.Enums;
 
 namespace Project_LawyerSystem_CharpApi.Application.DTOs.User;
 
@@ -10,7 +10,6 @@ namespace Project_LawyerSystem_CharpApi.Application.DTOs.User;
 /// </summary>
 public class UserUpdateDto
 {
-
     /// <summary>
     /// Gets or sets the Name for the user.
     /// </summary>

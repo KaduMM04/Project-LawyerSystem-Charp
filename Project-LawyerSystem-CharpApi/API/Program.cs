@@ -6,8 +6,6 @@ using Project_LawyerSystem_CharpApi.Application.Services;
 using Project_LawyerSystem_CharpApi.Domain.Interfaces;
 using Project_LawyerSystem_CharpApi.Infrastructure.Data;
 using Project_LawyerSystem_CharpApi.Infrastructure.Repositories;
-using System.Data.Common;
-using System.Text;
 
 // Db Set
 var builder = WebApplication.CreateBuilder(args);
@@ -30,17 +28,16 @@ builder.Services.AddCors(options =>
     });
 });
 
-
 // JWT configuration
 
-//builder.Services.AddAuthentication(options =>
-//{
+// builder.Services.AddAuthentication(options =>
+// {
 //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
 //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
-//})
-//.AddJwtBearer(options =>
-//{
+// })
+// .AddJwtBearer(options =>
+// {
 //    options.TokenValidationParameters = new TokenValidationParameters
 //    {
 //        ValidateIssuer = true,
@@ -51,7 +48,7 @@ builder.Services.AddCors(options =>
 //        ValidAudience = "http://localhost:5000",
 //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes())
 //    };
-//});
+// });
 
 // Sawgger configuration
 builder.Services.AddSwaggerGen(c =>

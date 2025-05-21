@@ -4,6 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Project_LawyerSystem_CharpApi.Domain.Models;
+
+/// <summary>
+/// Represents a lawyer with their details, including OAB number, user association, area of expertise, and timestamps.
+/// </summary>
 public class Lawyer
 {
     /// <summary>
@@ -11,6 +15,9 @@ public class Lawyer
     /// </summary>
     public string OAB { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the user associated with the lawyer.
+    /// </summary>
     public User? User { get; set; }
 
     /// <summary>
@@ -19,7 +26,7 @@ public class Lawyer
     public string AreaOfExpertise { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the unique identifier for the lawyer. 
+    /// Gets or sets the date and time when the lawyer was created.
     /// </summary>
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
@@ -27,5 +34,4 @@ public class Lawyer
     /// Gets or sets the date and time when the lawyer was last updated.
     /// </summary>
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-
 }
