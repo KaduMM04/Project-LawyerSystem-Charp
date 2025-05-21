@@ -111,29 +111,36 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Address>()
             .ToTable("Address")
             .HasKey(a => a.Id);
+
         modelBuilder.Entity<Address>()
             .Property(a => a.Street)
             .HasMaxLength(255)
             .IsRequired();
+
         modelBuilder.Entity<Address>()
             .Property(a => a.Number)
             .HasMaxLength(10)
             .IsRequired();
+
         modelBuilder.Entity<Address>()
             .Property(a => a.Complement)
             .HasMaxLength(255);
+
         modelBuilder.Entity<Address>()
             .Property(a => a.Neighborhood)
             .HasMaxLength(255)
             .IsRequired();
+
         modelBuilder.Entity<Address>()
             .Property(a => a.City)
             .HasMaxLength(255)
             .IsRequired();
+
         modelBuilder.Entity<Address>()
             .Property(a => a.State)
             .HasMaxLength(2)
             .IsRequired();
+
         modelBuilder.Entity<Address>()
             .Property(a => a.ZipCode)
             .HasMaxLength(9)
@@ -155,12 +162,11 @@ public class AppDbContext : DbContext
             .ToTable("Clients")
             .HasKey(c => c.Id);
 
-         modelBuilder.Entity<Client>()
-        .Property(c => c.Id)
-        .ValueGeneratedOnAdd();
+        modelBuilder.Entity<Client>()
+            .Property(c => c.Id)
+            .ValueGeneratedOnAdd();
 
-
-    modelBuilder.Entity<Client>()
+        modelBuilder.Entity<Client>()
             .Property(c => c.Profission)
             .IsRequired(false)
             .HasMaxLength(255);
@@ -190,8 +196,5 @@ public class AppDbContext : DbContext
          .OnDelete(DeleteBehavior.Cascade);
 
     }
-    
-
-
 
 }

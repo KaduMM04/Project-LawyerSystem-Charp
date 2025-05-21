@@ -57,15 +57,21 @@ public class UserRepository : IUserRepository
         return await _context.Database.BeginTransactionAsync();
     }
 
-    public async Task AddAddressAsync(Address address)
+    public async Task<int> AddAddressAsync(Address address)
     {
         await _context.Address.AddAsync(address);
-        await _context.SaveChangesAsync();
+        return await _context.SaveChangesAsync();
     }
 
-    public async Task AddLawyerAsync(Lawyer lawyer)
+    public async Task<int> AddLawyerAsync(Lawyer lawyer)
     {
         await _context.Lawyers.AddAsync(lawyer);
-        await _context.SaveChangesAsync();
+        return await _context.SaveChangesAsync();
+    }
+
+    public async Task<int> AddClientAsync(Client client)
+    {
+        await _context.Clients.AddAsync(client);
+        return await _context.SaveChangesAsync();
     }
 }

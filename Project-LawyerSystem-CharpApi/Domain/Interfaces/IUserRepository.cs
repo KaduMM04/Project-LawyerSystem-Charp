@@ -49,6 +49,7 @@ public interface IUserRepository
     Task<User> GetUserByEmailAsync(string email);
     Task<Address> GetAddressByIdAsync(Guid AddressId);
     Task<IDbContextTransaction> BeginTransactionAsync();
-    Task AddLawyerAsync(Lawyer lawyer);
-    Task AddAddressAsync(Address address);
+    Task<int> AddLawyerAsync(Lawyer lawyer);
+    Task<int> AddClientAsync(Client client);
+    Task<int> AddAddressAsync(Address client);
 }

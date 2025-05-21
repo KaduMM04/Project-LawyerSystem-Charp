@@ -92,7 +92,7 @@ function RegisterUser() {
             };
             console.log(JSON.stringify(data, null, 2));
 
-            const response = await fetch("http://localhost:5000/api/User/createFull", {
+            const response = await fetch("http://localhost:5000/api/User/createFullLawyer", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

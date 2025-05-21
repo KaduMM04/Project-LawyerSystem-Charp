@@ -24,7 +24,6 @@ namespace Project_LawyerSystem_CharpApi.API.Controllers
                 if (clientCreateDto == null)
                 {
                     return BadRequest("Dados do Cliente inválidos");
-
                 }
 
                 var client = await _clientService.CreateClientAsync(clientCreateDto);
