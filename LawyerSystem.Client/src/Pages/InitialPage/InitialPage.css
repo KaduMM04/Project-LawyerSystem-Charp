@@ -1,1 +1,27 @@
 
+body {
+    background-color: #F0F4FB;
+
+}
+
+#root {
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+    width: auto;
+    min-height: 100vh; /* Para ocupar a tela inteira */
+    display: flex;
+    justify-content: center; /* centraliza na horizontal */
+    align-items: center; /* centraliza na vertical */
+    flex-direction: column;
+}
+
+#next-audience {
+    background-color: #FFFFFF;
+}
+
+
+#audience-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
