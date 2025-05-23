@@ -34,7 +34,7 @@
 }
 
     .CancelButton:hover {
-        background-color: #d9363e; /* vermelho mais escuro no hover */
+        background-color: #d9363e; 
     }
 
 
@@ -54,3 +54,18 @@
     .RegisterButton:hover {
         background-color: #187bcd;
     }
+.initial-button {
+    width: 120px;
+    height: 150px;
+    background-color: #FFFFFF;
+    color: #264653;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex; /*Interno*/
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+    font-size: 1rem;
+}

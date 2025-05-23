@@ -16,12 +16,45 @@ body {
     flex-direction: column;
 }
 
+#initial {
+    display: flex;
+    flex-wrap: wrap; /* permite quebrar de linha */
+    gap: 20px;
+    justify-content: center;
+}
+
+#buttons-group {
+    display: flex;
+ 
+    gap: 50px;
+}
+
+#recent-process {
+    flex-basis: 100%;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 8px;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
 #next-audience {
-    background-color: #FFFFFF;
+    flex: 2; /* cresce mais */
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    min-width: 300px; /* opcional para garantir largura */
+}
+#next-audience h2 {
+   width: 50px;
 }
 
 
 #audience-info {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
 }
