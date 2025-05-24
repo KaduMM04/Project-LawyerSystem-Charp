@@ -80,8 +80,8 @@ public class AuthController : Controller
     {
         try
         {
-            var token = await _authService.LoginUser(userLoginDto);
-            return Ok(new { token });
+            var (token, user) = await _authService.LoginUser(userLoginDto);
+            return Ok(new { token, user });
         }
         catch (Exception ex)
         {

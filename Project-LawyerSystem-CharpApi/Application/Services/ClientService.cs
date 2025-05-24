@@ -31,6 +31,7 @@ public class ClientService
     /// <param name="clientDto">The client data transfer object.</param>
     /// <returns>The created client entity.</returns>
     /// <exception cref="Exception">Thrown when the client DTO is null or no changes are made in the database.</exception>
+    /// /// <exception cref="Exception">Thrown when there were any changes in database.</exception>
     public async Task<Client> CreateClientAsync([FromBody] ClientDto clientDto)
     {
         if (clientDto == null)

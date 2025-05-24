@@ -69,6 +69,8 @@ builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<ClientService>();
 builder.Services.AddScoped<CaseService>();
 builder.Services.AddScoped<ICaseRepository, CaseRepository>();
+builder.Services.AddScoped<ICaseEventRepository, CaseEventRepository>();
+builder.Services.AddScoped<CaseEventService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

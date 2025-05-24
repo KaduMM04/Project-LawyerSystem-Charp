@@ -15,7 +15,7 @@ namespace Project_LawyerSystem_CharpApi.Application.Mappers
 
             CreateMap<CaseReadDto, Case>();
             CreateMap<Case, CaseReadDto>()
-            .ForMember(dest => dest.ClientName, opt => opt.MapFrom(src => src.Client.company_name));
+            .ForMember(dest => dest.ClientName, opt => opt.MapFrom(src => src.Client.CompanyName));
         }
     }
 }
