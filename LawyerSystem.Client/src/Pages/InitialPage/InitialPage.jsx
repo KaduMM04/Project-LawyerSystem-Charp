@@ -1,6 +1,7 @@
 import Button from "../../Components/Button";
 import Container from "../../Components/Container";
 import { useNavigate } from 'react-router-dom';
+import Sidebar from "../../Components/Sidebar/Sidebar.jsx"; 
 
 function InitialPage() {
 

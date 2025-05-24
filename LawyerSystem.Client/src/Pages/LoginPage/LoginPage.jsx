@@ -1,10 +1,10 @@
 import { useState } from "react";
 import Container from "../../Components/Container.jsx" 
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Button from "../../Components/Button.jsx" 
+import { useAuth } from "../../Context/AuthContext.jsx";
 
 function LoginPage() {
-
 
     const showError = (message) => {
         toast.error(message, {
@@ -18,6 +18,10 @@ function LoginPage() {
 
         });
     };
+
+    const { login } = useAuth();
+
+
 
 
     const [form, setForm] = useState({
@@ -36,42 +40,22 @@ function LoginPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const UserLogin = {
+            Email: form.Login,
+            Password: form.Senha
+        };
+
         try {
 
-            const UserLogin = {
-                    Email: form.Login,
-                    Password: form.Senha
-            }
-            console.log(UserLogin);
-            const response = await fetch('http://localhost:5000/api/User/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(UserLogin),
-            });
+            await login(UserLogin);
+            window.location.href = '/initialpage';
 
-            console.log(response);
-
-            if (response.ok) {
-                const responseData = await response.json();
-                console.log(responseData);
-                localStorage.setItem('token', responseData.token);
-                localStorage.setItem('user', JSON.stringify(responseData.user));
-                window.location.href = '/initialpage';
-            }
-            else {
-                const errorData = await response.json();
-                console.error(errorData);
-                showError('Erro ao fazer login');
-            }
-            console.log("chegou2");
         } catch (err) {
             console.log(err);
             showError('Erro ao fazer login');
         }
 
-    }
+    };
 
     return (
         <>
@@ -98,9 +82,7 @@ function LoginPage() {
                         Class={"CancelButton"}
                     />
                 </form>
-                <ToastContainer />
-
-                
+            
             </Container>
 
         </>
