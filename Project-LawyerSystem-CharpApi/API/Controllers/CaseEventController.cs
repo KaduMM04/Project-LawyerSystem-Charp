@@ -1,16 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project_LawyerSystem_CharpApi.Application.DTOs.CaseEvent;
 using Project_LawyerSystem_CharpApi.Application.Services;
-using Project_LawyerSystem_CharpApi.Domain.Models;
 
 namespace Project_LawyerSystem_CharpApi.API.Controllers;
 
-
-[Route("/api/caseEvent")]
 [ApiController]
+[Route("/api/caseEvent")]
 public class CaseEventController : Controller
 {
-
     private readonly CaseEventService _caseEventService;
 
     public CaseEventController(CaseEventService caseEventService)
@@ -18,7 +15,7 @@ public class CaseEventController : Controller
         _caseEventService = caseEventService;
     }
 
-    [HttpGet]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetAllCaseEvents()
     {
         try
@@ -32,18 +29,33 @@ public class CaseEventController : Controller
         }
     }
 
-    [HttpPost]
-    public async Task<IActionResult> PostCaseEvent([FromBody] int caseId, CaseEventCreateDto caseEventDto)
+    [HttpGet]
+    public async Task<IActionResult> GetCaseEventById(Guid id)
     {
         try
         {
-            if (caseId <= 0)
+            var caseEvent = await _caseEventService.GetCaseEventById(id);
+            return Ok(caseEvent);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> PostCaseEvent([FromBody]CaseEventCreateDto caseEventDto)
+    {
+        try
+        {
+            if (caseEventDto == null)
             {
                 return BadRequest("Invalid case ID.");
             }
 
-            var caseEvent = await _caseEventService.AddCaseEvent(caseId, caseEventDto);
-            return Ok(caseEvent);
+
+            await _caseEventService.AddCaseEvent(caseEventDto);
+            return Ok("Created caseEvent");
         }
         catch (Exception ex)
         {

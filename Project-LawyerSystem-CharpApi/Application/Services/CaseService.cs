@@ -20,7 +20,7 @@ namespace Project_LawyerSystem_CharpApi.Application.Services
             _lawyerRepository = lawyerRepository;
             _clientRepository = clientRepository;
             _mapper = mapper;
-        } 
+        }
 
         public async Task AddCase(CaseCreateDto caseDto) 
         {

@@ -181,7 +181,7 @@ public class AuthService
     /// <returns>A JWT token if authentication is successful.</returns>
     /// <exception cref="ArgumentException">Thrown when the email is null or empty.</exception>
     /// <exception cref="Exception">Thrown when the email or password is incorrect.</exception>
-    public async Task<string> LoginUser(UserLoginDto userLoginDto)
+    public async Task<(string token, User user)> LoginUser(UserLoginDto userLoginDto)
     {
         if (string.IsNullOrEmpty(userLoginDto.Email))
         {
@@ -215,7 +215,19 @@ public class AuthService
             throw new Exception("Email or Password is incorrect! Try Again");
         }
 
-        return GenerateToken(user);
+        var token = GenerateToken(user);
+
+        if(token == null)
+        {
+            throw new Exception("Failed to generate token");
+        }
+
+        if( user == null)
+        {
+            throw new Exception("Error User is null");
+        }
+
+        return (token, user);
     }
 
     /// <summary>

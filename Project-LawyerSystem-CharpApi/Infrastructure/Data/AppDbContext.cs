@@ -40,6 +40,8 @@ public class AppDbContext : DbContext
     
     public DbSet<Case> Cases { get; set; }
 
+    public DbSet<CaseEvent> CaseEvents { get; set; }
+
     /// <summary>
     /// Configures the model for the database context.
     /// </summary>
@@ -233,7 +235,7 @@ public class AppDbContext : DbContext
         // Case Event
         modelBuilder.Entity<CaseEvent>()
             .ToTable("CaseEvents")
-            .HasKey();
+            .HasKey(ce => ce.Id);
 
         modelBuilder.Entity<CaseEvent>()
             .Property(ce => ce.Id)
