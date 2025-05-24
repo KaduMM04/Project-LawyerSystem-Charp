@@ -1,5 +1,5 @@
-﻿using Project_LawyerSystem_CharpApi.Domain.Enums;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+using Project_LawyerSystem_CharpApi.Domain.Enums;
 
 namespace Project_LawyerSystem_CharpApi.Application.DTOs.User;
 
@@ -28,12 +28,14 @@ public class UserReadDto
     /// </summary>
     public string Phone { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the role of the user.
+    /// </summary>
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public Role Role { get; set; }
 
     /// <summary>
-    /// Gets or sets the LawyerId of the user, if applicable.
+    /// Gets or sets the Lawyer OAB (Ordem dos Advogados do Brasil) identifier of the user, if applicable.
     /// </summary>
     public string? LawyerOAB { get; set; }
-
 }

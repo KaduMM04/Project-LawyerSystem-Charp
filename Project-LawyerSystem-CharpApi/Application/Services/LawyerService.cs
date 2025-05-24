@@ -5,18 +5,21 @@ using Project_LawyerSystem_CharpApi.Domain.Models;
 
 namespace Project_LawyerSystem_CharpApi.Application.Services;
 
-public class LawyerService
+/// <summary>
+/// Service for managing lawyer-related operations.
+/// </summary>
+public class LawyerService(ILawyerRepository lawyerRepository, IMapper mapper)
 {
-    private readonly ILawyerRepository _lawyerRepository;
-    private readonly IMapper _mapper;
+    private readonly ILawyerRepository _lawyerRepository = lawyerRepository;
+    private readonly IMapper _mapper = mapper;
 
-    public LawyerService(ILawyerRepository lawyerRepository, IMapper mapper)
-    {
-        _lawyerRepository = lawyerRepository;
-        _mapper = mapper;
-    }
-
-    // Criação de um novo advogado
+    /// <summary>
+    /// Creates a new lawyer.
+    /// </summary>
+    /// <param name="lawyerCreateDto">The lawyer creation DTO.</param>
+    /// <returns>The created lawyer.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the input DTO is null.</exception>
+    /// <exception cref="Exception">Thrown when a lawyer with the same OAB already exists.</exception>
     public async Task<Lawyer> CreateLawyerAsync(LawyerCreateDto lawyerCreateDto)
     {
         if (lawyerCreateDto == null)
@@ -42,7 +45,13 @@ public class LawyerService
         return lawyer;
     }
 
-    // Obter um advogado por OAB
+    /// <summary>
+    /// Retrieves a lawyer by their OAB.
+    /// </summary>
+    /// <param name="oab">The OAB of the lawyer.</param>
+    /// <returns>The lawyer DTO.</returns>
+    /// <exception cref="ArgumentException">Thrown when the OAB is null or empty.</exception>
+    /// <exception cref="Exception">Thrown when no lawyer is found with the given OAB.</exception>
     public async Task<LawyerCreateDto> GetLawyerByOABAsync(string oab)
     {
         if (string.IsNullOrEmpty(oab))
@@ -59,10 +68,13 @@ public class LawyerService
         return _mapper.Map<LawyerCreateDto>(lawyer);
     }
 
+    /// <summary>
+    /// Retrieves all lawyers.
+    /// </summary>
+    /// <returns>A collection of lawyer DTOs.</returns>
     public async Task<IEnumerable<LawyerCreateDto>> GetAllLawyersAsync()
     {
         var lawyers = await _lawyerRepository.GetAllLawyersAsync();
         return _mapper.Map<IEnumerable<LawyerCreateDto>>(lawyers);
     }
-
 }

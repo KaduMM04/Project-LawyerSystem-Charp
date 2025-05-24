@@ -21,7 +21,12 @@ function InitialPage() {
                     Class="PatterButton"
                     onClick={() => navigate('/registerlawyer')}
                 />
-
+                <Button
+                    text="Register client"
+                    type="button"
+                    Class="PatterButton"
+                    onClick={() => navigate('/registerclient')}
+                />
             </Container>
 
         </>

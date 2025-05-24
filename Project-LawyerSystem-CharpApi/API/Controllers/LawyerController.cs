@@ -45,7 +45,6 @@ namespace Project_LawyerSystem_CharpApi.Controllers
             {
                 return BadRequest(e.Message);
             }
-
         }
 
         /// <summary>
@@ -60,7 +59,5 @@ namespace Project_LawyerSystem_CharpApi.Controllers
                 var lawyerDto = await _lawyerService.GetLawyerByOABAsync(oab);
                 return this.Ok(lawyerDto);
         }
-
-
     }
 }

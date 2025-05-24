@@ -1,13 +1,13 @@
 ﻿using Project_LawyerSystem_CharpApi.Application.DTOs.Address;
-using Project_LawyerSystem_CharpApi.Application.DTOs.Lawyer;
+using Project_LawyerSystem_CharpApi.Application.DTOs.Client;
 
 namespace Project_LawyerSystem_CharpApi.Application.DTOs.User;
 
 /// <summary>
-/// Represents a complete lawyer user data transfer object,
-/// including user details, address, and lawyer-specific information.
+/// Represents a full client user data transfer object,
+/// containing user, address, and client-specific information.
 /// </summary>
-public class FullLawyerUserDto
+public class FullClientUserDto
 {
     /// <summary>
     /// Gets or sets the user details.
@@ -20,7 +20,7 @@ public class FullLawyerUserDto
     required public AddressDto AddressDto { get; set; }
 
     /// <summary>
-    /// Gets or sets the lawyer-specific details.
+    /// Gets or sets the client-specific details.
     /// </summary>
-    required public LawyerCreateDto LawyerCreateDto { get; set; }
+    required public ClientDto ClientDto { get; set; }
 }

@@ -2,6 +2,7 @@
 using Project_LawyerSystem_CharpApi.Application.DTOs.User;
 using Project_LawyerSystem_CharpApi.Domain.Interfaces;
 using Project_LawyerSystem_CharpApi.Domain.Models;
+
 namespace Project_LawyerSystem_CharpApi.Application.Services;
 
 /// <summary>
@@ -15,8 +16,8 @@ public class UserService
     /// <summary>
     /// Initializes a new instance of the <see cref="UserService"/> class.
     /// </summary>
-    /// <param name="userRepository"></param>
-    /// <param name="mapper"></param>
+    /// <param name="userRepository">the user repository to access the database.</param>
+    /// <param name="mapper">the mapper for object transformations.</param>
     public UserService(IUserRepository userRepository, IMapper mapper)
     {
         _userRepository = userRepository;

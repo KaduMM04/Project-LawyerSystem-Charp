@@ -20,7 +20,7 @@ public interface IUserRepository
     /// Gets all users.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.
-    ///         The task result contains a collection of all users.</returns>
+    /// The task result contains a collection of all users.</returns>
     Task<IEnumerable<User>> GetAllUsersAsync();
 
     /// <summary>
@@ -37,7 +37,6 @@ public interface IUserRepository
     /// <returns>A task that represents the asynchronous operation.</returns>
     Task<int> UpdateUserAsync(User user);
 
-
     /// <summary>
     /// Gets a lawyer by their OAB (Order of Attorneys of Brazil) number.
     /// </summary>
@@ -46,9 +45,47 @@ public interface IUserRepository
     /// The task result contains the lawyer with the specified OAB number.</returns>
     Task<Lawyer> GetLawyerByOabAsync(string oab);
 
+    /// <summary>
+    /// Gets a user by their email address.
+    /// </summary>
+    /// <param name="email">The email address of the user.</param>
+    /// <returns>A task that represents the asynchronous operation.
+    /// The task result contains the user with the specified email address.</returns>
     Task<User> GetUserByEmailAsync(string email);
-    Task<Address> GetAddressByIdAsync(Guid AddressId);
+
+    /// <summary>
+    /// Gets an address by its unique identifier.
+    /// </summary>
+    /// <param name="addressId">The unique identifier of the address.</param>
+    /// <returns>A task that represents the asynchronous operation.
+    /// The task result contains the address with the specified identifier.</returns>
+    Task<Address> GetAddressByIdAsync(Guid addressId);
+
+    /// <summary>
+    /// Begins a database transaction.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.
+    /// The task result contains the database transaction object.</returns>
     Task<IDbContextTransaction> BeginTransactionAsync();
-    Task AddLawyerAsync(Lawyer lawyer);
-    Task AddAddressAsync(Address address);
+
+    /// <summary>
+    /// Adds a new lawyer in database.
+    /// </summary>
+    /// <param name="lawyer">The lawyer to add.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    Task<int> AddLawyerAsync(Lawyer lawyer);
+
+    /// <summary>
+    /// Adds a new client in database.
+    /// </summary>
+    /// <param name="client">The client to add.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    Task<int> AddClientAsync(Client client);
+
+    /// <summary>
+    /// Adds a new address in database.
+    /// </summary>
+    /// <param name="client">The address to add.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    Task<int> AddAddressAsync(Address client);
 }

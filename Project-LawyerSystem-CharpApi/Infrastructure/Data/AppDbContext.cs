@@ -12,7 +12,9 @@ public class AppDbContext : DbContext
     /// Initializes a new instance of the <see cref="AppDbContext"/> class.
     /// AppDbContext constructor.
     /// </summary>
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    /// <param name="options">The options to configure the database context.</param>
+    public AppDbContext(DbContextOptions<AppDbContext> options)
+        : base(options)
     {
     }
 
@@ -26,8 +28,14 @@ public class AppDbContext : DbContext
     /// </summary>
     public DbSet<Lawyer> Lawyers { get; set; }
 
+    /// <summary>
+    /// Gets or sets the Address table.
+    /// </summary>
     public DbSet<Address> Address { get; set; }
 
+    /// <summary>
+    /// Gets or sets the Clients table.
+    /// </summary>
     public DbSet<Client> Clients { get; set; }
     
     public DbSet<Case> Cases { get; set; }
@@ -109,41 +117,46 @@ public class AppDbContext : DbContext
 
         //------------------------------------------------------//
         // Address table configuration
-
         modelBuilder.Entity<Address>()
             .ToTable("Address")
             .HasKey(a => a.Id);
+
         modelBuilder.Entity<Address>()
             .Property(a => a.Street)
             .HasMaxLength(255)
             .IsRequired();
+
         modelBuilder.Entity<Address>()
             .Property(a => a.Number)
             .HasMaxLength(10)
             .IsRequired();
+
         modelBuilder.Entity<Address>()
             .Property(a => a.Complement)
             .HasMaxLength(255);
+
         modelBuilder.Entity<Address>()
             .Property(a => a.Neighborhood)
             .HasMaxLength(255)
             .IsRequired();
+
         modelBuilder.Entity<Address>()
             .Property(a => a.City)
             .HasMaxLength(255)
             .IsRequired();
+
         modelBuilder.Entity<Address>()
             .Property(a => a.State)
             .HasMaxLength(2)
             .IsRequired();
+
         modelBuilder.Entity<Address>()
             .Property(a => a.ZipCode)
             .HasMaxLength(9)
             .IsRequired();
 
         //--------------------------------------
-        //Conection User to Address
-
+        // Conection User to Address
         modelBuilder.Entity<User>()
             .HasOne(u => u.Address)
             .WithOne(a => a.User)
@@ -151,29 +164,28 @@ public class AppDbContext : DbContext
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
 
-
-        //Client DataBase 
+        // Client DataBase
         modelBuilder.Entity<Client>()
             .ToTable("Clients")
             .HasKey(c => c.Id);
 
         modelBuilder.Entity<Client>()
+   
        .Property(c => c.Id)
        .ValueGeneratedOnAdd();
 
-
         modelBuilder.Entity<Client>()
-                .Property(c => c.Profission)
-                .IsRequired(false)
-                .HasMaxLength(255);
-
-        modelBuilder.Entity<Client>()
-            .Property(c => c.company_name)
+            .Property(c => c.Profission)
             .IsRequired(false)
             .HasMaxLength(255);
 
         modelBuilder.Entity<Client>()
-        .Property(c => c.marital_status)
+            .Property(c => c.CompanyName)
+            .IsRequired(false)
+            .HasMaxLength(255);
+
+        modelBuilder.Entity<Client>()
+        .Property(c => c.MaritalStatus)
         .IsRequired()
         .HasMaxLength(255);
 
@@ -182,14 +194,14 @@ public class AppDbContext : DbContext
             .IsRequired(false)
             .HasMaxLength(255);
 
-        // Conexion User to Client   
-
+        // Conexion User to Client
         modelBuilder.Entity<User>()
          .HasOne(u => u.Client)
          .WithOne(c => c.User)
          .HasForeignKey<User>(u => u.ClientId)
          .IsRequired(false)
          .OnDelete(DeleteBehavior.Cascade);
+
 
         // Case table configuration
         modelBuilder.Entity<Case>()
