@@ -213,7 +213,7 @@ public class AppDbContext : DbContext
             .IsRequired();
         modelBuilder.Entity<Case>()
             .Property(c => c.Description)
-            .HasMaxLength(200)
+            .HasMaxLength(800)
             .IsRequired();
 
         // Relationship with Lawyer by OAB
@@ -228,6 +228,43 @@ public class AppDbContext : DbContext
             .HasOne(c => c.Client)
             .WithMany()
             .HasForeignKey(c => c.ClientId)
-            .HasPrincipalKey(c => c.Id);    
+            .HasPrincipalKey(c => c.Id);
+
+        // Case Event
+        modelBuilder.Entity<CaseEvent>()
+            .ToTable("CaseEvents")
+            .HasKey();
+
+        modelBuilder.Entity<CaseEvent>()
+            .Property(ce => ce.Id)
+            .HasMaxLength(50)
+            .IsRequired();
+
+        modelBuilder.Entity<CaseEvent>()
+            .Property(ce => ce.Description)
+            .HasMaxLength(800)
+            .IsRequired();
+
+        modelBuilder.Entity<CaseEvent>()
+            .Property(ce => ce.EventDate)
+            .HasMaxLength(10)
+            .IsRequired();
+
+        modelBuilder.Entity<CaseEvent>()
+            .Property(ce => ce.EventType)
+            .HasConversion<string>()
+            .IsRequired();
+
+        modelBuilder.Entity<CaseEvent>()
+            .Property(ce => ce.EventStatus)
+            .HasConversion<string>()
+            .IsRequired();
+
+        modelBuilder.Entity<CaseEvent>()
+            .HasOne(ce => ce.Case)
+            .WithMany(c => c.CaseEvents)
+            .HasForeignKey(ce => ce.CaseId)
+            .OnDelete(DeleteBehavior.Cascade);
+
     }
 }
