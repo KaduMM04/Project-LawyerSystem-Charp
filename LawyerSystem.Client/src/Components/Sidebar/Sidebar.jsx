@@ -40,7 +40,7 @@ const Sidebar = () => {
                     <a href="/" className="nav-link">
                         <PeopleIcon style={{ color: 'white' }} />
                         <span>Clientes</span></a>
-                    <a href="/" className="nav-link">
+                    <a href="/managerLawyer" className="nav-link">
                         <GavelIcon style={{ color: 'white' }} />
                         <span>Advogados</span></a>
                     <a href="/" className="nav-link">
