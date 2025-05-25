@@ -21,6 +21,7 @@ export function AuthProvider({ children }) {
         });
     };
 
+    
     const navigate = useNavigate();
     useEffect(() => {
 
@@ -28,12 +29,10 @@ export function AuthProvider({ children }) {
         const storedToken = localStorage.getItem('token');
         try {
 
-            if (storedUser && storedToken !== "undefined") {
+            if (storedUser && storedToken && storedToken !== "undefined") {
                 setUser(JSON.parse(storedUser));
                 setToken(storedToken);
-            }
-            else {
-                // Não tem usuário ou token válido, redireciona para login
+            } else {
                 navigate('/login');
             }
 
@@ -76,8 +75,10 @@ export function AuthProvider({ children }) {
         localStorage.removeItem('user');
         localStorage.removeItem('token');
     }
+
+    const isAuthenticated = !!user && !!token;
     return (
-        <AuthContext.Provider value={{ user, token, login, logout }}>
+        <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated }}>
             {children}
         </AuthContext.Provider>
     );

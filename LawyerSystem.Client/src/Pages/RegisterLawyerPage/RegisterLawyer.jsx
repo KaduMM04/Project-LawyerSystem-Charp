@@ -3,6 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import Button from "../../Components/Button.jsx" 
 import Container from "../../Components/Container.jsx";
+import Sidebar from "../../Components/Sidebar/Sidebar.jsx";
 function RegisterUser() {
 
     const navigate = useNavigate();

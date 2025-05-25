@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import Button from "../../Components/Button.jsx";
-
+import Sidebar from "../../Components/Sidebar/Sidebar.jsx";
 function RegisterClientPage() {
     const showError = (message) => {
         toast.error(message, {
@@ -119,6 +119,7 @@ function RegisterClientPage() {
     }
     return (
         <>
+            <Sidebar />
             <div>
                 
                 <h1>Register Client</h1>
