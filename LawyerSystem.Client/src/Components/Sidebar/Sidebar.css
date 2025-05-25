@@ -1,0 +1,225 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 60px; /* colapsada */
+    height: 100vh;
+    background-color: #0a2631;
+    padding: 20px 5px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: width 0.3s ease;
+    overflow: hidden;
+}
+
+.sidebar:hover {
+        width: 220px; /* expande no hover */
+}
+
+/* Menu icon (hamburguer) */
+.menu-icon {
+  
+    width: 30px;
+    height: 25px;
+    position: relative;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.bar {
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: white;
+    left: 0;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Posições das barras */
+.top-bar {
+    top: 0;
+}
+
+.middle-bar {
+    top: 11px;
+}
+
+.bottom-bar {
+    bottom: 0;
+}
+
+/* Animação do ícone no hover da sidebar */
+.sidebar:hover .top-bar {
+    transform: rotate(45deg);
+    top: 11px;
+}
+
+.sidebar:hover .middle-bar {
+    opacity: 0;
+}
+
+.sidebar:hover .bottom-bar {
+    transform: rotate(-45deg);
+    bottom: 11px;
+}
+
+/* Logo */
+.logo-section h1 {
+    color: white;
+    font-size: 18px;
+    margin-bottom: 20px;
+    white-space: nowrap;
+}
+
+/* Links */
+#nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    
+}
+
+#nav-links a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 5px;
+    color: white;
+    text-decoration: none;
+}
+
+    /* Texto dos links fica invisível no sidebar colapsada */
+#nav-links span {
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    white-space: nowrap;
+ }
+
+.sidebar:hover .nav-link {
+
+    display: flex;
+    align-items: center;
+    padding: 14px;
+    text-decoration: none;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+    background-color: rgba(245, 240, 255, 0.02);
+    border: 1px solid rgba(255, 240, 255, 0.05);
+}
+
+.nav-link:hover {
+        background-color: rgba(245, 240, 255, 0.1);
+        transform: translateX(5px);
+        border: 1px solid rgba(245, 240, 255, 0.15);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+ }
+
+.nav-link svg {
+    min-width: 22px;
+    margin-right: 15px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: drop-shadow(0 0 8px rgba(245, 240, 255, 0.2));
+}
+
+.nav-link:hover svg {
+    transform: scale(1.1) rotate(5deg);
+    filter: drop-shadow(0 0 12px rgba(245, 240, 255, 0.4));
+ }
+
+
+.sidebar:hover #nav-links span {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.logout-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 14px;
+    background: rgba(255, 82, 82, 0.1);
+    border: 1px solid rgba(255, 82, 82, 0.2);
+    color: #f5f0ff;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+    margin-bottom: 50px;
+}
+
+.login-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 14px;
+    background: rgba(115, 0, 157, 0.547);
+    border: 1px solid rgba(94, 255, 82, 0.2);
+    color: #f5f0ff;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+}
+
+.logout-button:hover {
+    background-color: rgba(255, 82, 82, 0.2);
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(255, 82, 82, 0.15);
+}
+
+.login-button:hover {
+    background-color: rgba(115, 0, 157, 0.7);
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(54, 1, 74, 0.547);
+}
+
+.login-button svg {
+    filter: drop-shadow(0 0 8px rgba(12, 190, 234, 0.3));
+    min-width: 24px;
+    margin-right: 15px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logout-button svg {
+    min-width: 24px;
+    margin-right: 15px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: drop-shadow(0 0 8px rgba(255, 82, 82, 0.3));
+}
+
+.logout-button:hover svg {
+    transform: rotate(-90deg);
+    filter: drop-shadow(0 0 12px rgba(255, 82, 82, 0.4));
+}
+
+.login-button span {
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.logout-button span {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.sidebar:hover .logout-button span {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.sidebar:hover .login-button span {
+    opacity: 1;
+    transform: translateX(0);
+}
+

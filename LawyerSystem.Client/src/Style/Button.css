@@ -54,3 +54,19 @@
     .RegisterButton:hover {
         background-color: #187bcd;
     }
+
+.initial-button {
+    width: 120px; /* largura fixa */
+    height: 150px; /* altura fixa */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex; /* permite centralizar conteúdo */
+    align-items: center; /* centraliza na vertical */
+    justify-content: center; /* centraliza na horizontal */
+    text-align: center;
+    padding: 10px; /* só se quiser espaço extra */
+    font-size: 1rem;
+}
