@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import Button from "../../Components/Button.jsx" 
 import Container from "../../Components/Container.jsx";
 import Sidebar from "../../Components/Sidebar/Sidebar.jsx";
-function RegisterUser() {
+import './RegisterLawyer.css'
+
+function RegisterLawyer() {
 
     const navigate = useNavigate();
 
@@ -62,6 +64,63 @@ function RegisterUser() {
         setForm({ ...form, [e.target.name]: e.target.value });
 
     };
+    
+    const handleZipCodeBlur = async () => {
+        let { zipCode } = form;
+
+        
+        zipCode = zipCode.replace(/\D/g, '');
+
+        if (zipCode.length !== 8) {
+            showError("CEP invalido.");
+            return;
+        }
+
+        
+
+        try {
+            const response = await fetch(`https://viacep.com.br/ws/${zipCode}/json/`);
+            const data = await response.json();
+
+            console.log(data);  // veja no console se vem correto
+
+            if (!data.erro) {
+                setForm(prev => ({
+                    ...prev,
+                    street: data.logradouro,
+                    neighborhood: data.bairro,
+                    city: data.localidade,
+                    state: data.uf
+                }));
+                
+
+            } else {
+                showError("CEP não encontrado.");
+            }
+        } catch (err) {
+            showError("Erro ao buscar o CEP.");
+        }
+    };
+
+    const handleReset = () => {
+        setForm({
+            name: '',
+            email: '',
+            phone: '',
+            password: '',
+            role: '1',
+            OAB: '',
+            AreaOfExpertise: '',
+            street: '',
+            number: '',
+            complement: '',
+            neighborhood: '',
+            city: '',
+            state: '',
+            zipCode: ''
+        });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -120,32 +179,142 @@ function RegisterUser() {
 
 
     return (
-        <>
-            <Container>
+       
+        <div id="lawyer-container">
         <form onSubmit={handleSubmit}>
-            <h2>User data</h2>
-            <input name="name" placeholder="Nome" onChange={handleChange} />
-            <input name="email" placeholder="Email" onChange={handleChange} />
-            <input name="phone" placeholder="Telefone" onChange={handleChange} />
-            <input name="password" placeholder="Senha" onChange={handleChange} />
-            
+                <h1>Registrar Advogado</h1>
+                
+                <div className="lawyer-inputs">
+                    <div className="input-group">
+                    <input
+                        className="floating-input"
+                        name="name"
+                            placeholder=" "
+                            value={form.name }
+                        onChange={handleChange} />
+                        <label className="floating-label">Nome</label>
+                    </div>
+                    <div className="input-group">
+                    <input
+                        className="floating-input"
+                        name="email"
+                            placeholder=" "
+                            value={form.email }
+                        onChange={handleChange} />
+                        <label className="floating-label">Email</label>
+                    </div>
+                    <div className="input-group">
+                    <input
+                        className="floating-input"
+                        name="phone"
+                            placeholder=" "
+                            value={form.phone }
+                        onChange={handleChange} />
+                        <label className="floating-label">Telefone</label>
+                    </div>
+                    <div className="input-group">
+                    <input
+                        className="floating-input"
+                        name="password"
+                            placeholder=" "
+                            value={form.password }
+                        onChange={handleChange} />
+                        <label className="floating-label">Senha</label>
+                    </div>
+                    <div className="input-group">
+                    <input
+                        className="floating-input"
+                        name="OAB"
+                            placeholder=" "
+                            value={form.OAB}
+                        onChange={handleChange} />
+                        <label className="floating-label">OAB</label>
+                    </div>
+                    <div className="input-group">
+                    <input
+                        className="floating-input"
+                        name="AreaOfExpertise"
+                            placeholder=" "
+                            value={form.AreaOfExpertise}
+                        onChange={handleChange} />
+                    <label className="floating-label">Area de atuacao</label>
+                    </div>
+                </div>
+                <h2>Endereco</h2>
+                <div className="lawyer-inputs">
 
-            <h2>Lawyer</h2>
-                <input name="OAB" placeholder="OAB" onChange={handleChange} />
-                <input name="AreaOfExpertise" placeholder="Area de atuação" onChange={handleChange} />
 
-            <h2>Address</h2>
-
-            <input name="street" placeholder="Rua" onChange={handleChange} />
-            <input name="number" placeholder="Numero" onChange={handleChange} />
-            <input name="complement" placeholder="Complemento" onChange={handleChange} />
-            <input name="neighborhood" placeholder="Bairro" onChange={handleChange} />
-            <input name="city" placeholder="Cidade" onChange={handleChange} />
-            <input name="state" placeholder="Estado" onChange={handleChange} />
-            <input name="zipCode" placeholder="CEP" onChange={handleChange} />
-
+                    <div className="input-group">
+                        <input
+                            className="floating-input"
+                            name="zipCode"
+                            placeholder=" "
+                            value={form.zipCode}
+                            onChange={handleChange}
+                            onBlur={handleZipCodeBlur} />
+                        <label className="floating-label">CEP</label>
+                    </div>
+                    <div className="input-group">
+                    <input
+                        className="floating-input"
+                        name="street"
+                            placeholder=" "
+                            value={form.street}
+                        onChange={handleChange} />
+                        <label className="floating-label">Rua</label>
+                    </div>
+                    <div className="input-group">
+                    <input
+                        className="floating-input"                
+                        name="number"
+                            placeholder=" "
+                            value={form.number}
+                        onChange={handleChange} />
+                        <label className="floating-label">Numero</label>
+                    </div>
+                    <div className="input-group">
+                    <input
+                        className="floating-input"        
+                        name="complement"
+                        placeholder=" "
+                        value={form.complement}
+                        onChange={handleChange} />
+                        <label className="floating-label">complemento</label>
+                    </div>
+                    <div className="input-group">
+                    <input
+                        className="floating-input"        
+                        name="neighborhood"
+                            placeholder=" "
+                            value={form.neighborhood}
+                            readOnly={form.neighborhood !== ""}
+                        onChange={handleChange} />
+                        <label className="floating-label">Bairro</label>
+                    </div>
+                    <div className="input-group">
+                    <input
+                        className="floating-input"    
+                        name="city"
+                            placeholder=" "
+                            value={form.city}
+                            onChange={handleChange}
+                            readOnly={form.city !== ""}/>
+                        <label className="floating-label">Cidade</label>
+                    </div>
+                    <div className="input-group">
+                    <input
+                        className="floating-input"    
+                        name="state"
+                            placeholder=" "
+                            value={form.state}
+                            onChange={handleChange}
+                            readOnly={form.state !== ""}/>
+                        <label className="floating-label">Estado</label>
+                    </div>
+                   
+            </div>
             <br />
-
+            <div className="button-container">
                 <Button
                        type={"submit"}
                     text={"Cadastrar Advogado"}
@@ -153,16 +322,17 @@ function RegisterUser() {
                     Class={"RegisterButton"}
                 />
                 <Button
-                    type={"reset"}
+                    type={"button"}
                     text={"Cancelar"}
-                    
+                    onClick={handleReset}
                     Class={"CancelButton"}
-                                    />
+                    />
+                </div>
         </form>
                 <ToastContainer />
-            </Container>
-        </>
+         
+        </div>
     );
 }
 
-export default RegisterUser;
+export default RegisterLawyer;

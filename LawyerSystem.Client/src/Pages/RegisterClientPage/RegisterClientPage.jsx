@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import Button from "../../Components/Button.jsx";
 import Sidebar from "../../Components/Sidebar/Sidebar.jsx";
+import '../RegisterClientPage/RegisterClientPage.css';
 function RegisterClientPage() {
     const showError = (message) => {
         toast.error(message, {
@@ -120,7 +121,7 @@ function RegisterClientPage() {
     return (
         <>
             <Sidebar />
-            <div>
+            <div ClassName="client-container">
                 
                 <h1>Register Client</h1>
                 <form onSubmit={handleSubmit}>

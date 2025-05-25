@@ -46,7 +46,7 @@ public class UserController : Controller
     /// Retrieves all users.
     /// </summary>
     /// <returns>A list of users.</returns>
-    [HttpGet]
+    [HttpGet("All")]
     public async Task<IActionResult> GetAllUsers()
     {
         try

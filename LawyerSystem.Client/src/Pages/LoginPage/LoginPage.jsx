@@ -73,7 +73,7 @@ function LoginPage() {
                             required
                             placeholder=" "
                         />
-                        <label className="floating-label">Login</label>
+                        <label className="login-label">Login</label>
                     </div>
 
                     <div className="input-group">
@@ -86,7 +86,7 @@ function LoginPage() {
                             required
                             placeholder=" "
                         />
-                        <label className="floating-label">Senha</label>
+                        <label className="login-label">Senha</label>
                     </div>
 
                     <Button
