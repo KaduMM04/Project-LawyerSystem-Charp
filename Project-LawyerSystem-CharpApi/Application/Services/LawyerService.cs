@@ -75,6 +75,12 @@ public class LawyerService(ILawyerRepository lawyerRepository, IMapper mapper)
     public async Task<IEnumerable<LawyerCreateDto>> GetAllLawyersAsync()
     {
         var lawyers = await _lawyerRepository.GetAllLawyersAsync();
+
+        if (lawyers == null)
+        {
+            throw new Exception("Nenhum advogado encontrado.");
+        }
+
         return _mapper.Map<IEnumerable<LawyerCreateDto>>(lawyers);
     }
 }
