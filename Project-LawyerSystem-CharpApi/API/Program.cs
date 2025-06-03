@@ -34,7 +34,6 @@ builder.Services.AddCors(options =>
 // {
 //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
 //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
 // })
 // .AddJwtBearer(options =>
 // {
@@ -95,6 +94,8 @@ app.UseAuthentication();
 app.MapControllers();
 
 // Create a link to Swagger
-app.Map("/", () => Results.Content(
-    "<h3> Use <a href='/swagger'>Swagger</a> to see all controllers</h3>", "text/html"));
+app.Map("/", () =>
+{
+    return Results.Redirect("/swagger");
+});
 app.Run();

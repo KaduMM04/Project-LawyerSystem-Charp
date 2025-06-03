@@ -46,7 +46,7 @@ public class UserController : Controller
     /// Retrieves all users.
     /// </summary>
     /// <returns>A list of users.</returns>
-    [HttpGet("All")]
+    [HttpGet("all")]
     public async Task<IActionResult> GetAllUsers()
     {
         try
@@ -57,6 +57,23 @@ public class UserController : Controller
         catch (Exception ex)
         {
             return this.BadRequest(ex.Message);
+        }
+    }
+
+    public async Task<IActionResult> PutUser([FromBody] FullUserLawyerUpdate userLawyerUpdate)
+    {
+        try
+        {
+            if (userLawyerUpdate == null)
+            {
+                return BadRequest("Dados do usuário inválidos.");
+            }
+            var user = await _userService.UpdateUserAsync(userLawyerUpdate);
+            return Ok(user);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
         }
     }
 }

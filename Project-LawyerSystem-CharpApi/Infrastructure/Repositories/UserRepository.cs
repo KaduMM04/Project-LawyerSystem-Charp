@@ -128,4 +128,9 @@ public class UserRepository : IUserRepository
         await _context.Clients.AddAsync(client);
         return await _context.SaveChangesAsync();
     }
+
+    public async Task SaveChangesAsync()
+    {
+        await _context.SaveChangesAsync();
+    }
 }

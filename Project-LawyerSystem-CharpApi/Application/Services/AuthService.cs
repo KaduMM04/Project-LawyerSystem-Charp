@@ -230,6 +230,82 @@ public class AuthService
         return (token, user);
     }
 
+    public async Task UpdateUserAsync(
+        UserUpdateDto userUpdateDto,
+        LawyerUpdateDto lawyerUpdateDto,
+        AddressDto addressDto)
+    {
+        var user = await _userRepository.GetUserByEmailAsync(userUpdateDto.Email);
+
+        if (userUpdateDto.Name != null)
+        {
+            user.Name = userUpdateDto.Name;
+        }
+
+        if (userUpdateDto.Phone != null)
+        {
+            user.Phone = userUpdateDto.Phone;
+        }
+
+        if (userUpdateDto.Password != null)
+        {
+            var salt = CryptoHelper.GenerateSalt();
+            var hash = CryptoHelper.HashPassword(userUpdateDto.Password, salt);
+
+            user.Salt = salt;
+            user.Password = hash;
+        }
+        var lawyer = await _userRepository.GetLawyerByOabAsync(user.LawyerOAB);
+
+        if (lawyerUpdateDto.AreaOfExpertise != null)
+        {
+            lawyer.AreaOfExpertise = lawyerUpdateDto.AreaOfExpertise;
+        }
+
+        var address = await _userRepository.GetAddressByIdAsync(user.AddressId);
+
+        if (addressDto.Street != null)
+        {
+            address.Street = addressDto.Street;
+        }
+
+        if (addressDto.City != null)
+        {
+            address.City = addressDto.City;
+        }
+
+        if (addressDto.State != null)
+        {
+            address.State = addressDto.State;
+        }
+
+        if (addressDto.ZipCode != null)
+        {
+            address.ZipCode = addressDto.ZipCode;
+        }
+
+        if (addressDto.Complement != null)
+        {
+            address.Complement = addressDto.Complement;
+        }
+
+        if (addressDto.Number != null)
+        {
+            address.Number = addressDto.Number;
+        }
+
+        if (addressDto.Neighborhood != null)
+        {
+            address.Neighborhood = addressDto.Neighborhood;
+        }
+
+        user.UpdatedAt = DateTime.UtcNow;
+        lawyer.UpdatedAt = DateTime.UtcNow;
+        address.UpdatedAt = DateTime.UtcNow;
+
+        await _userRepository.SaveChangesAsync();
+    }
+
     /// <summary>
     /// Verifiy if the user is arleady registered in the system.
     /// </summary>

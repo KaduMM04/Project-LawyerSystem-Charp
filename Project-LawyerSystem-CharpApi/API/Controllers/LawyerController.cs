@@ -66,7 +66,7 @@ public class LawyerController : Controller
     }
 
     [HttpGet("all")]
-    public  async Task<IActionResult> GetAllLawyers()
+    public async Task<IActionResult> GetAllLawyers()
     {
         try
         {
@@ -79,4 +79,5 @@ public class LawyerController : Controller
             return BadRequest(e.Message);
         }
     }
+
 }
