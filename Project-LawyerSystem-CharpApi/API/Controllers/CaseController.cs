@@ -31,8 +31,8 @@ namespace Project_LawyerSystem_CharpApi.API.Controllers
         }
         }
 
-         [HttpGet]
-         public async Task<IActionResult> GetAllCases()
+        [HttpGet]
+        public async Task<IActionResult> GetAllCases()
          {
              try {
                 var cases = await _caseService.GetAllCases();

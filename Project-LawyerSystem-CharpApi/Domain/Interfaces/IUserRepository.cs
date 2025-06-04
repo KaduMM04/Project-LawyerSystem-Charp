@@ -88,4 +88,6 @@ public interface IUserRepository
     /// <param name="client">The address to add.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     Task<int> AddAddressAsync(Address client);
+
+    public Task SaveChangesAsync();
 }

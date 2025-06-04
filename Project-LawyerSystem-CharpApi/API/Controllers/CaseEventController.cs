@@ -53,7 +53,6 @@ public class CaseEventController : Controller
                 return BadRequest("Invalid case ID.");
             }
 
-
             await _caseEventService.AddCaseEvent(caseEventDto);
             return Ok("Created caseEvent");
         }

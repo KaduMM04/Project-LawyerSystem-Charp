@@ -88,4 +88,26 @@ public class AuthController : Controller
             return BadRequest(ex.Message);
         }
     }
+
+    [HttpPatch("patch")]
+    public async Task<IActionResult> PatchUserLawyer([FromBody] FullUserLawyerUpdate userLawyerUpdate)
+    {
+        try
+        {
+            if (userLawyerUpdate == null)
+            {
+                return BadRequest("Dados do usuário inválidos.");
+            }
+
+            await _authService.UpdateUserAsync(userLawyerUpdate.UserUpdate,
+                    userLawyerUpdate.Lawyer,
+                    userLawyerUpdate.Address);
+
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
 }

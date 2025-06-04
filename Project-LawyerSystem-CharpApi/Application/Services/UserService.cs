@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Project_LawyerSystem_CharpApi.Application.DTOs.Address;
+using Project_LawyerSystem_CharpApi.Application.DTOs.Lawyer;
 using Project_LawyerSystem_CharpApi.Application.DTOs.User;
 using Project_LawyerSystem_CharpApi.Domain.Interfaces;
 using Project_LawyerSystem_CharpApi.Domain.Models;

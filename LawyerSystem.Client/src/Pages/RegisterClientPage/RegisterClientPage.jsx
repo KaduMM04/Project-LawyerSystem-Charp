@@ -50,8 +50,6 @@ function RegisterClientPage() {
         state: '',
         zipCode: '',
 
-        
-
     });
 
     const handleChange = async (e) => {

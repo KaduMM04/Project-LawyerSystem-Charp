@@ -46,7 +46,7 @@ public class UserController : Controller
     /// Retrieves all users.
     /// </summary>
     /// <returns>A list of users.</returns>
-    [HttpGet("All")]
+    [HttpGet("all")]
     public async Task<IActionResult> GetAllUsers()
     {
         try
@@ -59,4 +59,6 @@ public class UserController : Controller
             return this.BadRequest(ex.Message);
         }
     }
+
+  
 }
