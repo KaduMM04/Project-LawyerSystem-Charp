@@ -1,60 +1,90 @@
 import { useEffect, useState } from 'react';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
-function LawyerListPage() {
+import './LawyerListPage.css';
+
+function LawyerListPage({ onEdit }) { 
     const [lawyers, setLawyers] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [search, setSearch] = useState('');
+    
 
     const getLawyers = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/Lawyer/all');
-            if (!response.ok) {
+            const responseLawyers = await fetch('http://localhost:5000/api/Lawyer/all');
+            if (!responseLawyers.ok) {
                 throw new Error('Failed to fetch lawyers');
             }
-            const data = await response.json();
-            console.log("teste");
-            console.log(data);
 
-            // AQUI: Atualiza o estado!
-            setLawyers(data);
+            const responseUser = await fetch('http://localhost:5000/user/all');
+            if (!responseUser.ok) {
+                throw new Error('Failed to fetch users');
+            }
+
+            const lawyersData = await responseLawyers.json();
+            const userData = await responseUser.json();
+            setLawyers(lawyersData);
+            setUsers(userData);
         } catch (error) {
             console.error('Error fetching lawyers:', error);
-            setLawyers([]);  // Deixa o estado vazio em caso de erro.
+            setLawyers([]);
+            setUsers([]);
         }
-    }
+    };
 
     useEffect(() => {
         getLawyers();
     }, []);
 
+    const filteredLawyers = lawyers.filter((lawyer) => {
+        const user = users.find((u) => u.lawyerOAB === lawyer.OAB);
+        const searchLower = search.toLowerCase();
+
+        return (
+            (user && user.name.toLowerCase().includes(searchLower)) ||
+            lawyer.OAB.toLowerCase().includes(searchLower) ||
+            (user && user.email.toLowerCase().includes(searchLower))
+        );
+    });
+
     return (
-        <div className="lawyer-container-list">
-            <h1>Lista de Advogados</h1>
-            {lawyers.length === 0 ? (
-                <p>Nenhum advogado encontrado.</p>
-            ) : (
-                <div>
-                    {lawyers.map((lawyer) => (
+        <>
+            <div className="search-bar-container">
+                <input
+                    className="search-bar"
+                    type="text"
+                    placeholder="Buscar advogado pelo nome..."
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                />
+            </div>
+            <div className="lawyer-list-scroll">
+                {filteredLawyers.map((lawyer) => {
+                    const user = users.find((u) => u.lawyerOAB === lawyer.OAB);
+
+                    return (
                         <div className="lawyer-item" key={lawyer.OAB}>
-                            <div className="lawyer-details">
-                                <div>OAB:{lawyer.OAB}</div>
-                                <button
-                                    className="action-button"
-                                    /*onClick={() => editLawyer(lawyer.OAB) }                                        */
-                                >
-                                    <EditIcon />
-                                </button>
-                                <button
-                                    className='action-button delete'
-                                    /*onClick={() => deletePlayer(player.id)}*/
-                                >
-                                    <DeleteOutlineIcon />
-                                </button>
+                            <div className="lawyer-infos">
+                                <div className="lawyer-details">
+                                    <div><strong>OAB:</strong> {lawyer.OAB}</div>
+                                    <div><strong>Nome:</strong> {user ? user.name : 'Usuário não encontrado'}</div>
+                                    <div><strong>Email:</strong> {user ? user.email : 'Usuário não encontrado'}</div>
+                                    <div><strong>Área de atuação:</strong> {lawyer.AreaOfExpertise}</div>
+                                </div>
+                                {user && (
+                                    <button
+                                        className="action-button"
+                                        onClick={() => onEdit(user, lawyer)}    
+                                    >
+                                        <EditIcon />
+                                    </button>
+                                )}
                             </div>
                         </div>
-                    ))}
-                </div>
-            )}
-        </div>
+                    );
+                })}
+            </div>
+        </>
     );
 }
 

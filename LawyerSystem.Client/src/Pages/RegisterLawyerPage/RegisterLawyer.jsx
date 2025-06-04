@@ -279,7 +279,7 @@ function RegisterLawyer() {
                         placeholder=" "
                         value={form.complement}
                         onChange={handleChange} />
-                        <label className="floating-label">complemento</label>
+                        <label className="floating-label">Complemento</label>
                     </div>
                     <div className="input-group">
                     <input

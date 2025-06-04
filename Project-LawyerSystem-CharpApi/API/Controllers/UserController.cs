@@ -60,20 +60,5 @@ public class UserController : Controller
         }
     }
 
-    public async Task<IActionResult> PutUser([FromBody] FullUserLawyerUpdate userLawyerUpdate)
-    {
-        try
-        {
-            if (userLawyerUpdate == null)
-            {
-                return BadRequest("Dados do usuário inválidos.");
-            }
-            var user = await _userService.UpdateUserAsync(userLawyerUpdate);
-            return Ok(user);
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
+  
 }

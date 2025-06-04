@@ -5,10 +5,10 @@ namespace Project_LawyerSystem_CharpApi.Application.DTOs.User;
 
 public class FullUserLawyerUpdate
 {
-    public UserUpdateDto UserUpdate { get; set; }
+    public UserUpdateDto? UserUpdate { get; set; }
 
-    public AddressDto Address { get; set; }
+    public AddressDto? Address { get; set; }
 
-    public LawyerUpdateDto Lawyer { get; set; }
+    public LawyerUpdateDto? Lawyer { get; set; }
 
 }
