@@ -1,37 +1,60 @@
 import Button from "../../../Components/Button";
-import { useNavigate } from 'react-router-dom';
-
 import ClientSidebar from "../../../Components/ClientSidebar/ClientSidebar";
-
+import "./ClientProfile.css"; 
+import React, { useState } from 'react';
+import ClientModal from "../../../Components/ClientModal/ClientModal"; 
+import "../../../Components/ClientModal/ClientModal.css";
 
 const ClientProfile = () => {
-    // Placeholder for client profile data
-    const client = {
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-        phone: '+1 234 567 8901',
-        address: '123 Main St, City, Country'
-    };
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // Client data, now without icons
+    const clientInfo = [
+        { label: 'Name', value: 'Ben Tennison' },
+        { label: 'Email', value: 'ben10@gmail.com' },
+        { label: 'Marital Status', value: 'Married' },
+        { label: 'Profession', value: 'Hero' },
+        { label: 'Representative', value: 'Kevin Levin' }
+    ];
 
     return (
         <div className="client-profile-page">
             <ClientSidebar />
-            <div className="client-profile-content">
-                <h2>Client Profile</h2>
-                <div>
-                    <strong>Name:</strong> {client.name}
+            <main className="client-profile-content">
+                <header className="profile-header">
+                    <h2>Client Profile</h2>
+                    <p>Personal details and information of the client.</p>
+                </header>
+
+                <div className="profile-details">
+                    {clientInfo.map((info, index) => (
+                        <div className="info-card" key={index}>
+                            <div className="info-text">
+                                <strong>{info.label}:</strong>
+                                <span>{info.value}</span>
+                            </div>
+                        </div>
+                    ))}
                 </div>
-                <div>
-                    <strong>Email:</strong> {client.email}
-                </div>
-                <div>
-                    <strong>Phone:</strong> {client.phone}
-                </div>
-                <div>
-                    <strong>Address:</strong> {client.address}
-                </div>
-                <Button onClick={() => alert('Edit Profile clicked')}>Edit Profile</Button>
-            </div>
+
+                <footer className="profile-actions">
+                    <Button
+                        onClick={() => setIsModalOpen(true)}
+                        text="Request Edit"
+                    />
+                </footer>
+            </main>
+
+            <ClientModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                <h2>Request Profile Edit</h2>
+                <form>
+                    <div className="form-group">
+                        <textarea id="text" rows="4" placeholder="Describe what needs to be changed in your profile..."></textarea>
+                    </div>
+                    <Button Class="EnviarSolicitacaoButton" text="Send Request" onClick={(e) => { e.preventDefault(); alert('Sent! (not really)'); setIsModalOpen(false); }} />
+                </form>
+            </ClientModal>   
         </div>
     );
 };

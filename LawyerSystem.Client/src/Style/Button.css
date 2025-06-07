@@ -63,10 +63,56 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    display: flex; /* permite centralizar conteúdo */
+    display: flex; /* permite centralizar conteï¿½do */
     align-items: center; /* centraliza na vertical */
     justify-content: center; /* centraliza na horizontal */
     text-align: center;
-    padding: 10px; /* só se quiser espaço extra */
+    padding: 10px; /* sï¿½ se quiser espaï¿½o extra */
     font-size: 1rem;
+}
+
+.client-profile-content button {
+    margin-top: 10px;
+    padding: 10px 10px;
+    background: linear-gradient(90deg, #244367 0%, #222e3c 100%);
+    border: none;
+    color: #fff;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,123,255,0.10);
+    transition: background 0.3s, transform 0.2s;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.client-profile-content button:hover {
+    background: linear-gradient(90deg, #222e3c 0%, #244367 100%);
+    transform: translateY(-2px) scale(1.03);
+}
+
+
+/* Enviar SolicitaÃ§Ã£o button */
+.EnviarSolicitacaoButton {
+    background-color: #222e3c;
+    color: #fff;
+    border: none;
+    padding: 0.6em 1.2em;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 2px 8px rgba(40,167,69,0.10);
+    margin-top: 12px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.EnviarSolicitacaoButton:hover {
+    background-color: #244367;
+    transform: translateY(-2px) scale(1.03);
 }

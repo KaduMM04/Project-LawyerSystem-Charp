@@ -1,0 +1,100 @@
+/* src/Components/Modal/Modal.css */
+
+/* O fundo escuro e semi-transparente */
+.modal-overlay {
+    position: fixed; /* Fica fixo na tela, mesmo com scroll */
+    top: 0;
+    left: 0;
+    width: 100vw; /* 100% da largura da tela */
+    height: 100vh; /* 100% da altura da tela */
+    background-color: rgba(0, 0, 0, 0.6); /* Cor preta com 60% de opacidade */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Garante que o modal fique na frente de tudo */
+}
+
+/* A caixa branca do modal */
+.modal-content {
+    background: white;
+    padding: 24px 32px;
+    border-radius: 16px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 90%;
+    position: relative; /* Necessário para posicionar o botão de fechar */
+    z-index: 1001;
+}
+
+/* Botão de fechar no canto */
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 2rem;
+    color: #888;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.close-button:hover {
+    color: #000;
+}
+
+/* Estilos simples para o formulário de exemplo dentro do modal */
+.modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    color: #2c3e50;
+}
+
+.modal-content p {
+    margin-bottom: 24px;
+    color: #5d6d7e;
+}
+
+.modal-content .form-group {
+    margin-bottom: 16px;
+}
+
+.modal-content label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #34495e;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+#text {
+    width: 100%;
+    min-height: 80px;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    resize: vertical;
+    font-family: inherit;
+    color: #2c3e50;
+    background: #fafbfc;
+    transition: border-color 0.2s;
+}
+
+#email:focus {
+    border-color: #2980b9;
+    outline: none;
+    background: #fff;
+}
+
+#email::placeholder {
+    color: #b2bec3;
+    opacity: 1;
+}
