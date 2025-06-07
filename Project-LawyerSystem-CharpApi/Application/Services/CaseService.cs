@@ -14,7 +14,10 @@ namespace Project_LawyerSystem_CharpApi.Application.Services
         private readonly ICaseRepository _caseRepository;
         private readonly IMapper _mapper;
 
-        public CaseService(ICaseRepository caseRepository, ILawyerRepository lawyerRepository, IClientRepository clientRepository, IMapper mapper)
+        public CaseService(ICaseRepository caseRepository,
+            ILawyerRepository lawyerRepository,
+            IClientRepository clientRepository,
+            IMapper mapper)
         {
             _caseRepository = caseRepository;
             _lawyerRepository = lawyerRepository;
@@ -35,6 +38,7 @@ namespace Project_LawyerSystem_CharpApi.Application.Services
             if (client == null) throw new Exception("Client not found");
 
             var newCase = _mapper.Map<Case>(caseDto);
+
             newCase.LawyerOAB = lawyer.OAB;
             await _caseRepository.AddCaseAsync(newCase);
         }
