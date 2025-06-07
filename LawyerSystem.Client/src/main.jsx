@@ -29,7 +29,7 @@ createRoot(document.getElementById('root')).render(
                     
                     // Client Routes
                     <Route path="/client/cases" element={<ClientCases />} />
-                    <Route path="/client/profile" element={<ClientProfile />} />
+                    <Route path="/client/profile/:id" element={<ClientProfile />} />
                 </Routes>
                 <ToastContainer />
             </AuthProvider>
