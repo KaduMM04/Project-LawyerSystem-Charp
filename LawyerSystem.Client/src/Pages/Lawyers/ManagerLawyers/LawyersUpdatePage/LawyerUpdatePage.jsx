@@ -1,8 +1,6 @@
 import React, { useState } from "react"
 import { ToastContainer, toast } from 'react-toastify';
-import Button from "../../Components/Button.jsx"
-import Container from "../../Components/Container.jsx";
-import Sidebar from "../../Components/Sidebar/Sidebar.jsx";
+import Button from "../../../Components/Button.jsx"
 import './LawyerUpdatePage.css'
 
 function LawyerUpdatePage({ user, lawyer }) {
@@ -63,6 +61,9 @@ function LawyerUpdatePage({ user, lawyer }) {
     const handleZipCodeBlur = async () => {
         let { zipCode } = form;
         zipCode = zipCode.replace(/\D/g, '');
+        if (zipCode.length === 0) {
+            return;
+        }
 
         if (zipCode.length !== 8) {
             showError("CEP inválido.");
@@ -89,10 +90,6 @@ function LawyerUpdatePage({ user, lawyer }) {
             showError("Erro ao buscar o CEP.");
         }
     }
-        
-
-      
-
 
         const handleReset = () => {
             setForm({
@@ -112,8 +109,6 @@ function LawyerUpdatePage({ user, lawyer }) {
 
         const handleSubmit = async (e) => {
             e.preventDefault();
-
-            console.log("user", user);
 
             try {
                 const data = {
@@ -140,7 +135,7 @@ function LawyerUpdatePage({ user, lawyer }) {
                 };
                 console.log(JSON.stringify(data, null, 2));
 
-                const response = await fetch("http://localhost:5000/api/User/patch", {
+                const response = await fetch("http://localhost:5000/api/User/patch/lawyer", {
                     method: "PATCH",
                     headers: {
                         "Content-Type": "application/json",
