@@ -39,7 +39,6 @@ public class AuthController : Controller
                 fullLawyerUserDto.UserDto,
                 fullLawyerUserDto.AddressDto,
                 fullLawyerUserDto.LawyerCreateDto);
-
             return Ok("User created successfully");
         }
         catch (Exception ex)
@@ -58,8 +57,6 @@ public class AuthController : Controller
     {
         try
         {
-
-
             await _authService.RegisterFullClientUser(
                 fullClientUserDto.UserDto,
                 fullClientUserDto.AddressDto,
@@ -69,7 +66,7 @@ public class AuthController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(new { message = ex.Message });
         }
     }
 
@@ -92,7 +89,7 @@ public class AuthController : Controller
         }
     }
 
-    [HttpPatch("patch/lawyer")]
+    [HttpPatch("patch")]
     public async Task<IActionResult> PatchUserLawyer([FromBody] FullUserLawyerUpdate userLawyerUpdate)
     {
         try
@@ -102,29 +99,10 @@ public class AuthController : Controller
                 return BadRequest("Dados do usuário inválidos.");
             }
 
-            await _authService.UpdateUserLawyerAsync(userLawyerUpdate.UserUpdate,
+            await _authService.UpdateUserAsync(userLawyerUpdate.UserUpdate,
                     userLawyerUpdate.Lawyer,
                     userLawyerUpdate.Address);
 
-            return Ok();
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
-    [HttpPatch("patch/client")]
-    public async Task<IActionResult> PatchUserClient([FromBody] FullUserClientUpdate userClientUpdate)
-    {
-        try
-        {
-            if (userClientUpdate == null)
-            {
-                return BadRequest("Dados do usuário inválidos.");
-            }
-            await _authService.UpdateUserClientAsync(userClientUpdate.UserUpdate,
-                    userClientUpdate.AddressDto,
-                    userClientUpdate.ClientDto);
             return Ok();
         }
         catch (Exception e)

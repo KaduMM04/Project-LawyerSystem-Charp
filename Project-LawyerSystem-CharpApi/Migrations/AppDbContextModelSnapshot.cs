@@ -82,9 +82,6 @@ namespace Project_LawyerSystem_CharpApi.Migrations
                     b.Property<Guid>("ClientId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(800)
@@ -94,17 +91,10 @@ namespace Project_LawyerSystem_CharpApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Situation")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
-
-                    b.Property<DateTime>("UpdateAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -133,8 +123,10 @@ namespace Project_LawyerSystem_CharpApi.Migrations
                         .HasMaxLength(800)
                         .HasColumnType("character varying(800)");
 
-                    b.Property<DateTime>("EventDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<string>("EventDate")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
 
                     b.Property<string>("EventStatus")
                         .IsRequired()

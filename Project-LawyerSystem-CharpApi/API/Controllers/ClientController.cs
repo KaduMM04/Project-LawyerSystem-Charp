@@ -69,7 +69,7 @@ namespace Project_LawyerSystem_CharpApi.API.Controllers
         /// Retrieves all clients.
         /// </summary>
         /// <returns>An <see cref="IActionResult"/> containing a list of all clients.</returns>
-        [HttpGet("all")]
+        [HttpGet]
         public async Task<IActionResult> GetAllClient()
         {
             try

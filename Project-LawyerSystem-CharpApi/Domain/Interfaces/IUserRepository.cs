@@ -89,7 +89,5 @@ public interface IUserRepository
     /// <returns>A task that represents the asynchronous operation.</returns>
     Task<int> AddAddressAsync(Address client);
 
-    Task<Client> GetClientByIdAsync(Guid? id);
-
     public Task SaveChangesAsync();
 }

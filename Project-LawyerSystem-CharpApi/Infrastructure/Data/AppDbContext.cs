@@ -218,11 +218,6 @@ public class AppDbContext : DbContext
             .HasMaxLength(800)
             .IsRequired();
 
-        modelBuilder.Entity<Case>()
-            .Property(c => c.Situation)
-            .HasConversion<string>()
-            .IsRequired();
-
         // Relationship with Lawyer by OAB
         modelBuilder.Entity<Case>()
             .HasOne(c => c.Lawyer)
@@ -246,16 +241,16 @@ public class AppDbContext : DbContext
             .Property(ce => ce.Id)
             .HasMaxLength(50)
             .IsRequired();
-        modelBuilder.Entity<CaseEvent>()
-            .Property(ce => ce.EventDate)
-            .IsRequired();
 
         modelBuilder.Entity<CaseEvent>()
             .Property(ce => ce.Description)
             .HasMaxLength(800)
             .IsRequired();
 
-        
+        modelBuilder.Entity<CaseEvent>()
+            .Property(ce => ce.EventDate)
+            .HasMaxLength(10)
+            .IsRequired();
 
         modelBuilder.Entity<CaseEvent>()
             .Property(ce => ce.EventType)

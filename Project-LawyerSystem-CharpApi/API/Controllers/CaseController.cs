@@ -43,6 +43,6 @@ namespace Project_LawyerSystem_CharpApi.API.Controllers
                 return BadRequest(ex.Message);
             }
          }
-
+        
     }
 }

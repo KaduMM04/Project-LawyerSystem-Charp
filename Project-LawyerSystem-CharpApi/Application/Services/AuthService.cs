@@ -58,7 +58,7 @@ public class AuthService
 
             if (dbResult == 0)
             {
-                throw new Exception("Erro ao cadastrar usuario");
+                throw new Exception("There were no changes in the database");
             }
 
             var lawyer = _mapper.Map<Lawyer>(lawyerDto);
@@ -68,7 +68,7 @@ public class AuthService
 
             if (await _userRepository.GetLawyerByOabAsync(lawyer.OAB) != null)
             {
-                throw new Exception("Essa OAB ja esta em uso!");
+                throw new Exception("This OAB is already used");
             }
 
             await _userRepository.AddLawyerAsync(lawyer);
@@ -91,7 +91,7 @@ public class AuthService
 
             if (await _userRepository.AddUserAsync(user) == 0)
             {
-                throw new Exception("Erro ao cadastrar usuario");
+                throw new Exception("There were no changes in the database");
             }
 
             await transaction.CommitAsync();
@@ -101,7 +101,7 @@ public class AuthService
         catch (Exception ex)
         {
             await transaction.RollbackAsync();
-            throw new Exception(ex.Message);
+            throw new Exception("Error while registering user", ex);
         }
     }
 
@@ -127,7 +127,7 @@ public class AuthService
 
             if (dbResult == 0)
             {
-                throw new Exception("Erro ao cadastrar usuario");
+                throw new Exception("There were no changes in the database");
             }
 
             var client = _mapper.Map<Client>(clientDto);
@@ -137,7 +137,7 @@ public class AuthService
 
             if (dbResult == 0)
             {
-                throw new Exception("Erro ao cadastrar usuario");
+                throw new Exception("There were no changes in the database");
             }
 
             var user = _mapper.Map<User>(userCreateDto);
@@ -160,7 +160,7 @@ public class AuthService
 
             if (dbResult == 0)
             {
-                throw new Exception("Erro ao cadastrar usuario");
+                throw new Exception("There were no changes in the database");
             }
 
             await transaction.CommitAsync();
@@ -170,7 +170,7 @@ public class AuthService
         catch (Exception ex)
         {
             await transaction.RollbackAsync();
-            throw new Exception(ex.Message);
+            throw new Exception("Error while registering user", ex);
         }
     }
 
@@ -197,12 +197,12 @@ public class AuthService
 
         if (user == null)
         {
-            throw new Exception("Email nao existe");
+            throw new Exception("Email Not exist");
         }
 
         if (user.Email != userLoginDto.Email)
         {
-            throw new Exception("Email ou senha incorreto! Tente novamente!");
+            throw new Exception("Email or Password is incorrect");
         }
 
         var result = CryptoHelper.VerifyPassword(
@@ -212,28 +212,28 @@ public class AuthService
 
         if (!result)
         {
-            throw new Exception("Email ou senha incorreto! Tente novamente!");
+            throw new Exception("Email or Password is incorrect! Try Again");
         }
 
         var token = GenerateToken(user);
 
         if(token == null)
         {
-            throw new Exception("Falha ao gerar token");
+            throw new Exception("Failed to generate token");
         }
 
         if( user == null)
         {
-            throw new Exception("Erro: Usuario e nulo!");
+            throw new Exception("Error User is null");
         }
 
         return (token, user);
     }
 
-    public async Task UpdateUserLawyerAsync(
-        UserUpdateDto? userUpdateDto,
-        LawyerUpdateDto? lawyerUpdateDto,
-        AddressDto? addressDto)
+    public async Task UpdateUserAsync(
+        UserUpdateDto userUpdateDto,
+        LawyerUpdateDto lawyerUpdateDto,
+        AddressDto addressDto)
     {
         var user = await _userRepository.GetUserByEmailAsync(userUpdateDto.Email);
 
@@ -321,7 +321,7 @@ public class AuthService
 
         if (await _userRepository.GetUserByEmailAsync(user.Email) != null)
         {
-            throw new Exception("Esse email ja esta em uso!");
+            throw new Exception("This email is already used");
         }
     }
 
@@ -349,114 +349,5 @@ public class AuthService
             signingCredentials: creds);
 
         return new JwtSecurityTokenHandler().WriteToken(token);
-    }
-
-    public async Task UpdateUserClientAsync(UserUpdateDto? userUpdate,
-        AddressDto? addressDto,
-        ClientDto? clientDto)
-    {
-        using var transaction = await _userRepository.BeginTransactionAsync();
-
-        try
-        {
-            var user = await _userRepository.GetUserByEmailAsync(userUpdate.Email);
-            if (user == null)
-            {
-                throw new Exception("Usuario nao encontrado!");
-            }
-            if(userUpdate.Name != null)
-            {
-                user.Name = userUpdate.Name;
-            }
-            if (userUpdate.Phone != null)
-            {
-                user.Phone = userUpdate.Phone;
-            }
-            if (user.Password != null)
-            {
-                var salt = CryptoHelper.GenerateSalt();
-                var hash = CryptoHelper.HashPassword(userUpdate.Password, salt);
-                user.Salt = salt;
-                user.Password = hash;
-            }
-            user.UpdatedAt = DateTime.UtcNow;
-
-            var address = await _userRepository.GetAddressByIdAsync(user.AddressId);
-            if (address == null)
-            {
-                throw new Exception("Endereco nao encontrado!");
-            }
-
-            if (addressDto.Street != null)
-            {
-                address.Street = addressDto.Street;
-            }
-
-            if (addressDto.City != null)
-            {
-                address.City = addressDto.City;
-            }
-
-            if (addressDto.State != null)
-            {
-                address.State = addressDto.State;
-            }
-
-            if (addressDto.ZipCode != null)
-            {
-                address.ZipCode = addressDto.ZipCode;
-            }
-
-            if (addressDto.Complement != null)
-            {
-                address.Complement = addressDto.Complement;
-            }
-
-            if (addressDto.Number != null)
-            {
-                address.Number = addressDto.Number;
-            }
-
-            if (addressDto.Neighborhood != null)
-            {
-                address.Neighborhood = addressDto.Neighborhood;
-            }
-
-            var client = await _userRepository.GetClientByIdAsync(user.ClientId);
-
-            if (client == null)
-            {
-                throw new Exception("Cliente nao encontrado!");
-            }
-
-            if (clientDto.Profission != null)
-            {
-                client.Profission = clientDto.Profission;
-            }
-            if (clientDto.MaritalStatus != null)
-            {
-                client.MaritalStatus = clientDto.MaritalStatus;
-            }
-
-            if (clientDto.Representative != null)
-            {
-                client.Representative = clientDto.Representative;
-            }
-
-            if (client.CompanyName != null)
-            {
-                client.CompanyName = clientDto.CompanyName;
-            }
-
-            await _userRepository.SaveChangesAsync();
-
-            await transaction.CommitAsync();
-
-        } catch (Exception ex)
-        {
-            await transaction.RollbackAsync();
-            throw new Exception(ex.Message);
-        }
-
     }
 }

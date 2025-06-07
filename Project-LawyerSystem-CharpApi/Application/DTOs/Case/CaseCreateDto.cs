@@ -21,6 +21,7 @@ namespace Project_LawyerSystem_CharpApi.Application.DTOs.Case
         [Required(ErrorMessage = "Description is required")]
         [JsonPropertyName("Description")]
         public string Description { get; set; }
+        
 
     }
 }
