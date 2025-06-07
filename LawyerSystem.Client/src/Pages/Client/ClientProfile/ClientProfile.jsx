@@ -93,7 +93,7 @@ const ClientProfile = () => {
             <ClientSidebar />
             <main className="client-profile-content">
                 <header className="profile-header">
-                    <h2>Perfil de {profileData.user.name}</h2>
+                    <h2 style={{ textAlign: 'center' }}>Perfil</h2>
                     <p>Detalhes e informações pessoais do cliente.</p>
                 </header>
 
@@ -113,7 +113,7 @@ const ClientProfile = () => {
                 <footer className="profile-actions">
                     <Button
                         onClick={() => setIsModalOpen(true)}
-                        text="Request Edit"
+                        text="Solicitar Edição"
                     />
                 </footer>
             </main>

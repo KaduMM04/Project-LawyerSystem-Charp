@@ -20,16 +20,14 @@ createRoot(document.getElementById('root')).render(
             <AuthProvider>
                 <Routes>
                     <Route path="/" element={<LoginPage />} />
-                    
                     // Manager Routes
                     <Route path="/managerCases" element={<ManagerCases />} />
                     <Route path="/managerLawyer" element={<ManagerLawyer />} />
                     <Route path="/initialpage" element={<InitialPage />} />
                     <Route path="/managerClient" element={<ManagerClient />} />"
-                    
                     // Client Routes
                     <Route path="/client/cases" element={<ClientCases />} />
-                    <Route path="/client/profile/:id" element={<ClientProfile />} />
+                    <Route path="/client/profile" element={<ClientProfile />} />
                 </Routes>
                 <ToastContainer />
             </AuthProvider>
