@@ -1,0 +1,86 @@
+﻿#client-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.client-details {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+}
+
+    .client-details > div {
+        font-size: 1rem;
+        color: #222e3c;
+        font-weight: 500;
+    }
+
+#client-container form {
+    background-color: #f9f9f9;
+    padding: 0px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 900px;
+}
+
+.client-inputs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin: 20px 0;
+    position: relative;
+}
+
+.input-group {
+    position: relative; /* Necess�rio para posicionar a label */
+    margin-bottom: 20px;
+    margin-left: 15px;
+    margin-right: 18px;
+}
+
+.floating-input {
+    width: 100%;
+    padding: 20px 1px 0px 1px;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    background-color: #f9f9f9;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+    .floating-input:focus {
+        outline: none;
+        border-bottom-color: #264653;
+    }
+
+.floating-label {
+    position: absolute;
+    left: 12px;
+    top: 16px;
+    background-color: #f9f9f9;
+    padding: 0 4px;
+    color: #000000;
+    font-size: 16px;
+    transition: all 0.2s ease-out;
+    pointer-events: none;
+}
+
+.floating-input:focus + .floating-label,
+.floating-input:not(:placeholder-shown) + .floating-label {
+    top: -10px;
+    left: 8px;
+    font-size: 12px;
+    color: #264653;
+    background-color: #f9f9f9;
+}
+
+.button-container {
+    display: flex;
+    justify-content: end;
+    padding-right: 10px;
+    gap: 20px;
+}

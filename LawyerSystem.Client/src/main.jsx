@@ -6,8 +6,8 @@ import { ToastContainer } from 'react-toastify';
 
 import { AuthProvider } from './Context/AuthContext.jsx';
 import ManagerCases from './Pages/Cases/ManagerCases/ManagerCases';
-import ManagerClient from './Pages/Lawyers/ManagerClients/ManagerClients/ManagerClientPage.jsx'; 
-import InitialPage from './Pages/LoginPage/LoginPage.jsx';
+import ManagerClient from './Pages/Lawyers/ManagerClients/ManagerClients.jsx'
+import InitialPage from './Pages/Lawyers/InitialPage/InitialPage.jsx';
 import LoginPage from './Pages/LoginPage/LoginPage.jsx';
 import ManagerLawyer from './Pages/Lawyers/ManagerLawyers/ManagerLawyer.jsx';
 
@@ -15,8 +15,8 @@ import ManagerLawyer from './Pages/Lawyers/ManagerLawyers/ManagerLawyer.jsx';
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <BrowserRouter>
-        <AuthProvider>
-            <Routes>
+            <AuthProvider>
+                <Routes>
                     <Route path="/" element={<LoginPage />} />
                     <Route path="/managerCases" element={<ManagerCases />} />
                     <Route path="/managerLawyer" element={<ManagerLawyer />} />

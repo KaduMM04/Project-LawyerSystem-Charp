@@ -1,9 +1,8 @@
-import Button from "../../Components/Button";
-import Container from "../../Components/Container";
+import Button from "../../../Components/Button";
 import { useNavigate } from 'react-router-dom';
 import "./InitialPage.css"
 
-import Sidebar from "../../Components/Sidebar/Sidebar";
+import Sidebar from "../../../Components/Sidebar/Sidebar";
 function InitialPage() {
 
     const navigate = useNavigate();

@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../../../Components/Button';
-import RegisterLawyerPage from "../RegisterLawyerPage/RegisterLawyer.jsx";
-import LawyerListPage from "../LawyersListPage/LawyerListPage";
+import RegisterLawyerPage from "./RegisterLawyerPage/RegisterLawyer.jsx";
+import LawyerListPage from "./LawyersListPage/LawyerListPage";
 import Sidebar from '../../../Components/Sidebar/Sidebar';
-import LawyerUpdatePage from '../LawyersUpdatePage/LawyerUpdatePage'
+import LawyerUpdatePage from './LawyersUpdatePage/LawyerUpdatePage'
 function ManagerLawyer() {
     const [activePage, setActivePage] = useState('list');
     const [selectedLawyer, setSelectedLawyer] = useState(null);

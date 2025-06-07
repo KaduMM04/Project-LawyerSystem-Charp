@@ -1,11 +1,8 @@
-import React, { useState } from "react"
+ï»¿import React, { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
-import Button from "../../../../Components/Button.jsx"
-import './LawyerUpdatePage.css'
-
-function LawyerUpdatePage({ user, lawyer }) {
-
-
+import Button from "../../../../Components/Button.jsx";
+import './ClientRegisterPage.css';
+function RegisterClientPage() {
     const showError = (message) => {
         toast.error(message, {
             position: "top-right",
@@ -33,15 +30,19 @@ function LawyerUpdatePage({ user, lawyer }) {
 
 
 
+
     const [form, setForm] = useState({
         name: '',
         email: '',
         phone: '',
         password: '',
-
-        //Lawyer
-        AreaOfExpertise: '',
+        role: '2',
         // Address Data
+
+        profission: '',
+        representative: '',
+        maritalStatus: '',
+        companyName: '',
 
         street: '',
         number: '',
@@ -49,131 +50,177 @@ function LawyerUpdatePage({ user, lawyer }) {
         neighborhood: '',
         city: '',
         state: '',
-        zipCode: ''
+        zipCode: '',
 
     });
 
-    const handleChange = (e) => {
+    const handleChange = async (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
 
     };
 
+
+    const handleReset = () => {
+        setForm({
+            name: '',
+            email: '',
+            phone: '',
+            password: '',
+            role: '2',
+            // Address Data
+
+            profission: '',
+            representative: '',
+            maritalStatus: '',
+            companyName: '',
+
+            street: '',
+            number: '',
+            complement: '',
+            neighborhood: '',
+            city: '',
+            state: '',
+            zipCode: '',
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+
+            const emptyFields = Object.entries(form).filter(([key, value]) => {
+                const isReadOnly = ['street', 'neighborhood', 'city', 'state'].includes(key);
+                const optional = ['complement', 'profission', 'representative', 'companyName'].includes(key);
+                // Se for readOnly ou opcional, nunca retorna true (n obrigatrio)
+                if (isReadOnly || optional) return false;
+                // Sï¿½ retorna true se estiver vazio
+                return !value || value.trim() === '';
+            });
+
+            if (emptyFields.length > 0) {
+                showError("Por favor, preencha todos os campos.");
+                return;
+            }
+            let representativeNull;
+
+            if (form.representative === '') {
+                representativeNull = 'N/A';
+            }
+            else {
+                representativeNull = form.representative;
+            }
+
+
+
+            const data = {
+                UserDto: {
+                    name: form.name,
+                    email: form.email,
+                    phone: form.phone,
+                    password: form.password,
+                    role: form.role,
+
+                },
+                AddressDto: {
+                    street: form.street,
+                    number: form.number,
+                    complement: form.complement,
+                    neighborhood: form.neighborhood,
+                    city: form.city,
+                    state: form.state,
+                    zipCode: form.zipCode
+                },
+                ClientDto: {
+                    profission: form.profission,
+                    representative: representativeNull,
+                    MaritalStatus: form.maritalStatus,
+                    CompanyName: form.companyName
+                }
+            }
+
+            console.log(JSON.stringify(data, null, 2));
+            console.log(data);
+
+            const response = await fetch('http://localhost:5000/api/User/createFullClient', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+
+            });
+
+            if (response.ok) {
+                const responseText = await response.text();
+                showSuccess(responseText);
+            } else {
+                const errorData = await response.text();
+                showError(errorData);
+            }
+
+
+        } catch (err) {
+            if (err.response && err.response.data && err.response.data.message) {
+                showError(err.response.data.message);
+            } else {
+                showError("An unexpected error occurred while creating the user");
+            }
+        }
+    }
+
+
     const handleZipCodeBlur = async () => {
         let { zipCode } = form;
+
+
         zipCode = zipCode.replace(/\D/g, '');
+
         if (zipCode.length === 0) {
-            return;
+            return
         }
 
         if (zipCode.length !== 8) {
-            showError("CEP inválido.");
+            showError("CEP invalido.");
             return;
         }
+
+
 
         try {
             const response = await fetch(`https://viacep.com.br/ws/${zipCode}/json/`);
             const data = await response.json();
 
-            if (data.erro) {
-                showError("CEP não encontrado.");
-                return;
+            console.log(data);  // veja no console se vem correto
+
+            if (!data.erro) {
+                setForm(prev => ({
+                    ...prev,
+                    street: data.logradouro,
+                    neighborhood: data.bairro,
+                    city: data.localidade,
+                    state: data.uf
+                }));
+
+
+            } else {
+                showError("CEP nï¿½o encontrado.");
             }
-
-            setForm((prevForm) => ({
-                ...prevForm,
-                street: data.logradouro,
-                neighborhood: data.bairro,
-                city: data.localidade,
-                state: data.uf
-            }));
-        } catch (error) {
-            showError("Erro ao buscar o CEP.");
+        } catch (err) {
+            showError("Erro ao buscar o CEP." + err.message);
         }
-    }
+    };
 
-        const handleReset = () => {
-            setForm({
-                name: '',
-                phone: '',
-                password: '',
-                AreaOfExpertise: '',
-                street: '',
-                number: '',
-                complement: '',
-                neighborhood: '',
-                city: '',
-                state: '',
-                zipCode: ''
-            });
-        };
+    return (
+        <>
 
-        const handleSubmit = async (e) => {
-            e.preventDefault();
+            <div className="client-container">
 
-            try {
-                const data = {
-                    userUpdate: {
-                        name: form.name || null,
-                        email: user.email,
-                        phone: form.phone || null,
-                        password: form.password || null,
-
-                    },
-                    address: {
-                        street: form.street || null,
-                        number: form.number || null,
-                        complement: form.complement || null,
-                        neighborhood: form.neighborhood || null,
-                        city: form.city || null,
-                        state: form.state || null,
-                        zipCode: form.zipCode || null
-                    },
-                    lawyer: {
-                        AreaOfExpertise: form.AreaOfExpertise || null
-                    }
-
-                };
-                console.log(JSON.stringify(data, null, 2));
-
-                const response = await fetch("http://localhost:5000/api/User/patch/lawyer", {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(data),
-                });
-
-                if (response.ok) {
-                    showSuccess("User created successfully");
-                } else {
-                    const errorData = await response.text();
-                    console.error(errorData);
-                    showError("An error occurred while creating the user");
-                }
-
-            } catch (err) {
-                if (err.response && err.response.data && err.response.data.message) {
-                    showError(err.response.data.message);
-                } else {
-                    showError("An unexpected error occurred while creating the user");
-                }
-            }
-        }
-
-
-
-        return (
-
-            <div id="lawyer-container">
-                <div className="lawyer-details">
-                    {<div><strong>OAB: {lawyer ? lawyer.OAB : ' '}</strong></div>}
-                    <div><strong>Email:</strong> {user ? user.email : ' '}</div>
-                </div>
 
                 <form onSubmit={handleSubmit}>
-                    <h1>Atualizar dados do advogado selecionado</h1>
+                    <h1>Register Client</h1>
 
-                    <div className="lawyer-inputs">
+                    <div className="client-inputs">
                         <div className="input-group">
                             <input
                                 className="floating-input"
@@ -182,6 +229,15 @@ function LawyerUpdatePage({ user, lawyer }) {
                                 value={form.name}
                                 onChange={handleChange} />
                             <label className="floating-label">Nome</label>
+                        </div>
+                        <div className="input-group">
+                            <input
+                                className="floating-input"
+                                name="email"
+                                placeholder=" "
+                                value={form.email}
+                                onChange={handleChange} />
+                            <label className="floating-label">Email</label>
                         </div>
                         <div className="input-group">
                             <input
@@ -204,15 +260,45 @@ function LawyerUpdatePage({ user, lawyer }) {
                         <div className="input-group">
                             <input
                                 className="floating-input"
-                                name="AreaOfExpertise"
+                                name="profission"
                                 placeholder=" "
-                                value={form.AreaOfExpertise}
+                                value={form.profission}
                                 onChange={handleChange} />
-                            <label className="floating-label">Area de atuacao</label>
+                            <label className="floating-label">Profissao (se tiver)</label>
+                        </div>
+                        <div className="input-group">
+                            <input
+                                className="floating-input"
+                                name="representative"
+                                placeholder=" "
+                                value={form.representative}
+                                onChange={handleChange} />
+                            <label className="floating-label">Representante (se tiver)</label>
+                        </div>
+                        <div className="input-group">
+                            <input
+                                className="floating-input"
+                                name="maritalStatus"
+                                placeholder=" "
+                                value={form.maritalStatus}
+                                onChange={handleChange} />
+                            <label className="floating-label">Estado Civil</label>
+                        </div>
+                        <div className="input-group">
+                            <input
+                                className="floating-input"
+                                name="companyName"
+                                placeholder=" "
+                                value={form.companyName}
+                                onChange={handleChange} />
+                            <label className="floating-label">Empresa (se tiver)</label>
                         </div>
                     </div>
+
                     <h2>Endereco</h2>
-                    <div className="lawyer-inputs">
+                    <div className="client-inputs">
+
+
                         <div className="input-group">
                             <input
                                 className="floating-input"
@@ -229,8 +315,8 @@ function LawyerUpdatePage({ user, lawyer }) {
                                 name="street"
                                 placeholder=" "
                                 value={form.street}
-                                onChange={handleChange}
-                                readOnly={true}                            />
+                                readOnly={true}
+                                onChange={handleChange} />
                             <label className="floating-label">Rua</label>
                         </div>
                         <div className="input-group">
@@ -287,7 +373,7 @@ function LawyerUpdatePage({ user, lawyer }) {
                     <div className="button-container">
                         <Button
                             type={"submit"}
-                            text={"Editar"}
+                            text={"Cadastrar Advogado"}
 
                             Class={"RegisterButton"}
                         />
@@ -299,10 +385,9 @@ function LawyerUpdatePage({ user, lawyer }) {
                         />
                     </div>
                 </form>
-                <ToastContainer />
-
             </div>
-        );
-    }
-
-    export default LawyerUpdatePage;
+            <ToastContainer />
+        </>
+    );
+}
+export default RegisterClientPage;

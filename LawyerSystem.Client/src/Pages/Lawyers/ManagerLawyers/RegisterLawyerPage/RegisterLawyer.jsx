@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import Button from "../../../Components/Button.jsx" 
+import Button from "../../../../Components/Button.jsx" 
 import './RegisterLawyer.css'
 
 function RegisterLawyer() {
