@@ -38,4 +38,6 @@ public class UserReadDto
     /// Gets or sets the Lawyer OAB (Ordem dos Advogados do Brasil) identifier of the user, if applicable.
     /// </summary>
     public string? LawyerOAB { get; set; }
+
+    public Guid ClientId { get; set; }
 }
