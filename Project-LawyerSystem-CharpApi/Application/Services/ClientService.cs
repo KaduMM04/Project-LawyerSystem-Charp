@@ -56,11 +56,11 @@ public class ClientService
     /// Retrieves all clients asynchronously.
     /// </summary>
     /// <returns>A collection of client DTOs.</returns>
-    public async Task<IEnumerable<ClientDto>> GetAllClient()
+    public async Task<IEnumerable<Client>> GetAllClient()
     {
         var clients = await _clientRepository.GetAllClient();
-        var result = _mapper.Map<IEnumerable<ClientDto>>(clients);
-        return result;
+
+        return clients;
     }
 
     /// <summary>

@@ -1,9 +1,7 @@
 import React, { useState } from "react"
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import Button from "../../Components/Button.jsx" 
-import Container from "../../Components/Container.jsx";
-import Sidebar from "../../Components/Sidebar/Sidebar.jsx";
+import Button from "../../../../Components/Button.jsx" 
 import './RegisterLawyer.css'
 
 function RegisterLawyer() {
@@ -70,7 +68,9 @@ function RegisterLawyer() {
 
         
         zipCode = zipCode.replace(/\D/g, '');
-
+        if (zipCode.length === 0) {
+            return
+        }
         if (zipCode.length !== 8) {
             showError("CEP invalido.");
             return;
@@ -124,7 +124,20 @@ function RegisterLawyer() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        
+
         try {
+
+            const emptyFields = Object.entries(form).filter(([key, value]) => {
+                const isReadOnly = ['street', 'neighborhood', 'city', 'state', 'complement'].includes(key);
+                return !isReadOnly && (!value || value.trim() === '');
+            });
+            
+            if (emptyFields.length > 0) {
+                showError("Por favor, preencha todos os campos.");
+                return;
+            }
+
             const data = {
                 UserDto: {
                     name: form.name,
@@ -180,7 +193,7 @@ function RegisterLawyer() {
 
     return (
        
-        <div id="lawyer-container">
+        <div className="lawyer-container">
         <form onSubmit={handleSubmit}>
                 <h1>Registrar Advogado</h1>
                 
@@ -260,7 +273,8 @@ function RegisterLawyer() {
                         name="street"
                             placeholder=" "
                             value={form.street}
-                        onChange={handleChange} />
+                            onChange={handleChange}
+                            readOnly={true}/>
                         <label className="floating-label">Rua</label>
                     </div>
                     <div className="input-group">
@@ -287,7 +301,7 @@ function RegisterLawyer() {
                         name="neighborhood"
                             placeholder=" "
                             value={form.neighborhood}
-                            readOnly={form.neighborhood !== ""}
+                            readOnly={true}
                         onChange={handleChange} />
                         <label className="floating-label">Bairro</label>
                     </div>
@@ -298,7 +312,7 @@ function RegisterLawyer() {
                             placeholder=" "
                             value={form.city}
                             onChange={handleChange}
-                            readOnly={form.city !== ""}/>
+                            readOnly={true}/>
                         <label className="floating-label">Cidade</label>
                     </div>
                     <div className="input-group">
@@ -308,7 +322,7 @@ function RegisterLawyer() {
                             placeholder=" "
                             value={form.state}
                             onChange={handleChange}
-                            readOnly={form.state !== ""}/>
+                            readOnly={true}/>
                         <label className="floating-label">Estado</label>
                     </div>
                    
@@ -318,7 +332,7 @@ function RegisterLawyer() {
                 <Button
                        type={"submit"}
                     text={"Cadastrar Advogado"}
-
+                    onClick={ handleReset }
                     Class={"RegisterButton"}
                 />
                 <Button

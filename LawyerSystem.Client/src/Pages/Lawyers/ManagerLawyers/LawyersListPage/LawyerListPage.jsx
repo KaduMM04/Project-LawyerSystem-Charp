@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import './LawyerListPage.css';
 
@@ -49,6 +48,7 @@ function LawyerListPage({ onEdit }) {
 
     return (
         <>
+            <h1>Lista de advogados</h1>
             <div className="search-bar-container">
                 <input
                     className="search-bar"

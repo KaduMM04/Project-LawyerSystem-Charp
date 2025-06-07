@@ -129,6 +129,12 @@ public class UserRepository : IUserRepository
         return await _context.SaveChangesAsync();
     }
 
+    public async Task<Client> GetClientByIdAsync(Guid? id)
+    {
+        var result = await _context.Clients.FindAsync(id);
+        return result ?? throw new KeyNotFoundException($"Client with ID {id} not found.");
+    }
+
     public async Task SaveChangesAsync()
     {
         await _context.SaveChangesAsync();

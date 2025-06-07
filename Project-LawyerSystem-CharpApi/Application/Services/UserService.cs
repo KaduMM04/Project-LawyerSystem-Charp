@@ -52,7 +52,9 @@ public class UserService
     public async Task<IEnumerable<UserReadDto>> GetAllUser()
     {
         var users = await this._userRepository.GetAllUsersAsync();
+
         var result = _mapper.Map<IEnumerable<UserReadDto>>(users);
+
         return result;
     }
 }

@@ -1,21 +1,18 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Button from '../../Components/Button';
-import RegisterClientPage from "../RegisterLawyerPage/RegisterLawyer.jsx";
-import LawyerListPage from "../LawyersListPage/LawyerListPage.jsx";
-import Sidebar from '../../Components/Sidebar/Sidebar.jsx';
-import LawyerUpdatePage from '../LawyersUpdatePage/LawyerUpdatePage'
+import Button from '../../../Components/Button';
+import RegisterLawyerPage from "./RegisterLawyerPage/RegisterLawyer.jsx";
+import LawyerListPage from "./LawyersListPage/LawyerListPage";
+import Sidebar from '../../../Components/Sidebar/Sidebar';
+import LawyerUpdatePage from './LawyersUpdatePage/LawyerUpdatePage'
 function ManagerLawyer() {
-    const [activePage, setActivePage] = useState('lista');
+    const [activePage, setActivePage] = useState('list');
     const [selectedLawyer, setSelectedLawyer] = useState(null);
     const [selectedUser, setSelectedUser] = useState(null);
 
-    // Adicione este useEffect:
     useEffect(() => {
-        // Ao montar, desabilita o scroll do body
         document.body.style.overflow = 'hidden';
         return () => {
-            // Ao desmontar, restaura o scroll do body
             document.body.style.overflow = '';
         };
     }, []);
@@ -34,27 +31,26 @@ function ManagerLawyer() {
             boxShadow: '0 0 10px rgba(0,0,0,0.1)',
             borderRadius: '8px',
             background: '#fff',
-            display: 'flex', // se tiver sidebar e conteúdo
+            display: 'flex',
         }}>
-            <aside style={{ width: '290px', background: '#264653', color: '#fff', padding: '20px' }}>
-                
-              
-                    <Button text={"Cadastrar Advogado"}
-                        Class={'PatternButton'}
-                        onClick={() => setActivePage('cadastrar')} />
+                <aside style={{ width: '100%',maxWidth: '290px', background: '#264653', color: '#fff', padding: '20px' }}>
+
                     <Button text={"Lista de Advogados"}
                         Class={'PatternButton'}
-                        onClick={() => setActivePage('lista')} />
-                    <Button text={"Update Lawyer"}
+                        onClick={() => setActivePage('list')} />
+                    <Button text={"Cadastrar Advogado"}
+                        Class={'PatternButton'}
+                        onClick={() => setActivePage('register')} />
+                    <Button text={"Atualizar advogado"}
                         Class={'PatternButton'}
                         onClick={() => setActivePage('update')} />
             </aside>
 
             <main style={{ flex: 1, padding: '40px' }}>
                 <AnimatePresence mode="wait">
-                    {activePage === 'lista' && (
+                        {activePage === 'list' && (
                         <motion.div
-                            key="lista"
+                                key="list"
                             initial={{ opacity: 0, x: 50 }}
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -50 }}
@@ -71,15 +67,15 @@ function ManagerLawyer() {
                             
                         </motion.div>
                     )}
-                    {activePage === 'cadastrar' && (
+                    {activePage === 'register' && (
                         <motion.div
-                            key="cadastrar"
+                                key="register"
                             initial={{ opacity: 0, x: 50 }}
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -50 }}
                             transition={{ duration: 0.3 }}
                         >
-                            <RegisterClientPage />
+                                <RegisterLawyerPage />
                         </motion.div>
                         )}
                         {activePage === 'update' && (

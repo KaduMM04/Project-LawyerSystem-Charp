@@ -1,10 +1,24 @@
-#lawyer-container {
+ï»¿#client-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-#lawyer-container form {
+.client-details {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+}
+
+    .client-details > div {
+        font-size: 1rem;
+        color: #222e3c;
+        font-weight: 500;
+    }
+
+#client-container form {
     background-color: #f9f9f9;
     padding: 0px;
     border-radius: 10px;
@@ -13,21 +27,19 @@
     max-width: 900px;
 }
 
-.lawyer-inputs {
+.client-inputs {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px; 
+    gap: 20px;
     margin: 20px 0;
     position: relative;
-
 }
 
 .input-group {
-    position: relative; /* Necessário para posicionar a label */
+    position: relative; /* Necessï¿½rio para posicionar a label */
     margin-bottom: 20px;
-    margin-left:15px;
+    margin-left: 15px;
     margin-right: 18px;
-    
 }
 
 .floating-input {
@@ -36,7 +48,6 @@
     border: none;
     border-bottom: 2px solid #ccc;
     background-color: #f9f9f9;
-    
     font-size: 16px;
     transition: border-color 0.3s ease;
 }
@@ -69,10 +80,7 @@
 
 .button-container {
     display: flex;
-
-    justify-content:end;
+    justify-content: end;
     padding-right: 10px;
     gap: 20px;
-    
-    
 }

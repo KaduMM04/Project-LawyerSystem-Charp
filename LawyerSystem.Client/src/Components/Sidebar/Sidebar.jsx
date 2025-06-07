@@ -34,10 +34,10 @@ const Sidebar = () => {
                     </div>
                
                 <div id="nav-links">
-                    <a href="/" className="nav-link">
+                    <a href="/managerCases" className="nav-link">
                         <DescriptionIcon style={{ color: 'white' }} />
                         <span>Processos</span></a>
-                    <a href="/" className="nav-link">
+                    <a href="/managerClient" className="nav-link">
                         <PeopleIcon style={{ color: 'white' }} />
                         <span>Clientes</span></a>
                     <a href="/managerLawyer" className="nav-link">
