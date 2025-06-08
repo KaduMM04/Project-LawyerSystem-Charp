@@ -38,7 +38,7 @@ public class CaseEventService
         }
     }
 
-    public async Task<IEnumerable<CaseEventReadDto>> GetAllCaseEvents()
+    public async Task<IEnumerable<CaseEvent>> GetAllCaseEvents()
     {
         var caseEvents = await _caseEventRepository.GetAllCaseEventsAsync();
 
@@ -47,10 +47,10 @@ public class CaseEventService
             throw new Exception("There Aren't CaseEvents registered");
         }
 
-        return _mapper.Map<IEnumerable<CaseEventReadDto>>(caseEvents);
+        return caseEvents;
     }
 
-    public async Task<CaseEventReadDto> GetCaseEventById(Guid id)
+    public async Task<CaseEvent> GetCaseEventById(Guid id)
     {
         var caseEvent = await _caseEventRepository.GetCaseEventByCaseIdAsync(id);
 
@@ -59,6 +59,6 @@ public class CaseEventService
             throw new Exception("Case event not found");
         }
 
-        return _mapper.Map<CaseEventReadDto>(caseEvent);
+        return caseEvent;
     }
 }

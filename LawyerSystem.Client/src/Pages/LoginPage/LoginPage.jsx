@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Container from "../../Components/Container.jsx" 
+import Container from "../../Components/Container.jsx"
 import { toast } from 'react-toastify';
-import Button from "../../Components/Button.jsx" 
+import Button from "../../Components/Button.jsx"
 import { useAuth } from "../../Context/AuthContext.jsx";
 import './LoginPage.css'
 function LoginPage() {
@@ -92,13 +92,13 @@ function LoginPage() {
                     <Button
                         type="submit"
                         text="Login"
-                        Class="login-button"
+                        className="login-button"
                     />
 
                     <Button
                         type="reset"
                         text="Cancelar"
-                        Class="cancel-button"
+                        className="cancel-button-login"
                     />
                 </form>
             </div>

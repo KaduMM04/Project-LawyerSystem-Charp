@@ -1,33 +1,27 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using Project_LawyerSystem_CharpApi.Domain.Enums;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
-namespace Project_LawyerSystem_CharpApi.Application.DTOs.Case
+namespace Project_LawyerSystem_CharpApi.Application.DTOs.Case;
+
+public class CaseReadDto
 {
-    public class CaseReadDto
-    {
-        [Required(ErrorMessage = "Type is required")]
-        [JsonPropertyName("Type")]
-        public string Type { get; set; }
+    public Guid Id { get; set; }
 
-        [Required(ErrorMessage = "Lawyer OAB is required")]
-        [JsonPropertyName("LawyerOAB")]
-        public string LawyerOAB { get; set; }
+    public int CaseNumber { get; set; }
 
+    public string Description { get; set; }
 
-        [Required(ErrorMessage = "Client id is required")]
-        [JsonPropertyName("ClientId")]
-        public Guid ClientId { get; set; }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public TypeCases TypeCases { get; set; }
 
-        [Required(ErrorMessage = "Client name is required")]
-        [JsonPropertyName("ClientName")]
-        public string ClientName { get; set; }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public Status Status { get; set; }
 
-        [Required(ErrorMessage = "Description is required")]
-        [JsonPropertyName("Description")]
-        public string Description { get; set; }
-    }
+    public string LawyerOAB;
+
+    public Guid ClientId { get; set; }
+
+    public DateTime CreateAt { get; set; }
+
+    public DateTime UpdateAt { get; set; }
 }

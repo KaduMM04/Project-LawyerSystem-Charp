@@ -1,7 +1,7 @@
 import React from 'react';
 import "../Style/Button.css";
 
-function Button({ type, text, onClick, Class, style, path }) {
+function Button({ type, text, onClick, className, style, path }) {
 
     
     if (style == "img") {
@@ -9,7 +9,7 @@ function Button({ type, text, onClick, Class, style, path }) {
             <button
                 type={type}
                 onClick={onClick}
-                className={Class}
+                className={className}
             >
                 <img src={path} ></img>
 
@@ -22,7 +22,7 @@ function Button({ type, text, onClick, Class, style, path }) {
         <button
             type={type}
             onClick={onClick}
-            className={Class}
+            className={className}
         >
             {text}
             

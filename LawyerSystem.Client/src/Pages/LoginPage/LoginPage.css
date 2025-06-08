@@ -30,47 +30,14 @@
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
 }
 
-.login-input:focus {
+    .login-input:focus {
         outline: none;
         box-shadow: 0 0 0 2px #264653;
-}
-
-.login-button {
-    background-color: #264653;
-    color: #FFFFFF;
-    padding: 14px 20px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 16px;
-    width: 100%;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.login-button:hover {
-    background-color: #3a5a70; /* um pouco mais claro */
-    transform: translateY(-2px); /* um leve "up" */
-}
-
-.cancel-button {
-    background-color: #FFFFFF;
-    color: #264653;
-    padding: 14px 20px;
-    border: 2px solid #264653;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 16px;
-    width: 100%;
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
-}
-
-    .cancel-button:hover {
-        background-color: #264653;
-        color: #FFFFFF;
-        transform: translateY(-2px);
     }
+
+
+
+
 
 .input-group {
     position: relative;

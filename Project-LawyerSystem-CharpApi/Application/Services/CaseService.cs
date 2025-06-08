@@ -22,7 +22,7 @@ namespace Project_LawyerSystem_CharpApi.Application.Services
             _mapper = mapper;
         }
 
-        public async Task AddCase(CaseCreateDto caseDto) 
+        public async Task AddCase(CaseDto caseDto) 
         {
             if (caseDto == null) {
                 throw new Exception("Case must not be null");
@@ -42,6 +42,12 @@ namespace Project_LawyerSystem_CharpApi.Application.Services
         public async Task<IEnumerable<CaseReadDto>> GetAllCases()
         {
             var cases = await _caseRepository.GetAllCases();
+
+            if (cases == null || !cases.Any())
+            {
+                throw new Exception("Nenhum caso foi encontrado!");
+            }
+
             return _mapper.Map<IEnumerable<CaseReadDto>>(cases);
         }
     }

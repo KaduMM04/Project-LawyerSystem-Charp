@@ -69,7 +69,7 @@ public class ClientService
     /// <param name="id">The unique identifier of the client.</param>
     /// <returns>The client DTO.</returns>
     /// <exception cref="Exception">Thrown when the provided ID is an empty GUID.</exception>
-    public async Task<ClientDto> GetClientById(Guid id)
+    public async Task<Client> GetClientById(Guid id)
     {
         if (id == Guid.Empty)
         {
@@ -77,6 +77,6 @@ public class ClientService
         }
 
         var result = await _clientRepository.GetClientById(id);
-        return _mapper.Map<ClientDto>(result);
+        return result;
     }
 }

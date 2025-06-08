@@ -10,12 +10,26 @@ function ClientListPage({ onEdit }) {
 
     const getClients = async () => {
         try {
-            const responseClients = await fetch('http://localhost:5000/api/Client/all');
+            const responseClients = await fetch('http://localhost:5000/api/Client/all',
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
             if (!responseClients.ok) {
                 throw new Error('Falha ao procurar clientes');
             }
 
-            const responseUser = await fetch('http://localhost:5000/user/all');
+            const responseUser = await fetch('http://localhost:5000/user/all',
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
             if (!responseUser.ok) {
                 throw new Error('Falha ao procurar usuarios');
             }
