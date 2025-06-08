@@ -1,41 +1,40 @@
+// src/Components/AgendaTimeline/AgendaTimeline.jsx
 import React from 'react';
 import './AgendaTimeline.css';
+import GavelIcon from '@mui/icons-material/Gavel'; // Exemplo de ícone
 
-const AgendaTimeline = ({ eventos, casos, selectedCaseId }) => {
-    const getTitle = () => {
-        if (selectedCaseId) {
-            const selectedCase = casos.find(c => c.id === selectedCaseId);
-            return `Eventos para: ${selectedCase?.name || 'Processo Selecionado'}`;
-        }
-        return 'Todos os Próximos Eventos';
-    };
+const AgendaTimeline = ({ eventos, selectedCase }) => {
+    const title = selectedCase ? `Eventos para: ${selectedCase.Type}` : 'Linha do Tempo';
 
-    if (!eventos || eventos.length === 0) {
+    if (!selectedCase) {
         return (
             <div className="timeline-container">
-                <h2>{getTitle()}</h2>
-                <p>Nenhum evento encontrado para a seleção atual.</p>
+                <h2>Linha do Tempo</h2>
+                <p>Selecione um processo na lista à esquerda para ver os eventos aqui.</p>
             </div>
         );
     }
-
+    
     return (
         <div className="timeline-container">
-            <h2>{getTitle()}</h2>
-            <div className="timeline-list">
-                {eventos.map(evento => (
-                    <div key={evento.id} className="timeline-item">
-                        <div className="timeline-marker">✓</div> {/* Ícone padrão simples */}
-                        <div className="timeline-content">
-                            <span className="timeline-date">{evento.data}</span>
-                            <h4 className="evento-title">{evento.title}</h4>
-                            <p className="evento-processo">
-                                Referente ao processo: <strong>{evento.processo.name}</strong>
-                            </p>
+            <h2>{title}</h2>
+            {eventos.length === 0 ? (
+                <p>Nenhum evento agendado para este processo.</p>
+            ) : (
+                <div className="timeline-list">
+                    {eventos.map(evento => (
+                        <div key={evento.id} className="timeline-item">
+                            <div className="timeline-marker"><GavelIcon fontSize="small" /></div>
+                            <div className="timeline-content">
+                                {/* Usando os nomes exatos da sua API */}
+                                <span className="timeline-date">{evento.eventDate}</span>
+                                <h4 className="evento-title">{evento.description}</h4>
+                                {evento.notes && <p className="evento-processo">Notas: {evento.notes}</p>}
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

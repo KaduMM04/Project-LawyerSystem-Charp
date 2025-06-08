@@ -1,20 +1,20 @@
 import React from 'react';
 import './ClientSidebar.css';
 import { useAuth } from '../../Context/AuthContext'; 
-import MenuIcon from '@mui/icons-material/Menu';
+import { Link, useNavigate } from 'react-router-dom'; // 1. Importações necessárias do react-router-dom
 import DescriptionIcon from '@mui/icons-material/Description';
 import PersonIcon from '@mui/icons-material/Person';
 import logoImage from '../../assets/logo.png';
 
-
 const ClientSidebar = () => {
-    const { isAuthenticated, logout } = useAuth();
+    // 2. Agora pegamos o objeto 'user' completo do contexto
+    const { user, isAuthenticated, logout } = useAuth();
+    const navigate = useNavigate();
 
-    const handleAuthClick = () => {
-        if (isAuthenticated) {
-            logout();
-        }
-        window.location.href = '/login';
+    // Função de logout atualizada
+    const handleLogoutClick = () => {
+        logout();
+        navigate('/login'); // 3. Usa o navigate para redirecionar
     };
 
     return (
@@ -30,21 +30,25 @@ const ClientSidebar = () => {
                     <img src={logoImage} alt="Logo" className="logo" />
                 </div>
 
-
                 <div id="nav-links">
-                    <a href="/client/cases" className="nav-link">
+                    {/* 4. Usando o componente <Link> para navegação sem reload */}
+                    <Link to="/client/cases" className="nav-link">
                         <DescriptionIcon style={{ color: 'white' }} />
                         <span>Meus Processos</span>
-                    </a>
-                    <a href="/client/profile" className="nav-link">
-                        <PersonIcon style={{ color: 'white' }} />
-                        <span>Perfil</span>
-                    </a>
+                    </Link>
+                    
+                    {/* 5. Link dinâmico que só aparece se o usuário estiver logado */}
+                    {user && (
+                        <Link to={`/client/profile/${user.id}`} className="nav-link">
+                            <PersonIcon style={{ color: 'white' }} />
+                            <span>Perfil</span>
+                        </Link>
+                    )}
                 </div>
 
                 <div id="button-section">
-                    <button className={isAuthenticated ? 'logout-button' : 'login-button'} onClick={handleAuthClick}>
-                        <span>{isAuthenticated ? 'Logout' : 'Sign in'}</span>
+                    <button className={isAuthenticated ? 'logout-button' : 'login-button'} onClick={handleLogoutClick}>
+                        <span>{isAuthenticated ? 'Logout' : 'Login'}</span>
                     </button>
                 </div>
             </div>

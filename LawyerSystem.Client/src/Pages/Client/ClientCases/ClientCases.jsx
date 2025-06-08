@@ -1,62 +1,90 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../Context/AuthContext';
 import ClientSidebar from "../../../Components/ClientSidebar/ClientSidebar";
 import AgendaTimeline from "../../../Components/AgendaTimeLine/AgendaTimeLine";
 import './ClientCases.css';
 
-// DADOS DE EXEMPLO (simulando o retorno da sua API)
-const mockCases = [
-    { id: '1', number: '0012345-67.2024.8.26.0001', name: 'Ação de Alimentos', status: 'Ativo', lastUpdate: '05/06/2025' },
-    { id: '2', number: '0098765-43.2023.8.26.0002', name: 'Defesa do Consumidor', status: 'Arquivado', lastUpdate: '15/03/2025' },
-    { id: '3', number: '0055566-77.2024.8.26.0003', name: 'Divórcio Consensual', status: 'Ativo', lastUpdate: '01/06/2025' },
-];
-
-const mockEvents = [
-    { id: 1, caseId: '1', title: 'Audiência de Conciliação', data: '18 de Junho de 2025, 14:30', processo: { name: 'Ação de Alimentos' }, eventType: 0 },
-    { id: 2, caseId: '3', title: 'Prazo Final para Entrega de Documentos', data: '25 de Junho de 2025', processo: { name: 'Divórcio Consensual' }, eventType: 1 },
-    { id: 3, caseId: '1', title: 'Perícia Médica', data: '02 de Julho de 2025, 09:00', processo: { name: 'Ação de Alimentos' }, eventType: 2 },
-];
-
-const StatusBadge = ({ status }) => {
-    const statusClass = status.toLowerCase().replace(' ', '-');
-    return <span className={`status-badge ${statusClass}`}>{status}</span>;
-};
+const StatusBadge = ({ status }) => { /* ... sua lógica de status ... */ return <span>{status}</span>; };
 
 function ClientCases() {
-    const navigate = useNavigate(); 
-    
-    const [cases, setCases] = useState([]);
-    const [events, setEvents] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+    const { user } = useAuth();
+
+    // Estados da página
+    const [allCases, setAllCases] = useState([]); // Guarda TODOS os casos da API
+    const [clientCases, setClientCases] = useState([]); // Guarda só os casos DO CLIENTE
+    const [events, setEvents] = useState([]); // Guarda os eventos do PROCESSO SELECIONADO
     const [selectedCaseId, setSelectedCaseId] = useState(null);
+    
+    const [isLoading, setIsLoading] = useState(true);
+    const [isTimelineLoading, setIsTimelineLoading] = useState(false);
+    const [error, setError] = useState('');
 
+    // Efeito para buscar a LISTA COMPLETA DE PROCESSOS
     useEffect(() => {
-        // Na vida real, aqui você faria a chamada para a sua API
-        setCases(mockCases);
-        setEvents(mockEvents);
-        setLoading(false);
-    }, []);
+        const fetchAllCases = async () => {
+            setIsLoading(true);
+            try {
+                const response = await fetch('http://localhost:5000/Cases');
+                if (!response.ok) throw new Error('Falha ao buscar a lista de processos.');
+                
+                const allCasesData = await response.json();
+                setAllCases(allCasesData);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setIsLoading(false);
+            }
+        };
 
-    const handleSelectCase = (caseId) => {
+        fetchAllCases();
+    }, []); // Roda apenas uma vez ao carregar
+
+    // Efeito para FILTRAR os casos quando o usuário ou a lista de casos mudar
+    useEffect(() => {
+        if (user?.clientId && allCases.length > 0) {
+            const filtered = allCases.filter(c => c.ClientId === user.clientId);
+            setClientCases(filtered);
+        }
+    }, [user, allCases]);
+
+
+    // Função que BUSCA os eventos no clique
+    const handleSelectCase = async (caseData) => {
+        const caseId = caseData.id;
+        
         if (selectedCaseId === caseId) {
             setSelectedCaseId(null);
-        } else {
-            setSelectedCaseId(caseId);
+            setEvents([]);
+            return;
+        }
+
+        setIsTimelineLoading(true);
+        setSelectedCaseId(caseId);
+        setEvents([]);
+        setError('');
+
+        try {
+            const response = await fetch(`http://localhost:5000/api/caseEvent/${caseId}`);
+            if (!response.ok) {
+                if (response.status === 404) {
+                    setEvents([]); // Nenhum evento encontrado, o que é ok.
+                } else {
+                    throw new Error('Falha ao buscar os eventos do processo.');
+                }
+            } else {
+                const eventsData = await response.json();
+                setEvents(eventsData);
+            }
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setIsTimelineLoading(false);
         }
     };
 
-    const filteredEvents = selectedCaseId
-        ? events.filter(event => event.caseId === selectedCaseId)
-        : events;
-
-    if (loading) {
-        return (
-            <>
-                <ClientSidebar />
-                <div className="cases-page"><h1>Carregando dados do cliente...</h1></div>
-            </>
-        );
-    }
+    if (isLoading) return <div className="cases-page"><h1>Carregando...</h1></div>;
 
     return (
         <>
@@ -64,42 +92,36 @@ function ClientCases() {
             <div className="cases-page">
                 <header className="cases-header">
                     <h1>Painel do Cliente</h1>
-                    {/* Texto do cabeçalho atualizado */}
-                    <p>Selecione um processo na lista à esquerda para ver os eventos relacionados.</p>
+                    <p>Selecione um processo na lista à esquerda para ver seus eventos.</p>
                 </header>
-
+                {error && <p style={{color: 'red', textAlign: 'center'}}>{error}</p>}
                 <div className="cases-container">
-                    
-                    {/* COLUNA DA ESQUERDA: Lista de Processos */}
                     <div className="cases-list-column">
-                        <h2>Lista de Processos</h2>
+                        <h2>Lista de Processos ({clientCases.length})</h2>
                         <div className="cases-list">
-                            {cases.map(caseItem => (
+                            {clientCases.map(caseItem => (
                                 <div 
                                     key={caseItem.id}
                                     className={`case-card ${caseItem.id === selectedCaseId ? 'selected' : ''}`}
-                                    onClick={() => handleSelectCase(caseItem.id)}
+                                    onClick={() => handleSelectCase(caseItem)}
                                 >
-                                    <div className="case-card-header">
-                                        <h3 className="case-name">{caseItem.name}</h3>
-                                        <StatusBadge status={caseItem.status} />
-                                    </div>
-                                    <p className="case-number">Nº: {caseItem.number}</p>
-                                    <p className="case-update">Última atualização: {caseItem.lastUpdate}</p>
+                                    <h3>{caseItem.Type}</h3>
+                                    <p>{caseItem.Description}</p>
                                 </div>
                             ))}
                         </div>
                     </div>
                     
-                    {/* COLUNA DA DIREITA: Linha do Tempo */}
                     <div className="timeline-column">
-                        <AgendaTimeline 
-                            eventos={filteredEvents} 
-                            casos={cases}
-                            selectedCaseId={selectedCaseId}
-                        />
+                        {isTimelineLoading ? (
+                            <p>Carregando eventos...</p>
+                        ) : (
+                            <AgendaTimeline
+                                eventos={events}
+                                selectedCase={clientCases.find(c => c.id === selectedCaseId)}
+                            />
+                        )}
                     </div>
-
                 </div>
             </div>
         </>

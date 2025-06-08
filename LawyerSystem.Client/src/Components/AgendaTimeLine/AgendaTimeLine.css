@@ -5,6 +5,7 @@
     border-radius: 20px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
     font-family: 'Segoe UI', sans-serif;
+    width: 300px;
 }
 
 .timeline-container h2 {

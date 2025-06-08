@@ -1,10 +1,13 @@
 .cases-page {
     margin-left: 270px;
     padding: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
     background-color: #f9fbfc;
     min-height: 100vh;
     font-family: 'Segoe UI', sans-serif;
     color: #1d3b47;
+    border-radius: 15px;
 }
 
 .cases-header {
@@ -44,7 +47,7 @@
     background: #fff;
     border: 1.5px solid #e5ebf1;
     border-radius: 16px;
-    padding: 18px 20px;
+    padding: 30px 20px;
     margin-bottom: 16px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     transition: all 0.25s ease;
