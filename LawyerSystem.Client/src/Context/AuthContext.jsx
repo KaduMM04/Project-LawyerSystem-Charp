@@ -1,10 +1,9 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from 'react-toastify'; 
-import { useNavigate } from 'react-router-dom';
-const AuthContext = createContext();
+
+const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(null);
 
@@ -17,77 +16,73 @@ export function AuthProvider({ children }) {
             pauseOnHover: false,
             draggable: true,
             progress: undefined,
-
         });
     };
 
-    
-    const navigate = useNavigate();
+    // Este useEffect agora apenas carrega os dados do localStorage sem redirecionar
     useEffect(() => {
-
-        const storedUser = localStorage.getItem('user');
-        const storedToken = localStorage.getItem('token');
         try {
-
+            const storedUser = localStorage.getItem('user');
+            const storedToken = localStorage.getItem('token');
             if (storedUser && storedToken && storedToken !== "undefined") {
                 setUser(JSON.parse(storedUser));
                 setToken(storedToken);
-            } else {
-                navigate('/login');
             }
-
         } catch (error) {
-            console.error("Erro ao fazer parse do usu�rio salvo:", error);
-            localStorage.removeItem('user');
-            setUser(null);
-            setToken(null);
+            console.error("Erro ao carregar dados do usuário:", error);
+            localStorage.clear();
         }
     }, []);
 
     const login = async (loginData) => {
-        const response = await fetch('http://localhost:5000/api/User/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(loginData),
-        });
-        
-        if (!response.ok) {
-            const errorData = await response.json();
-            showError(errorData.message || "Erro ao fazer login");
-            return;
+        try {
+            const response = await fetch('http://localhost:5000/api/User/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(loginData),
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                showError(errorData.message || "Erro ao fazer login");
+                return null; // Retorna null em caso de falha
+            }
+
+            const responseData = await response.json();
+
+            setUser(responseData.user);
+            setToken(responseData.token);
+
+            localStorage.setItem('user', JSON.stringify(responseData.user));
+            localStorage.setItem('token', responseData.token);
+
+            // A MUDANÇA ESSENCIAL: Retorna os dados do usuário para a LoginPage
+            return responseData.user;
+
+        } catch (error) {
+            console.error("Erro de conexão:", error);
+            showError("Não foi possível conectar ao servidor.");
+            return null; // Retorna null em caso de erro de rede
         }
-
-        const responseData = await response.json();
-
-        setUser(responseData.user);
-        setToken(responseData.token);
-
-        localStorage.setItem('user', JSON.stringify(responseData.user));
-        localStorage.setItem('token', responseData.token);
     };
 
     const logout = () => {
         setUser(null);
         setToken(null);
-
         localStorage.removeItem('user');
         localStorage.removeItem('token');
-    }
+        // O redirecionamento será feito na sidebar ou onde o logout for chamado
+    };
 
     const isAuthenticated = !!user && !!token;
+
     return (
         <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated }}>
             {children}
         </AuthContext.Provider>
     );
-
 }
+
 export function useAuth() {
     return useContext(AuthContext);
 }
-
-
-
-

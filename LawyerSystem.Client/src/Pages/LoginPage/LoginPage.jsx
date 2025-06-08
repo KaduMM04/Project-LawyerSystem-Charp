@@ -1,44 +1,29 @@
-import { useState } from "react";
-import Container from "../../Components/Container.jsx" 
+import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import Container from "../../Components/Container.jsx";
 import { toast } from 'react-toastify';
-import Button from "../../Components/Button.jsx" 
+import Button from "../../Components/Button.jsx";
 import { useAuth } from "../../Context/AuthContext.jsx";
-import './LoginPage.css'
+import './LoginPage.css';
+
 function LoginPage() {
-
-    const showError = (message) => {
-        toast.error(message, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-
-        });
-    };
-
+    const navigate = useNavigate();
     const { login } = useAuth();
-
-
-
 
     const [form, setForm] = useState({
         Login: '',
         Senha: '',
-    })
+    });
 
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
-
     };
-
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
 
         const UserLogin = {
             Email: form.Login,
@@ -46,22 +31,37 @@ function LoginPage() {
         };
 
         try {
+            const loggedInUser = await login(UserLogin);
 
-            await login(UserLogin);
-            window.location.href = '/initialpage';
-
+            if (loggedInUser && loggedInUser.role !== undefined) {
+                
+                // --- LÓGICA FINAL E CORRETA ---
+                // Ajustado para os valores do seu enum C#
+                switch (loggedInUser.role) {
+                    case 1: // Advogado
+                        navigate('/initialpage');
+                        break;
+                    case 2: // Cliente
+                        navigate('/client/cases');
+                        break;
+                    default:
+                        console.warn("Role numérica não reconhecida:", loggedInUser.role);
+                        navigate('/'); 
+                        break;
+                }
+            }
         } catch (err) {
-            console.log(err);
-            showError('Erro ao fazer login');
+            console.error(err);
+            toast.error('Ocorreu um erro inesperado. Tente novamente.');
+        } finally {
+            setIsLoading(false);
         }
-
     };
 
     return (
         <Container>
             <div className="login-container">
-                <h1 className="login-title">LoginPage</h1>
-
+                <h1 className="login-title">Login</h1>
                 <form className="login-form" onSubmit={handleSubmit}>
                     <div className="input-group">
                         <input
@@ -72,6 +72,7 @@ function LoginPage() {
                             onChange={handleChange}
                             required
                             placeholder=" "
+                            disabled={isLoading}
                         />
                         <label className="login-label">Login</label>
                     </div>
@@ -85,26 +86,29 @@ function LoginPage() {
                             onChange={handleChange}
                             required
                             placeholder=" "
+                            disabled={isLoading}
                         />
                         <label className="login-label">Senha</label>
                     </div>
 
                     <Button
                         type="submit"
-                        text="Login"
+                        text={isLoading ? 'Entrando...' : 'Login'}
                         Class="login-button"
+                        disabled={isLoading}
                     />
 
                     <Button
                         type="reset"
                         text="Cancelar"
                         Class="cancel-button"
+                        onClick={() => setForm({ Login: '', Senha: '' })}
+                        disabled={isLoading}
                     />
                 </form>
             </div>
         </Container>
     );
-
 }
 
 export default LoginPage;
