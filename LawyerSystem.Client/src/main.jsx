@@ -19,7 +19,7 @@ createRoot(document.getElementById('root')).render(
             <BrowserRouter>
                 <AuthProvider>
                     <Routes>
-                        <Route path="/" element={<LoginPage />} />
+                        <Route path="/login" element={<LoginPage />} />
                         <Route path="/managerCases" element={<ManagerCases />} />
                         <Route path="/managerLawyer" element={<ManagerLawyer />} />
                         <Route path="/initialpage" element={<InitialPage />} />
