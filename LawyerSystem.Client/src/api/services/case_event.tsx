@@ -8,8 +8,7 @@ async function getAllCaseEvents(): Promise<CaseEventDtos[]> {
         const response = await apiClient.get(CaseEventPaths.GET_ALL_CASE_EVENTS);
         return response.data;
     } catch (error) {
-        console.error("Error fetching all case events:", error);
-        throw error;
+        throw error.response?.data || error.message;
     }
 }
 
@@ -18,8 +17,7 @@ async function getCaseEventsByCaseId(caseId: string): Promise<CaseEventDtos[]> {
         const response = await apiClient.get(CaseEventPaths.GET_CASE_EVENT_BY_ID.replace("{id}", caseId));
         return response.data;
     } catch (error) {
-        console.error("Error fetching case events by case ID:", error);
-        throw error;
+        throw error.response?.data || error.message;
     }
 }
 
@@ -28,8 +26,7 @@ async function createCaseEvent(caseEventData: CaseEventDtos): Promise<any> {
         const response = await apiClient.post(CaseEventPaths.CREATE_CASE_EVENT, caseEventData);
         return response.data;
     } catch (error) {
-        console.error("Error creating case event:", error);
-        throw error;
+        throw error.response?.data || error.message;
     }
 }
 

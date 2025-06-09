@@ -8,8 +8,7 @@ async function getUserById(id: string): Promise<any> {
         const response = await apiClient.get(UserPaths.GET_USER_BY_ID.replace("{id}", id));
         return response.data;
     } catch (error) {
-        console.error("Error fetching user by ID:", error);
-        throw error;
+        throw error.response?.data || error.message;
     }
     }
 
@@ -18,8 +17,7 @@ async function getAllUsers(): Promise<any[]> {
         const response = await apiClient.get(UserPaths.GET_ALL_USERS);
         return response.data;
     } catch (error) {
-        console.error("Error fetching all users:", error);
-        throw error;
+        throw error.response?.data || error.message;
     }
 }
 
@@ -28,8 +26,7 @@ async function getClientUser(id: string): Promise<any> {
         const response = await apiClient.get(UserPaths.GET_CLIENT_USER.replace("{id}", id));
         return response.data;
     } catch (error) {
-        console.error("Error fetching client user:", error);
-        throw error;
+        throw error.response?.data || error.message;
     }
 }
 

@@ -1,6 +1,9 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from 'react-toastify'; 
 import { useNavigate } from 'react-router-dom';
+import AuthService from '../api/services/auth';
+
+
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
@@ -37,7 +40,7 @@ export function AuthProvider({ children }) {
             }
 
         } catch (error) {
-            console.error("Erro ao fazer parse do usuário salvo:", error);
+            console.error("Erro ao fazer parse do usuï¿½rio salvo:", error);
             localStorage.removeItem('user');
             setUser(null);
             setToken(null);
@@ -45,27 +48,22 @@ export function AuthProvider({ children }) {
     }, []);
 
     const login = async (loginData) => {
-        const response = await fetch('http://localhost:5000/api/User/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(loginData),
-        });
+
         
-        if (!response.ok) {
-            const errorData = await response.json();
-            showError(errorData.message || "Erro ao fazer login");
+        const response = await AuthService.login(loginData);
+
+        if (response.status !== 200) {
+            console.error("Erro ao fazer login:", response);
+            showError(response.response.data.message || "Erro ao fazer login");
             return;
         }
 
-        const responseData = await response.json();
+        setUser(response.data.user);
+        setToken(response.data.token);
 
-        setUser(responseData.user);
-        setToken(responseData.token);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        localStorage.setItem('token', response.data.token);
 
-        localStorage.setItem('user', JSON.stringify(responseData.user));
-        localStorage.setItem('token', responseData.token);
     };
 
     const logout = () => {

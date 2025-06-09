@@ -51,7 +51,6 @@ function LoginPage() {
             window.location.href = '/initialpage';
 
         } catch (err) {
-            console.log(err);
             showError('Erro ao fazer login');
         }
 

@@ -6,8 +6,7 @@ async function getHealthStatus(): Promise<any> {
         const response = await apiClient.get(HealthPaths.GET_HEALTH);
         return response.data;
     } catch (error) {
-        console.error("Error fetching health status:", error);
-        throw error;
+        throw error.response?.data || error.message;
     }
 }
 

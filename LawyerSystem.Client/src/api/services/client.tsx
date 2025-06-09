@@ -8,8 +8,7 @@ async function getAllClients(): Promise<any[]> {
         const response = await apiClient.get(ClientPaths.GET_ALL_CLIENTS);
         return response.data;
     } catch (error) {
-        console.error('Error fetching all clients:', error);
-        throw error;
+        throw error.response?.data || error.message;
     }
 }
 
@@ -18,8 +17,7 @@ async function getClientById(id: string): Promise<any> {
         const response = await apiClient.get(ClientPaths.GET_CLIENT_BY_ID.replace('{id}', id));
         return response.data;
     } catch (error) {
-        console.error('Error fetching client by ID:', error);
-        throw error;
+        throw error.response?.data || error.message;
     }
 }
 
@@ -28,8 +26,7 @@ async function createClient(clientData: ClientDtos.ClientCreate): Promise<any> {
         const response = await apiClient.post(ClientPaths.CREATE_CLIENT, clientData);
         return response.data;
     } catch (error) {
-        console.error('Error creating client:', error);
-        throw error;
+        throw error.response?.data || error.message;
     }
 }
 

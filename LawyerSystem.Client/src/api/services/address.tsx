@@ -8,8 +8,7 @@ async function getAllAddress(): Promise<any[]> {
         const response = await apiClient.get(AddressPaths.GET_ALL_ADDRESSES);
         return response.data;
     } catch (error) {
-        console.error("Error fetching all addresses:", error);
-        throw error;
+        throw error.response?.data || error.message;
     }
 }
 
@@ -18,8 +17,7 @@ async function createAddress(address: AddressDtos.Address): Promise<any> {
         const response = await apiClient.post(AddressPaths.CREATE_ADDRESS, address);
         return response.data;
     } catch (error) {
-        console.error("Error creating address:", error);
-        throw error;
+        throw error.response?.data || error.message;
     }
 }
 

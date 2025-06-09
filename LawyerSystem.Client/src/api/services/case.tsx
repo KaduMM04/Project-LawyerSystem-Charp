@@ -7,8 +7,7 @@ async function getAllCases(): Promise<any[]> {
         const response = await apiClient.get(CasePaths.GET_ALL_CASES);
         return response.data;
     } catch (error) {
-        console.error("Error fetching all cases:", error);
-        throw error;
+        throw error.response?.data || error.message;
     }
 }
 
@@ -17,8 +16,7 @@ async function createCase(caseData: CaseDtos.Case): Promise<any> {
         const response = await apiClient.post(CasePaths.CREATE_CASE, caseData);
         return response.data;
     } catch (error) {
-        console.error("Error creating case:", error);
-        throw error;
+        throw error.response?.data || error.message;
     }
 }
 
