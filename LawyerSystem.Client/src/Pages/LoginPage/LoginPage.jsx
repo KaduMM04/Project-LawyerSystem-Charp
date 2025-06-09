@@ -3,6 +3,7 @@ import Container from "../../Components/Container.jsx"
 import { toast } from 'react-toastify';
 import Button from "../../Components/Button.jsx"
 import { useAuth } from "../../Context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
 import './LoginPage.css'
 function LoginPage() {
 
@@ -21,7 +22,7 @@ function LoginPage() {
 
     const { login } = useAuth();
 
-
+    const navigate = useNavigate();
 
 
     const [form, setForm] = useState({

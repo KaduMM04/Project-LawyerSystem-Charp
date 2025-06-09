@@ -10,7 +10,7 @@ public class CaseEvent
 
     required public string Description { get; set; } = string.Empty;
 
-    required public DateTime EventDate { get; set; } 
+    required public DateTime EventDate { get; set; }
 
     required public EventType EventType { get; set; }
 

@@ -16,13 +16,13 @@ function InitialPage() {
                     <Button
                         text="Processos Ativos"
                         type="button"
-                        Class="initial-button"
+                        className="initial-button"
                         onClick={() => navigate('/registerlawyer')}
                     />
                     <Button
                         text="Agenda"
                         type="button"
-                        Class="initial-button"
+                        className="initial-button"
                         onClick={() => navigate('/registerclient')}
                     />
                 </div>

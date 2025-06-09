@@ -21,8 +21,9 @@ public class CaseEventCreateDto
     [JsonPropertyName("EventStatus")]
     public EventStatus EventStatus { get; set; }
 
-    [JsonPropertyName("EventStatus")]
+    [JsonPropertyName("Notes")]
     public string? Notes { get; set; }
 
+    [JsonPropertyName("CaseId")]
     public Guid CaseId { get; set; }
 }

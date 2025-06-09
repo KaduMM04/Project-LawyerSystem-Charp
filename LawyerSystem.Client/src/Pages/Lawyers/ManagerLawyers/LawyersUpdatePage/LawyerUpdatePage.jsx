@@ -289,13 +289,13 @@ function LawyerUpdatePage({ user, lawyer }) {
                             type={"submit"}
                             text={"Editar"}
 
-                            Class={"RegisterButton"}
+                            className={"RegisterButton"}
                         />
                         <Button
                             type={"button"}
                             text={"Cancelar"}
                             onClick={handleReset}
-                            Class={"CancelButton"}
+                            className={"CancelButton"}
                         />
                     </div>
                 </form>

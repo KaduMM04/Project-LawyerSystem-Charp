@@ -2,7 +2,7 @@
 import EditIcon from '@mui/icons-material/Edit';
 import './ClientList.css';
 
-function ClientListPage({ onEdit }) {
+function LawyerListPage({ onEdit }) {
     const [clients, setClients] = useState([]);
     const [users, setUsers] = useState([]);
     const [search, setSearch] = useState('');
@@ -10,35 +10,20 @@ function ClientListPage({ onEdit }) {
 
     const getClients = async () => {
         try {
-            const responseClients = await fetch('http://localhost:5000/api/Client/all',
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-
+            const responseClients = await fetch('http://localhost:5000/api/Client/all');
             if (!responseClients.ok) {
                 throw new Error('Falha ao procurar clientes');
             }
-
-            const responseUser = await fetch('http://localhost:5000/user/all',
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-
+            
+            const responseUser = await fetch('http://localhost:5000/user/all');
             if (!responseUser.ok) {
                 throw new Error('Falha ao procurar usuarios');
             }
 
+            
             const clientsData = await responseClients.json();
             const userData = await responseUser.json();
-
-            console.log('Clients:', clientsData);
-            console.log('Users:', userData);
+            console.log('Fetching clients and users...', userData);
 
             setClients(clientsData);
             setUsers(userData);
@@ -54,7 +39,7 @@ function ClientListPage({ onEdit }) {
     }, []);
 
     const filteredClients = clients.filter((client) => {
-        const user = users.find((u) => u.clientId === client.Id);
+        const user = users.find((u) => u.clientId === client.id);
         const searchLower = search.toLowerCase();
 
         return (
@@ -81,15 +66,12 @@ function ClientListPage({ onEdit }) {
                 {filteredClients.map((client) => {
                     const user = users.find((u) => u.clientId === client.id);
 
-                    console.log('User:', user);
-                    console.log('Client:', client);
-
                     return (
                         <div className="client-item" key={client.id}>
                             <div className="client-infos">
                                 <div className="client-details">
-                                    <div><strong>Nome:</strong> {user ? user.name : 'Usuario nao encontrado'}</div>
-                                    <div><strong>Email:</strong> {user ? user.email : 'Usuario nao encontrado'}</div>
+                                    <div><strong>Nome:</strong> {user ? user.name : 'Usu�rio n�o encontrado'}</div>
+                                    <div><strong>Email:</strong> {user ? user.email : 'Usu�rio n�o encontrado'}</div>
                                     <div><strong>Estado Civil:</strong>
                                         {client.maritalStatus}</div>
                                     <div><strong>Profissao:</strong>
@@ -116,4 +98,4 @@ function ClientListPage({ onEdit }) {
     );
 }
 
-export default ClientListPage;
+export default LawyerListPage;

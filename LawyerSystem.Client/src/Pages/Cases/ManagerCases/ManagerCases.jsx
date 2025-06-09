@@ -25,6 +25,7 @@ import {
 import ModalCase from '../CaseModal/ModalCase';
 import CaseEventModal from '../CaseEventModal/CaseEventModal';
 import CaseViewModal from '../CaseViewModal/CaseViewModal';
+import Sidebar from '../../../Components/Sidebar/Sidebar';
 
 function ManagerCases() {
     const [cases, setCases] = useState([]);
@@ -111,6 +112,7 @@ function ManagerCases() {
 
     return (
         <>
+            <Sidebar />
             <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                 <Typography variant="h4" component="h1" gutterBottom>
                     Gerenciamento de Processos

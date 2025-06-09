@@ -5,16 +5,7 @@ import 'antd/dist/antd.css';
 import './CaseEventModal.css';
 
 const { TextArea } = Input;
-
-const eventTypes = [
-    { value: 'Hearing', label: 'Hearing' },
-    { value: 'Filing', label: 'Filing' },
-];
-
-const eventStatuses = [
-    { value: 'Pending', label: 'Pending' },
-    { value: 'Completed', label: 'Completed' },
-];
+const { Option } = Select;
 
 const CaseEventModal = ({ isOpen, onClose, caseId }) => {
     const [events, setEvents] = React.useState([]);
@@ -22,7 +13,7 @@ const CaseEventModal = ({ isOpen, onClose, caseId }) => {
 
     const showError = (message) => {
         toast.error(message, {
-            position: "top-right",
+            position: 'top-right',
             autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -33,12 +24,29 @@ const CaseEventModal = ({ isOpen, onClose, caseId }) => {
 
     const handleSubmit = async (values) => {
         try {
-            const data = {
-                ...values,
-                caseId,
-            };
 
-            const response = await fetch(`http://localhost:/api/caseEvent/create`, {
+            if (!caseId) {
+                showError('Erro: ID do caso não foi definido.');
+                return;
+            }
+            const formattedDate = new Date(values.EventDate).toISOString();
+            const data = {
+                Title: values.Title,
+                Description: values.Description,
+                EventDate: formattedDate,
+                EventType: parseInt(values.EventType, 10),
+                EventStatus: parseInt(values.EventStatus, 10),
+                Notes: values.Notes,
+                CaseId: caseId, 
+            };
+            
+            // Convert EventType and EventStatus to integers
+            data.EventType = parseInt(data.EventType, 10);
+            data.EventStatus = parseInt(data.EventStatus, 10);
+
+            console.log('Submitting event data:', data);
+
+            const response = await fetch(`http://localhost:5000/api/caseEvent/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -47,20 +55,22 @@ const CaseEventModal = ({ isOpen, onClose, caseId }) => {
             });
 
             if (!response.ok) {
-                showError("Erro ao enviar o formulário. Por favor, tente novamente.");
+                showError('Erro ao enviar o formulário. Por favor, tente novamente.');
                 return;
             }
 
+            // Reset the form and optionally update the events list
+            antdForm.resetFields();
         } catch (ex) {
-            console.error("Error submitting form:", ex);
-            showError("Erro ao enviar o formulário. Por favor, tente novamente.");
+            console.error('Error submitting form:', ex);
+            showError('Erro ao enviar o formulário. Por favor, tente novamente.');
         }
     };
 
     return (
         <Modal
             open={isOpen}
-            title="Case Events"
+            title="Eventos do Caso"
             onCancel={onClose}
             footer={null}
             className="case-event-modal"
@@ -71,10 +81,10 @@ const CaseEventModal = ({ isOpen, onClose, caseId }) => {
                     renderItem={(item) => (
                         <List.Item key={item.id}>
                             <List.Item.Meta
-                                title={`${item.eventType} on ${item.eventDate}`}
-                                description={item.description}
+                                title={`${item.Title} em ${item.EventDate}`}
+                                description={item.Description}
                             />
-                            <div>{item.notes}</div>
+                            <div>{item.Notes}</div>
                         </List.Item>
                     )}
                 />
@@ -85,39 +95,58 @@ const CaseEventModal = ({ isOpen, onClose, caseId }) => {
                 onFinish={handleSubmit}
             >
                 <Form.Item
-                    name="description"
-                    label="Description"
-                    rules={[{ required: true, message: 'Please enter a description' }]}
+                    name="Title"
+                    label="Título"
+                    rules={[{ required: true, message: 'Por favor, insira um título' }]}
                 >
                     <Input />
                 </Form.Item>
                 <Form.Item
-                    name="eventDate"
-                    label="Event Date"
-                    rules={[{ required: true, message: 'Please select a date' }]}
+                    name="Description"
+                    label="Descrição"
+                    rules={[{ required: true, message: 'Por favor, insira uma descrição' }]}
                 >
-                    <Input type="date" />
+                    <Input />
                 </Form.Item>
                 <Form.Item
-                    name="eventType"
-                    label="Event Type"
-                    rules={[{ required: true, message: 'Please select an event type' }]}
+                    name="EventDate"
+                    label="Data do Evento"
+                    rules={[{ required: true, message: 'Por favor, selecione uma data' }]}
                 >
-                    <Select options={eventTypes} />
+                    <Input type="datetime-local" />
                 </Form.Item>
                 <Form.Item
-                    name="eventStatus"
-                    label="Event Status"
-                    rules={[{ required: true, message: 'Please select an event status' }]}
+                    name="EventType"
+                    label="Tipo de Evento"
+                    rules={[{ required: true, message: 'Por favor, selecione um tipo de evento' }]}
                 >
-                    <Select options={eventStatuses} />
+                    <Select placeholder="Selecione o tipo de evento">
+                        <Option value="0">Reunião</Option>
+                        <Option value="1">Audiência</Option>
+                        <Option value="2">Petição</Option>
+                        <Option value="3">Sentença</Option>
+                        <Option value="4">Despacho</Option>
+                    </Select>
                 </Form.Item>
-                <Form.Item name="notes" label="Notes">
+                <Form.Item
+                    name="EventStatus"
+                    label="Status do Evento"
+                    rules={[{ required: true, message: 'Por favor, selecione um status' }]}
+                >
+                    <Select placeholder="Selecione o status do evento">
+                        <Option value="0">Agendado</Option>
+                        <Option value="1">Realizado</Option>
+                        <Option value="2">Cancelado</Option>
+                        <Option value="3">Adiado</Option>
+                        <Option value="4">Outro</Option>
+                    </Select>
+                </Form.Item>
+                <Form.Item name="Notes" label="Notas">
                     <TextArea rows={3} />
                 </Form.Item>
                 <Form.Item>
                     <Button type="primary" htmlType="submit">
-                        Add Event
+                        Adicionar Evento
                     </Button>
                 </Form.Item>
             </Form>

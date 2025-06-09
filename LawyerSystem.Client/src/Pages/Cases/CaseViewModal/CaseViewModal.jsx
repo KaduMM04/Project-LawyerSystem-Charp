@@ -47,6 +47,15 @@ const CaseViewModal = ({ isOpen, onClose, caseData }) => {
     const [tabIndex, setTabIndex] = useState(0);
     const [user, setUser] = useState([null]);
 
+
+    const eventTypeMap = {
+        0: 'Reuniao',
+        1: 'Audiência',
+        2: 'Petição',
+        3: 'Sentença',
+        4: 'Despacho',
+    };
+
     useEffect(() => {
         if (!isOpen || !caseData?.id) return;
 
@@ -69,19 +78,15 @@ const CaseViewModal = ({ isOpen, onClose, caseData }) => {
 
         const fetchClientData = async () => {
             try {
-
-                console.log("casedata" + caseData);
-
-
+                console.log("casedata", caseData);
 
                 const responseClient = await fetch(`http://localhost:5000/api/client/${caseData.clientId}`, { signal });
                 if (!responseClient.ok) throw new Error('Falha ao buscar dados do cliente');
                 const clientInfo = await responseClient.json();
 
-                console.log("clienteData" + clientInfo);
+                console.log("clienteData", clientInfo);
 
                 const responseUser = await fetch(`http://localhost:5000/user/clientUser/${clientInfo.id}`, { signal });
-
                 const userInfo = await responseUser.json();
 
                 console.log('Dados do cliente:', clientInfo);
@@ -146,7 +151,16 @@ const CaseViewModal = ({ isOpen, onClose, caseData }) => {
                                     <Typography><b>Status:</b> {caseData.status}</Typography>
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <Typography><b>Descrição:</b> {caseData.description}</Typography>
+                                    <Typography
+                                        title={caseData.description}
+                                        sx={{
+                                            whiteSpace: 'pre-wrap',      // mantém quebras de linha do texto original e quebra linhas longas
+                                            wordBreak: 'break-word',     // força quebra de palavras muito longas
+                                        }}
+                                    >
+                                        <b>Descrição:</b> {caseData.description}
+                                    </Typography>
+                                    
                                 </Grid>
                             </Grid>
                         </CardContent>
@@ -190,13 +204,27 @@ const CaseViewModal = ({ isOpen, onClose, caseData }) => {
                                                 <ListItemText
                                                     primary={
                                                         <Typography variant="subtitle1">
-                                                            {event.eventType} — {new Date(event.eventDate).toLocaleDateString()}
+                                                            {eventTypeMap[event.eventType] || event.eventType} — {new Date(event.eventDate).toLocaleString('pt-BR', {
+                                                                day: '2-digit',
+                                                                month: '2-digit',
+                                                                year: 'numeric',
+                                                                hour: '2-digit',
+                                                                minute: '2-digit',
+                                                            })}
                                                         </Typography>
                                                     }
                                                     secondary={
                                                         <>
                                                             <Typography variant="body2"><b>Status:</b> {event.eventStatus}</Typography>
-                                                            <Typography variant="body2"><b>Descrição:</b> {event.description}</Typography>
+                                                            <Typography
+                                                                title={caseData.description}
+                                                                sx={{
+                                                                    whiteSpace: 'pre-wrap',      // mantém quebras de linha do texto original e quebra linhas longas
+                                                                    wordBreak: 'break-word',     // força quebra de palavras muito longas
+                                                                }}
+                                                            >
+                                                                <b>Descrição:</b> {event.description}
+                                                            </Typography>
                                                             {event.notes && (
                                                                 <Typography variant="body2"><b>Notas:</b> {event.notes}</Typography>
                                                             )}

@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react"
+﻿    import React, { useState } from "react"
 import { ToastContainer, toast } from 'react-toastify';
 import Button from "../../../../Components/Button"
 import './ClientUpdatePage.css'
@@ -181,7 +181,8 @@ function ClientUpdatePage({ user }) {
 
         <div id="client-container">
             <div className="client-details">
-                {<div><strong>Nome: {user ? user.nome : ' '}</strong></div>}
+                {console.log("teasda", user) }
+                {<div><strong>Nome: {user ? user.name : ' '}</strong></div>}
                 <div><strong>Email:</strong> {user ? user.email : ' '}</div>
             </div>
 
@@ -331,13 +332,13 @@ function ClientUpdatePage({ user }) {
                         type={"submit"}
                         text={"Editar"}
                         onClick={handleReset}
-                        Class={"RegisterButton"}
+                        className={"RegisterButton"}
                     />
                     <Button
                         type={"button"}
                         text={"Cancelar"}
                         onClick={handleReset}
-                        Class={"CancelButton"}
+                        className={"CancelButton"}
                     />
                 </div>
             </form>
