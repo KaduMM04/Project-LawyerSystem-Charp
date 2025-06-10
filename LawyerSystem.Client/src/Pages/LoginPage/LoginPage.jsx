@@ -1,14 +1,17 @@
-import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import Container from "../../Components/Container.jsx";
+import { useState } from "react";
+import Container from "../../Components/Container.jsx"
 import { toast } from 'react-toastify';
-import Button from "../../Components/Button.jsx";
+import Button from "../../Components/Button.jsx"
 import { useAuth } from "../../Context/AuthContext.jsx";
-import './LoginPage.css';
+import { useNavigate } from "react-router-dom";
+import './LoginPage.css'
+import statusNotification from "../../utils/status_notification";
+
 
 function LoginPage() {
     const navigate = useNavigate();
     const { login } = useAuth();
+    const navigate = useNavigate();
 
     const [form, setForm] = useState({
         Login: '',
@@ -23,7 +26,6 @@ function LoginPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
 
         const UserLogin = {
             Email: form.Login,
@@ -51,10 +53,7 @@ function LoginPage() {
                 }
             }
         } catch (err) {
-            console.error(err);
-            toast.error('Ocorreu um erro inesperado. Tente novamente.');
-        } finally {
-            setIsLoading(false);
+            statusNotification.showError('Erro ao fazer login');
         }
     };
 
@@ -91,24 +90,23 @@ function LoginPage() {
                         <label className="login-label">Senha</label>
                     </div>
 
-                    <Button
+                     <Button
                         type="submit"
-                        text={isLoading ? 'Entrando...' : 'Login'}
-                        Class="login-button"
-                        disabled={isLoading}
+                        text="Login"
+                        className="login-button"
                     />
 
                     <Button
                         type="reset"
                         text="Cancelar"
-                        Class="cancel-button"
-                        onClick={() => setForm({ Login: '', Senha: '' })}
-                        disabled={isLoading}
+                        className="cancel-button-login"
                     />
                 </form>
             </div>
         </Container>
     );
+
 }
+
 
 export default LoginPage;

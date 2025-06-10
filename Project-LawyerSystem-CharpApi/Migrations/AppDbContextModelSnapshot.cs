@@ -79,8 +79,17 @@ namespace Project_LawyerSystem_CharpApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<int>("CaseNumber")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CaseNumber"));
+
                     b.Property<Guid>("ClientId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -91,10 +100,16 @@ namespace Project_LawyerSystem_CharpApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Type")
+                    b.Property<string>("Status")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasColumnType("text");
+
+                    b.Property<string>("TypeCases")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdateAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -123,10 +138,8 @@ namespace Project_LawyerSystem_CharpApi.Migrations
                         .HasMaxLength(800)
                         .HasColumnType("character varying(800)");
 
-                    b.Property<string>("EventDate")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)");
+                    b.Property<DateTime>("EventDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("EventStatus")
                         .IsRequired()
@@ -139,6 +152,11 @@ namespace Project_LawyerSystem_CharpApi.Migrations
                     b.Property<string>("Notes")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)");
 
                     b.Property<DateTime>("UpdateAt")
                         .HasColumnType("timestamp with time zone");

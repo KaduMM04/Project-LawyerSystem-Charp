@@ -7,7 +7,7 @@ import Sidebar from '../../../Components/Sidebar/Sidebar.jsx';
 import ClientUpdatePage from './ClientUpdatePage/ClientUpdatePage'
 function ManagerClient() {
     const [activePage, setActivePage] = useState('list');
-    const [setSelectedClient] = useState(null);
+    const [selectedClient, setSelectedClient] = useState(null);
     const [selectedUser, setSelectedUser] = useState(null);
 
     // Adicione este useEffect:
@@ -27,30 +27,37 @@ function ManagerClient() {
             <div style={{
                 width: '100%',
                 maxWidth: '1300px',
-                minHeight: '800px',
-                maxHeight: '800px',
+                height: '800px',
+
                 margin: '0 auto',
                 padding: '20px',
                 boxShadow: '0 0 10px rgba(0,0,0,0.1)',
                 borderRadius: '8px',
                 background: '#fff',
                 display: 'flex', // se tiver sidebar e conte�do
+                overflow: 'hidden',
             }}>
                 <aside style={{ width: '100%', maxWidth: '290px', background: '#264653', color: '#fff', padding: '20px' }}>
 
 
                     <Button text={"Lista de Clientes"}
-                        Class={'PatternButton'}
+                        className={'PatternButton'}
                         onClick={() => setActivePage('list')} />
                     <Button text={"Cadastrar Cliente"}
-                        Class={'PatternButton'}
+                        className={'PatternButton'}
                         onClick={() => setActivePage('register')} />
                     <Button text={"Atualizar Cliente"}
-                        Class={'PatternButton'}
+                        className={'PatternButton'}
                         onClick={() => setActivePage('update')} />
                 </aside>
 
-                <main style={{ flex: 1, padding: '40px' }}>
+                <main style={{
+                    flex: 1,
+                    padding: '40px',
+                    overflowY: 'auto',
+                    maxHeight: '800px',
+                    boxSizing: 'border-box'
+                }}>
                     <AnimatePresence mode="wait">
                         {activePage === 'list' && (
                             <motion.div
@@ -91,7 +98,7 @@ function ManagerClient() {
                                 transition={{ duration: 0.3 }}
                             >
 
-                                <ClientUpdatePage user={selectedUser} />
+                                <ClientUpdatePage user={selectedUser} client={selectedClient} />
 
                             </motion.div>
                         )}

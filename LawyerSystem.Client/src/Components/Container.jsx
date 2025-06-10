@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 
 const Container = ({ children, newStyle = {} }) => {
     const baseStyle = {

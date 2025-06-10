@@ -57,4 +57,10 @@ public class UserService
 
         return result;
     }
+
+    public async Task<User> GetUserByClientIdAsync(Guid id)
+    {
+        var user = await _userRepository.GetUserByClientId(id);
+        return user;
+    }
 }

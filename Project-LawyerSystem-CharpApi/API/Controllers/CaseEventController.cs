@@ -15,7 +15,7 @@ public class CaseEventController : Controller
         _caseEventService = caseEventService;
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("all")]
     public async Task<IActionResult> GetAllCaseEvents()
     {
         try
@@ -29,7 +29,7 @@ public class CaseEventController : Controller
         }
     }
 
-    [HttpGet]
+    [HttpGet("unique/{id}")]
     public async Task<IActionResult> GetCaseEventById(Guid id)
     {
         try
@@ -43,8 +43,8 @@ public class CaseEventController : Controller
         }
     }
 
-    [HttpPost]
-    public async Task<IActionResult> PostCaseEvent([FromBody]CaseEventCreateDto caseEventDto)
+    [HttpPost("create")]
+    public async Task<IActionResult> PostCaseEvent([FromBody] CaseEventCreateDto caseEventDto)
     {
         try
         {

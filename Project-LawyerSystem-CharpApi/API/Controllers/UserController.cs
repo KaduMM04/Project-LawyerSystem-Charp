@@ -60,5 +60,18 @@ public class UserController : Controller
         }
     }
 
+    [HttpGet("clientUser/{id}")]
+    public async Task<IActionResult> GetUserByClientId(Guid id)
+    {
+        try
+        {
+            var result = await _userService.GetUserByClientIdAsync(id);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
   
 }

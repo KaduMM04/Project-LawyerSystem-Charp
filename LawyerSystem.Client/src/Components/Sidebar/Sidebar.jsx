@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState } from 'react'
 import './Sidebar.css';
 import { useAuth } from '../../Context/AuthContext'; 
 import { Link, useNavigate } from 'react-router-dom'; // 1. Importações corretas

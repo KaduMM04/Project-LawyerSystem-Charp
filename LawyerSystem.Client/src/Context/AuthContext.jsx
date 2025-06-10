@@ -1,11 +1,15 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from 'react-toastify'; 
+import { useNavigate } from 'react-router-dom';
+import AuthService from '../api/services/auth';
+const AuthContext = createContext();
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(null);
+    const [authLoading, setAuthLoading] = useState(true);
 
     const showError = (message) => {
         toast.error(message, {
@@ -19,7 +23,6 @@ export function AuthProvider({ children }) {
         });
     };
 
-    // Este useEffect agora apenas carrega os dados do localStorage sem redirecionar
     useEffect(() => {
         try {
             const storedUser = localStorage.getItem('user');
@@ -29,41 +32,28 @@ export function AuthProvider({ children }) {
                 setToken(storedToken);
             }
         } catch (error) {
-            console.error("Erro ao carregar dados do usuário:", error);
-            localStorage.clear();
+            console.error("Erro ao fazer parse do usuário salvo:", error);
+            localStorage.removeItem('user');
+            setUser(null);
+            setToken(null);
         }
+        setAuthLoading(false);
     }, []);
 
     const login = async (loginData) => {
-        try {
-            const response = await fetch('http://localhost:5000/api/User/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(loginData),
-            });
-            
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                showError(errorData.message || "Erro ao fazer login");
-                return null; // Retorna null em caso de falha
-            }
+        const response = await AuthService.login(loginData);
 
-            const responseData = await response.json();
-
-            setUser(responseData.user);
-            setToken(responseData.token);
-
-            localStorage.setItem('user', JSON.stringify(responseData.user));
-            localStorage.setItem('token', responseData.token);
-
-            // A MUDANÇA ESSENCIAL: Retorna os dados do usuário para a LoginPage
-            return responseData.user;
-
-        } catch (error) {
-            console.error("Erro de conexão:", error);
-            showError("Não foi possível conectar ao servidor.");
-            return null; // Retorna null em caso de erro de rede
+        if (response.status !== 200) {
+            console.error("Erro ao fazer login:", response);
+            showError(response.response.data.message || "Erro ao fazer login");
+            return;
         }
+
+        setUser(response.data.user);
+        setToken(response.data.token);
+
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        localStorage.setItem('token', response.data.token);
     };
 
     const logout = () => {
@@ -71,13 +61,12 @@ export function AuthProvider({ children }) {
         setToken(null);
         localStorage.removeItem('user');
         localStorage.removeItem('token');
-        // O redirecionamento será feito na sidebar ou onde o logout for chamado
     };
 
     const isAuthenticated = !!user && !!token;
 
     return (
-        <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated }}>
+        <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated, authLoading }}>
             {children}
         </AuthContext.Provider>
     );

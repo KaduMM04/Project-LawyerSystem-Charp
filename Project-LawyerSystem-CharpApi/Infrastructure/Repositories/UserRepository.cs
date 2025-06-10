@@ -139,4 +139,10 @@ public class UserRepository : IUserRepository
     {
         await _context.SaveChangesAsync();
     }
+
+    public async Task<User> GetUserByClientId(Guid id)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.ClientId == id);
+        return user ?? throw new KeyNotFoundException($"User with Client ID {id} not found.");
+    }
 }

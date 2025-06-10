@@ -333,13 +333,13 @@ function RegisterLawyer() {
                        type={"submit"}
                     text={"Cadastrar Advogado"}
                     onClick={ handleReset }
-                    Class={"RegisterButton"}
+                        className={"RegisterButton"}
                 />
                 <Button
                     type={"button"}
                     text={"Cancelar"}
                     onClick={handleReset}
-                    Class={"CancelButton"}
+                        className={"CancelButton"}
                     />
                 </div>
         </form>
