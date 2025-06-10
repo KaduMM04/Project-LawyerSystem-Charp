@@ -14,6 +14,17 @@ function formatDate(dateStr) {
     return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
 }
 
+const eventStatusMap = {
+    0: "Agendado",
+    1: "Realizado",
+    2: "Cancelado",
+    3: "Adiado"
+};
+
+function getEventStatusLabel(status) {
+    return eventStatusMap[status] ?? status;
+}
+
 function timeAgo(dateStr) {
     if (!dateStr) return '';
     const now = new Date();
@@ -80,6 +91,7 @@ function InitialPage() {
         status: c.status,
         date: c.createAt,
     }));
+   
     const recentEvents = events
         .sort((a, b) => new Date(b.EventDate) - new Date(a.EventDate))
         .slice(0, 5)
@@ -87,10 +99,11 @@ function InitialPage() {
             type: 'Evento',
             title: e.title,
             description: e.description,
-            status: e.EventStatus,
-            date: e.EventDate,
+            status: e.eventStatus,
+            date: e.eventDate,
         }));
     const recentActivities = [...recentEvents, ...recentCases];
+  
 
     const nextEvent = events
         .filter(e => new Date(e.EventDate) > new Date())
@@ -185,10 +198,8 @@ function InitialPage() {
                                     <tr style={{textAlign:'left', color:'#64748b'}}>
                                         <th style={{padding:'0.5rem'}}>Tipo</th>
                                         <th style={{padding:'0.5rem'}}>Título</th>
-                                        <th style={{padding:'0.5rem'}}>Descrição</th>
                                         <th style={{padding:'0.5rem'}}>Status</th>
                                         <th style={{padding:'0.5rem'}}>Quando</th>
-                                        <th style={{padding:'0.5rem'}}>Responsável</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -196,10 +207,8 @@ function InitialPage() {
                                         <tr key={idx} style={{borderBottom:'1px solid #f1f5f9'}}>
                                             <td style={{padding:'0.5rem', fontWeight:600, color:item.type==='Caso'?'#3b82f6':'#22c55e'}}>{item.type}</td>
                                             <td style={{padding:'0.5rem'}}>{item.title}</td>
-                                            <td style={{padding:'0.5rem'}}>{item.description}</td>
-                                            <td style={{padding:'0.5rem'}}>{item.status}</td>
+                                            <td style={{ padding: '0.5rem' }}>{getEventStatusLabel(item.status)}</td>
                                             <td style={{padding:'0.5rem'}}>{item.date ? timeAgo(item.date) : '-'}</td>
-                                            <td style={{padding:'0.5rem'}}>{item.responsible || '-'}</td>
                                         </tr>
                                     ))}
                                 </tbody>
