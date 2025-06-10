@@ -90,22 +90,18 @@ function ManagerCases() {
         );
     });
 
-    // Função para abrir o CaseEventModal
     const handleOpenCaseEventModal = (caseItem) => {
         setSelectedCaseForEvent(caseItem);
     };
 
-    // Função para fechar o CaseEventModal
     const handleCloseCaseEventModal = () => {
         setSelectedCaseForEvent(null);
     };
 
-    // Função para abrir o CaseViewModal
     const handleOpenCaseDetailModal = (caseItem) => {
         setSelectedCaseForView(caseItem);
     };
 
-    // Função para fechar o CaseViewModal
     const handleCloseCaseDetailModal = () => {
         setSelectedCaseForView(null);
     };
