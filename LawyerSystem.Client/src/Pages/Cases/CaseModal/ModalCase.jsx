@@ -1,4 +1,17 @@
-﻿import React, { useState } from 'react';
+﻿import {
+    Drawer,
+    Box,
+    TextField,
+    Button,
+    Select,
+    MenuItem,
+    InputLabel,
+    FormControl,
+    Typography,
+    IconButton,
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import React, { useState } from 'react';
 import CaseService from '../../../api/services/case';
 import statusNotification from '../../../utils/status_notification';
 
