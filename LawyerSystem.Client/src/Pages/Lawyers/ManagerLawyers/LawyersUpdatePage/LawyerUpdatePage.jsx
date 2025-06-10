@@ -2,36 +2,11 @@
 import { ToastContainer, toast } from 'react-toastify';
 import Button from "../../../../Components/Button.jsx"
 import './LawyerUpdatePage.css'
+import statusNotification from "../../../../utils/status_notification.js";
+import { getAddressByCep } from '../../../../integrations/viacep/viaCep';
+import AuthService from "../../../../api/services/auth";
 
 function LawyerUpdatePage({ user, lawyer }) {
-
-
-    const showError = (message) => {
-        toast.error(message, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-
-        });
-    };
-
-    const showSuccess = (message) => {
-        toast.success(message, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-        });
-    };
-
-
 
     const [form, setForm] = useState({
         name: '',
@@ -66,19 +41,13 @@ function LawyerUpdatePage({ user, lawyer }) {
         }
 
         if (zipCode.length !== 8) {
-            showError("CEP inválido.");
+            statusNotification.showError("CEP inválido.");
             return;
         }
 
         try {
-            const response = await fetch(`https://viacep.com.br/ws/${zipCode}/json/`);
-            const data = await response.json();
-
-            if (data.erro) {
-                showError("CEP não encontrado.");
-                return;
-            }
-
+            getAddressByCep(zipCode)
+        
             setForm((prevForm) => ({
                 ...prevForm,
                 street: data.logradouro,
@@ -87,7 +56,7 @@ function LawyerUpdatePage({ user, lawyer }) {
                 state: data.uf
             }));
         } catch (error) {
-            showError("Erro ao buscar o CEP.");
+            statusNotification.showError(error || "Erro ao buscar endereço pelo CEP");
         }
     }
 
@@ -133,30 +102,10 @@ function LawyerUpdatePage({ user, lawyer }) {
                     }
 
                 };
-                console.log(JSON.stringify(data, null, 2));
-
-                const response = await fetch("http://localhost:5000/api/User/patch/lawyer", {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(data),
-                });
-
-                if (response.ok) {
-                    showSuccess("User created successfully");
-                } else {
-                    const errorData = await response.text();
-                    console.error(errorData);
-                    showError("An error occurred while creating the user");
-                }
+                AuthService.patchLawyer(data);
 
             } catch (err) {
-                if (err.response && err.response.data && err.response.data.message) {
-                    showError(err.response.data.message);
-                } else {
-                    showError("An unexpected error occurred while creating the user");
-                }
+                statusNotification.showError(err || "Erro ao atualizar advogado");
             }
         }
 

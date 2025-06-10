@@ -1,37 +1,13 @@
-﻿    import React, { useState } from "react"
+﻿import React, { useState } from "react"
 import { ToastContainer, toast } from 'react-toastify';
 import Button from "../../../../Components/Button"
 import './ClientUpdatePage.css'
+import { getAddressByCep } from "../../../../integrations/viacep/viaCep";
+import AuthService from "../../../../api/services/auth";
+import statusNotification from "../../../../utils/status_notification";
+
 
 function ClientUpdatePage({ user }) {
-
-
-    const showError = (message) => {
-        toast.error(message, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-
-        });
-    };
-
-    const showSuccess = (message) => {
-        toast.success(message, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-        });
-    };
-
-
 
     const [form, setForm] = useState({
         name: '',
@@ -39,7 +15,6 @@ function ClientUpdatePage({ user }) {
         phone: '',
         password: '',
         role: '2',
-        // Address Data
 
         profission: '',
         representative: '',
@@ -66,16 +41,15 @@ function ClientUpdatePage({ user }) {
         zipCode = zipCode.replace(/\D/g, '');
 
         if (zipCode.length !== 8) {
-            showError("CEP inv�lido.");
+            statusNotification.showError("CEP inválido.");
             return;
         }
 
         try {
-            const response = await fetch(`https://viacep.com.br/ws/${zipCode}/json/`);
-            const data = await response.json();
-
+            const data = await getAddressByCep(zipCode);
+        
             if (data.erro) {
-                showError("CEP n�o encontrado.");
+                statusNotification.showError("CEP não encontrado.");
                 return;
             }
 
@@ -87,13 +61,9 @@ function ClientUpdatePage({ user }) {
                 state: data.uf
             }));
         } catch (error) {
-            showError("Erro ao buscar o CEP." + error.message);
+            statusNotification.showError(error || "Erro ao buscar CEP");
         }
     }
-
-
-
-
 
     const handleReset = () => {
         setForm({
@@ -122,8 +92,6 @@ function ClientUpdatePage({ user }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log("user", user);
-
         try {
             const data = {
                 userUpdate: {
@@ -131,7 +99,6 @@ function ClientUpdatePage({ user }) {
                     email: user.email,
                     phone: form.phone || null,
                     password: form.password || null,
-
                 },
                 addressDto: {
                     street: form.street || null,
@@ -150,30 +117,11 @@ function ClientUpdatePage({ user }) {
                 }
 
             };
-            console.log(JSON.stringify(data, null, 2));
-
-            const response = await fetch("http://localhost:5000/api/User/patch/client", {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
-
-            if (response.ok) {
-                showSuccess("User created successfully");
-            } else {
-                const errorData = await response.text();
-                console.error(errorData);
-                showError("An error occurred while creating the user");
-            }
+            await AuthService.patchClient(data);
+            statusNotification.showSuccess("Usuário atualizado com sucesso");
 
         } catch (err) {
-            if (err.response && err.response.data && err.response.data.message) {
-                showError(err.response.data.message);
-            } else {
-                showError("An unexpected error occurred while creating the user");
-            }
+            statusNotification.showError(err || "Erro ao atualizar usuário");
         }
     }
 

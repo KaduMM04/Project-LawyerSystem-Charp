@@ -2,34 +2,11 @@
 import { ToastContainer, toast } from 'react-toastify';
 import Button from "../../../../Components/Button.jsx";
 import './ClientRegisterPage.css';
+import AuthService from "../../../../api/services/auth";
+import statusNotification from "../../../../utils/status_notification";
+import { getAddressByCep } from "../../../../integrations/viacep/viaCep";
+
 function RegisterClientPage() {
-    const showError = (message) => {
-        toast.error(message, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-
-        });
-    };
-
-    const showSuccess = (message) => {
-        toast.success(message, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-        });
-    };
-
-
-
 
     const [form, setForm] = useState({
         name: '',
@@ -92,9 +69,8 @@ function RegisterClientPage() {
             const emptyFields = Object.entries(form).filter(([key, value]) => {
                 const isReadOnly = ['street', 'neighborhood', 'city', 'state'].includes(key);
                 const optional = ['complement', 'profission', 'representative', 'companyName'].includes(key);
-                // Se for readOnly ou opcional, nunca retorna true (n obrigatrio)
                 if (isReadOnly || optional) return false;
-                // S� retorna true se estiver vazio
+
                 return !value || value.trim() === '';
             });
 
@@ -110,8 +86,6 @@ function RegisterClientPage() {
             else {
                 representativeNull = form.representative;
             }
-
-
 
             const data = {
                 UserDto: {
@@ -138,34 +112,11 @@ function RegisterClientPage() {
                     CompanyName: form.companyName
                 }
             }
-
-            console.log(JSON.stringify(data, null, 2));
-            console.log(data);
-
-            const response = await fetch('http://localhost:5000/api/User/createFullClient', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-
-            });
-
-            if (response.ok) {
-                const responseText = await response.text();
-                showSuccess(responseText);
-            } else {
-                const errorData = await response.text();
-                showError(errorData);
-            }
-
+            await AuthService.createFullClient(data);
+            statusNotification.showSuccess("Usuário criado com sucesso!");
 
         } catch (err) {
-            if (err.response && err.response.data && err.response.data.message) {
-                showError(err.response.data.message);
-            } else {
-                showError("An unexpected error occurred while creating the user");
-            }
+            statusNotification.showError(err || "Erro ao criar o usuário.");
         }
     }
 
@@ -181,17 +132,14 @@ function RegisterClientPage() {
         }
 
         if (zipCode.length !== 8) {
-            showError("CEP invalido.");
+            statusNotification.showError("CEP invalido.");
             return;
         }
 
 
 
         try {
-            const response = await fetch(`https://viacep.com.br/ws/${zipCode}/json/`);
-            const data = await response.json();
-
-            console.log(data);  // veja no console se vem correto
+            const data = await getAddressByCep(zipCode);
 
             if (!data.erro) {
                 setForm(prev => ({
@@ -204,10 +152,10 @@ function RegisterClientPage() {
 
 
             } else {
-                showError("CEP n�o encontrado.");
+                statusNotification.showError("CEP não encontrado.");
             }
         } catch (err) {
-            showError("Erro ao buscar o CEP." + err.message);
+            statusNotification.showError(err || "Erro ao buscar o CEP.");
         }
     };
 
@@ -215,8 +163,6 @@ function RegisterClientPage() {
         <>
 
             <div className="client-container">
-
-
                 <form onSubmit={handleSubmit}>
                     <h1>Register Client</h1>
 

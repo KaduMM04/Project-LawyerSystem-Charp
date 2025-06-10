@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'antd/dist/antd.css';
 import './CaseEventModal.css';
 import CaseEventService from '../../../api/services/case_event';
+import statusNotification from '../../../utils/status_notification';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -12,22 +13,11 @@ const CaseEventModal = ({ isOpen, onClose, caseId }) => {
     const [events, setEvents] = React.useState([]);
     const [antdForm] = Form.useForm();
 
-    const showError = (message) => {
-        toast.error(message, {
-            position: 'top-right',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-        });
-    };
-
     const handleSubmit = async (values) => {
         try {
 
             if (!caseId) {
-                showError('Erro: ID do caso não foi definido.');
+                statusNotification.showError('Erro: ID do caso não foi definido.');
                 return;
             }
             const formattedDate = new Date(values.EventDate).toISOString();
@@ -43,12 +33,11 @@ const CaseEventModal = ({ isOpen, onClose, caseId }) => {
             
             data.EventType = parseInt(data.EventType, 10);
             data.EventStatus = parseInt(data.EventStatus, 10);
-            CaseEventService.createCaseEvent(data);
+            await CaseEventService.createCaseEvent(data);
 
             antdForm.resetFields();
         } catch (ex) {
-            
-            showError('Erro ao enviar o formulário. Por favor, tente novamente.');
+            statusNotification.showError('Erro ao enviar o formulário. Por favor, tente novamente.');
         }
     };
 

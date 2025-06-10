@@ -3,6 +3,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import Button from "../../../../Components/Button.jsx" 
 import './RegisterLawyer.css'
+import AuthService from "../../../../api/services/auth";
+import statusNotification from "../../../../utils/status_notification";
+import { getAddressByCep } from "../../../../integrations/viacep/viaCep"; // Certifique-se de que este caminho esteja correto
 
 function RegisterLawyer() {
 
@@ -79,10 +82,7 @@ function RegisterLawyer() {
         
 
         try {
-            const response = await fetch(`https://viacep.com.br/ws/${zipCode}/json/`);
-            const data = await response.json();
-
-            console.log(data);  // veja no console se vem correto
+            const data = await getAddressByCep(zipCode);
 
             if (!data.erro) {
                 setForm(prev => ({
@@ -95,10 +95,10 @@ function RegisterLawyer() {
                 
 
             } else {
-                showError("CEP n„o encontrado.");
+                statusNotification.showError("CEP n√£o encontrado.");
             }
         } catch (err) {
-            showError("Erro ao buscar o CEP.");
+            statusNotification.showError( err || "Erro ao buscar o CEP.");
         }
     };
 
@@ -163,30 +163,10 @@ function RegisterLawyer() {
 
 
             };
-            console.log(JSON.stringify(data, null, 2));
-
-            const response = await fetch("http://localhost:5000/api/User/createFullLawyer", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
-
-            if (response.ok) {
-                showSuccess("User created successfully");
-            } else {
-                const errorData = await response.text();
-                console.error(errorData);
-                showError("An error occurred while creating the user");
-            }
-
+            AuthService.createFullLawyer(data)
+            statusNotification.showSuccess("Advogado cadastrado com sucesso!");
         } catch (err) {
-            if (err.response && err.response.data && err.response.data.message) {
-                showError(err.response.data.message);
-            } else {
-                showError("An unexpected error occurred while creating the user");
-            }
+            statusNotification.showError(err || "Erro ao cadastrar advogado.");
         }
     }
 

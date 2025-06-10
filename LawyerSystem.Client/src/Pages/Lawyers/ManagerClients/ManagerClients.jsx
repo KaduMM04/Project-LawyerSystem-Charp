@@ -10,12 +10,9 @@ function ManagerClient() {
     const [selectedClient, setSelectedClient] = useState(null);
     const [selectedUser, setSelectedUser] = useState(null);
 
-    // Adicione este useEffect:
     useEffect(() => {
-        // Ao montar, desabilita o scroll do body
         document.body.style.overflow = 'hidden';
         return () => {
-            // Ao desmontar, restaura o scroll do body
             document.body.style.overflow = '';
         };
     }, []);
@@ -34,7 +31,7 @@ function ManagerClient() {
                 boxShadow: '0 0 10px rgba(0,0,0,0.1)',
                 borderRadius: '8px',
                 background: '#fff',
-                display: 'flex', // se tiver sidebar e conte�do
+                display: 'flex', 
                 overflow: 'hidden',
             }}>
                 <aside style={{ width: '100%', maxWidth: '290px', background: '#264653', color: '#fff', padding: '20px' }}>

@@ -4,33 +4,32 @@ import { useAuth } from '../../../Context/AuthContext';
 import ClientSidebar from "../../../Components/ClientSidebar/ClientSidebar";
 import AgendaTimeline from "../../../Components/AgendaTimeLine/AgendaTimeLine";
 import './ClientCases.css';
+import CaseService from '../../../api/services/case';
+import CaseEventService from '../../../api/services/case_event';
 
-const StatusBadge = ({ status }) => { /* ... sua lógica de status ... */ return <span>{status}</span>; };
+
+const StatusBadge = ({ status }) => {  return <span>{status}</span>; };
 
 function ClientCases() {
     const navigate = useNavigate();
     const { user } = useAuth();
-
-    // Estados da página
-    const [allCases, setAllCases] = useState([]); // Guarda TODOS os casos da API
-    const [clientCases, setClientCases] = useState([]); // Guarda só os casos DO CLIENTE
-    const [events, setEvents] = useState([]); // Guarda os eventos do PROCESSO SELECIONADO
+    
+    const [allCases, setAllCases] = useState([]); 
+    const [clientCases, setClientCases] = useState([]); 
+    const [events, setEvents] = useState([]); 
     const [selectedCaseId, setSelectedCaseId] = useState(null);
     
     const [isLoading, setIsLoading] = useState(true);
     const [isTimelineLoading, setIsTimelineLoading] = useState(false);
     const [error, setError] = useState('');
 
-    // Efeito para buscar a LISTA COMPLETA DE PROCESSOS
     useEffect(() => {
+
         const fetchAllCases = async () => {
+
             setIsLoading(true);
             try {
-                const response = await fetch('http://localhost:5000/Cases');
-                if (!response.ok) throw new Error('Falha ao buscar a lista de processos.');
-                
-                const allCasesData = await response.json();
-                setAllCases(allCasesData);
+                setAllCases(await CaseService.getAllCases());
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -39,9 +38,8 @@ function ClientCases() {
         };
 
         fetchAllCases();
-    }, []); // Roda apenas uma vez ao carregar
+    }, []); 
 
-    // Efeito para FILTRAR os casos quando o usuário ou a lista de casos mudar
     useEffect(() => {
         if (user?.clientId && allCases.length > 0) {
             const filtered = allCases.filter(c => c.ClientId === user.clientId);
@@ -49,8 +47,6 @@ function ClientCases() {
         }
     }, [user, allCases]);
 
-
-    // Função que BUSCA os eventos no clique
     const handleSelectCase = async (caseData) => {
         const caseId = caseData.id;
         
@@ -66,17 +62,7 @@ function ClientCases() {
         setError('');
 
         try {
-            const response = await fetch(`http://localhost:5000/api/caseEvent/${caseId}`);
-            if (!response.ok) {
-                if (response.status === 404) {
-                    setEvents([]); // Nenhum evento encontrado, o que é ok.
-                } else {
-                    throw new Error('Falha ao buscar os eventos do processo.');
-                }
-            } else {
-                const eventsData = await response.json();
-                setEvents(eventsData);
-            }
+            setEvents(await CaseEventService.getCaseEvents(caseId));
         } catch (err) {
             setError(err.message);
         } finally {

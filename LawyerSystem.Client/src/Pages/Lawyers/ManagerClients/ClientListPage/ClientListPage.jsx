@@ -1,6 +1,9 @@
 ﻿import { useEffect, useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import './ClientList.css';
+import ClientService from '../../../../api/services/client';
+import UserService from '../../../../api/services/user';
+import statusNotification from '../../../../utils/status_notification';
 
 function LawyerListPage({ onEdit }) {
     const [clients, setClients] = useState([]);
@@ -10,25 +13,11 @@ function LawyerListPage({ onEdit }) {
 
     const getClients = async () => {
         try {
-            const responseClients = await fetch('http://localhost:5000/api/Client/all');
-            if (!responseClients.ok) {
-                throw new Error('Falha ao procurar clientes');
-            }
             
-            const responseUser = await fetch('http://localhost:5000/user/all');
-            if (!responseUser.ok) {
-                throw new Error('Falha ao procurar usuarios');
-            }
-
-            
-            const clientsData = await responseClients.json();
-            const userData = await responseUser.json();
-            console.log('Fetching clients and users...', userData);
-
-            setClients(clientsData);
-            setUsers(userData);
+            setClients(await ClientService.getAllClients());
+            setUsers(await UserService.getAllUsers());
         } catch (error) {
-            console.error('Error fetching lawyers:', error);
+            statusNotification.showError(error || 'Erro ao buscar clientes');
             setClients([]);
             setUsers([]);
         }
