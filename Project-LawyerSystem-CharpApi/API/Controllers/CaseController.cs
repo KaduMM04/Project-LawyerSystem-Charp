@@ -6,7 +6,7 @@ using Project_LawyerSystem_CharpApi.Application.Services;
 namespace Project_LawyerSystem_CharpApi.API.Controllers
 {
     [ApiController]
-    [Route("Cases")]
+    [Route("/api/case")]
     public class CaseController : Controller
     {
         private readonly CaseService _caseService;
@@ -16,8 +16,8 @@ namespace Project_LawyerSystem_CharpApi.API.Controllers
             _caseService = caseService;
         }
 
-        [HttpPost]
-        public async Task<ActionResult> CreateCase([FromBody] CaseCreateDto caseDto)
+        [HttpPost("create")]
+        public async Task<ActionResult> CreateCase([FromBody] CaseDto caseDto)
         {
             try
         {
@@ -31,7 +31,7 @@ namespace Project_LawyerSystem_CharpApi.API.Controllers
         }
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<IActionResult> GetAllCases()
          {
              try {

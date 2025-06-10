@@ -1,27 +1,17 @@
-import { useState } from "react";
-import Container from "../../Components/Container.jsx" 
+﻿import { useState } from "react";
+import Container from "../../Components/Container.jsx"
 import { toast } from 'react-toastify';
-import Button from "../../Components/Button.jsx" 
+import Button from "../../Components/Button.jsx"
 import { useAuth } from "../../Context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
 import './LoginPage.css'
+import statusNotification from "../../utils/status_notification";
+
 function LoginPage() {
-
-    const showError = (message) => {
-        toast.error(message, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-
-        });
-    };
 
     const { login } = useAuth();
 
-
+    const navigate = useNavigate();
 
 
     const [form, setForm] = useState({
@@ -51,8 +41,7 @@ function LoginPage() {
             window.location.href = '/initialpage';
 
         } catch (err) {
-            console.log(err);
-            showError('Erro ao fazer login');
+            statusNotification.showError('Erro ao fazer login');
         }
 
     };
@@ -92,13 +81,13 @@ function LoginPage() {
                     <Button
                         type="submit"
                         text="Login"
-                        Class="login-button"
+                        className="login-button"
                     />
 
                     <Button
                         type="reset"
                         text="Cancelar"
-                        Class="cancel-button"
+                        className="cancel-button-login"
                     />
                 </form>
             </div>

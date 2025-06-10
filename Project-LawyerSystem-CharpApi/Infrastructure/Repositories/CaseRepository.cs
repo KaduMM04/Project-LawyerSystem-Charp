@@ -12,6 +12,7 @@ namespace Project_LawyerSystem_CharpApi.Infrastructure.Repositories
     public class CaseRepository : ICaseRepository
     {
         private readonly AppDbContext _context;
+
         public CaseRepository(AppDbContext context)
         {
             _context = context;
@@ -22,12 +23,10 @@ namespace Project_LawyerSystem_CharpApi.Infrastructure.Repositories
             await _context.Cases.AddAsync(c);
             await _context.SaveChangesAsync();
         }
+
         public async Task<IEnumerable<Case>> GetAllCases()
         {
-            return await _context.Cases
-                .Include(c => c.Lawyer)
-                .Include(c => c.Client)
-                .ToListAsync();
+            return await _context.Cases.ToListAsync();
         }
     }
 }

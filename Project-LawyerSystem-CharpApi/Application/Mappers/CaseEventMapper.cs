@@ -15,9 +15,6 @@ public class CaseEventProfile : Profile
 
         CreateMap<CaseEvent, CaseEventCreateDto>();
 
-        CreateMap<CaseEventReadDto, CaseEvent>();
-
-        CreateMap<CaseEvent, CaseEventReadDto>();
     }
 
 

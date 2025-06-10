@@ -91,5 +91,7 @@ public interface IUserRepository
 
     Task<Client> GetClientByIdAsync(Guid? id);
 
+    Task<User> GetUserByClientId(Guid id);
+
     public Task SaveChangesAsync();
 }

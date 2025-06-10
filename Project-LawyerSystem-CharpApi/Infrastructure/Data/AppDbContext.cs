@@ -37,7 +37,7 @@ public class AppDbContext : DbContext
     /// Gets or sets the Clients table.
     /// </summary>
     public DbSet<Client> Clients { get; set; }
-    
+
     public DbSet<Case> Cases { get; set; }
 
     public DbSet<CaseEvent> CaseEvents { get; set; }
@@ -172,7 +172,6 @@ public class AppDbContext : DbContext
             .HasKey(c => c.Id);
 
         modelBuilder.Entity<Client>()
-   
        .Property(c => c.Id)
        .ValueGeneratedOnAdd();
 
@@ -204,18 +203,28 @@ public class AppDbContext : DbContext
          .IsRequired(false)
          .OnDelete(DeleteBehavior.Cascade);
 
-
         // Case table configuration
         modelBuilder.Entity<Case>()
             .ToTable("Cases")
             .HasKey(c => c.Id);
+
         modelBuilder.Entity<Case>()
-            .Property(c => c.Type)
-            .HasMaxLength(20)
+            .Property(c => c.CaseNumber)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<Case>()
+            .Property(c => c.TypeCases)
+            .HasConversion<string>()
             .IsRequired();
+
         modelBuilder.Entity<Case>()
             .Property(c => c.Description)
             .HasMaxLength(800)
+            .IsRequired();
+
+        modelBuilder.Entity<Case>()
+            .Property(c => c.Status)
+            .HasConversion<string>()
             .IsRequired();
 
         // Relationship with Lawyer by OAB
@@ -243,13 +252,17 @@ public class AppDbContext : DbContext
             .IsRequired();
 
         modelBuilder.Entity<CaseEvent>()
+            .Property(ce => ce.Title)
+            .HasMaxLength(60)
+            .IsRequired();
+
+        modelBuilder.Entity<CaseEvent>()
             .Property(ce => ce.Description)
             .HasMaxLength(800)
             .IsRequired();
 
         modelBuilder.Entity<CaseEvent>()
             .Property(ce => ce.EventDate)
-            .HasMaxLength(10)
             .IsRequired();
 
         modelBuilder.Entity<CaseEvent>()

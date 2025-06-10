@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+ï»¿import React, { useState } from "react"
 import { ToastContainer, toast } from 'react-toastify';
 import Button from "../../../../Components/Button.jsx"
 import './LawyerUpdatePage.css'
@@ -66,7 +66,7 @@ function LawyerUpdatePage({ user, lawyer }) {
         }
 
         if (zipCode.length !== 8) {
-            showError("CEP inválido.");
+            showError("CEP invÃ¡lido.");
             return;
         }
 
@@ -75,7 +75,7 @@ function LawyerUpdatePage({ user, lawyer }) {
             const data = await response.json();
 
             if (data.erro) {
-                showError("CEP não encontrado.");
+                showError("CEP nÃ£o encontrado.");
                 return;
             }
 
@@ -289,13 +289,13 @@ function LawyerUpdatePage({ user, lawyer }) {
                             type={"submit"}
                             text={"Editar"}
 
-                            Class={"RegisterButton"}
+                            className={"RegisterButton"}
                         />
                         <Button
                             type={"button"}
                             text={"Cancelar"}
                             onClick={handleReset}
-                            Class={"CancelButton"}
+                            className={"CancelButton"}
                         />
                     </div>
                 </form>

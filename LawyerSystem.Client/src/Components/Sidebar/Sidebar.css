@@ -153,7 +153,7 @@
     margin-bottom: 50px;
 }
 
-.login-button {
+.login-button-sidebar {
     width: 100%;
     display: flex;
     align-items: center;
@@ -167,13 +167,13 @@
     white-space: nowrap;
 }
 
-.logout-button:hover {
+.logout-button-sidebar:hover {
     background-color: rgba(255, 82, 82, 0.2);
     transform: translateX(5px);
     box-shadow: 0 4px 15px rgba(255, 82, 82, 0.15);
 }
 
-.login-button:hover {
+.login-button-sidebar:hover {
     background-color: rgba(115, 0, 157, 0.7);
     transform: translateX(5px);
     box-shadow: 0 4px 15px rgba(54, 1, 74, 0.547);
