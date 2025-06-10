@@ -1,21 +1,22 @@
 import React,{useState } from 'react'
 import './Sidebar.css';
 import { useAuth } from '../../Context/AuthContext'; 
-import { Link, useNavigate } from 'react-router-dom'; // 1. Importações corretas
+import { Link, useNavigate } from 'react-router-dom';
 import PeopleIcon from '@mui/icons-material/People';
 import GavelIcon from '@mui/icons-material/Gavel';
 import PersonIcon from '@mui/icons-material/Person';
 import DescriptionIcon from '@mui/icons-material/Description';
 import HomeIcon from '@mui/icons-material/Home';
 
-const Sidebar = () => { // Este é o Sidebar do Advogado/Gerente
+const Sidebar = () => { 
 
-    const { user, isAuthenticated, logout } = useAuth(); // 2. Pega o usuário do contexto
+    const { user, isAuthenticated, logout } = useAuth();
     const navigate = useNavigate();
+    const role = user?.role;
     
     const handleLogoutClick = () => {
         logout();
-        navigate('/login'); // 3. Usa navigate para redirecionar
+        navigate('/login'); 
     };
 
     return (
@@ -31,30 +32,30 @@ const Sidebar = () => { // Este é o Sidebar do Advogado/Gerente
                 </div>
                 
                 <div id="nav-links">
-                    {/* 4. Links atualizados para usar o componente <Link> */}
                     <Link to="/initialpage" className="nav-link">
                         <HomeIcon style={{ color: 'white' }} />
                         <span>Início</span>
                     </Link>
-                    <Link to="/managerCases" className="nav-link">
-                        <DescriptionIcon style={{ color: 'white' }} />
-                        <span>Processos</span>
-                    </Link>
-                    <Link to="/managerClient" className="nav-link">
-                        <PeopleIcon style={{ color: 'white' }} />
-                        <span>Clientes</span>
-                    </Link>
-                    <Link to="/managerLawyer" className="nav-link">
-                        <GavelIcon style={{ color: 'white' }} />
-                        <span>Advogados</span>
-                    </Link>
-                    {/* Este link de perfil agora está preparado para ser dinâmico */}
-                    {user && (
-                        <Link to={`/manager/profile/${user.id}`} className="nav-link">
-                            <PersonIcon style={{ color: 'white' }} />
-                            <span>Perfil</span>
-                        </Link>
+                    {role === 1 && (
+                        <>
+                            <Link to="/managerCases" className="nav-link">
+                                <DescriptionIcon style={{ color: 'white' }} />
+                                <span>Processos</span>
+                            </Link>
+                            <Link to="/managerClient" className="nav-link">
+                                <PeopleIcon style={{ color: 'white' }} />
+                                <span>Clientes</span>
+                            </Link>
+                            <Link to="/managerLawyer" className="nav-link">
+                                <GavelIcon style={{ color: 'white' }} />
+                                <span>Advogados</span>
+                            </Link>
+                        </>
                     )}
+                    <Link to="/profile" className="nav-link">
+                        <PersonIcon style={{ color: 'white' }} />
+                        <span>Perfil</span>
+                    </Link>
                 </div>
 
                 <div id="button-section">
