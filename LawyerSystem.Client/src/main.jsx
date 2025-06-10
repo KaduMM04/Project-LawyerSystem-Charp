@@ -2,7 +2,8 @@
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from '@mui/material/styles'
+import { Navigate } from 'react-router-dom';
 
 import { AuthProvider } from './Context/AuthContext.jsx';
 import ManagerCases from './Pages/Cases/ManagerCases/ManagerCases';
@@ -24,6 +25,7 @@ createRoot(document.getElementById('root')).render(
                         <Route path="/managerLawyer" element={<ManagerLawyer />} />
                         <Route path="/initialpage" element={<InitialPage />} />
                         <Route path="/managerClient" element={<ManagerClient />} />
+                        <Route path="/" element={<Navigate to="/initialpage" replace />} />
                     </Routes>
                     <ToastContainer />
                 </AuthProvider>
