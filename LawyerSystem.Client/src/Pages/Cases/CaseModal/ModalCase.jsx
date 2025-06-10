@@ -1,21 +1,9 @@
-﻿// ModalCase.jsx
-import React, { useState } from 'react';
-import {
-    Drawer,
-    Box,
-    TextField,
-    Button,
-    Select,
-    MenuItem,
-    InputLabel,
-    FormControl,
-    Typography,
-    IconButton,
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+﻿import React, { useState } from 'react';
+import CaseService from '../../../api/services/case';
+import statusNotification from '../../../utils/status_notification';
 
 function ModalCase({ isOpen, onClose, clients }) {
-    // Obter usuário e OAB do advogado
+
     const user = JSON.parse(localStorage.getItem('user'));
     const lawyerOAB = user?.lawyerOAB || '';
 
@@ -26,7 +14,6 @@ function ModalCase({ isOpen, onClose, clients }) {
         clientId: '',
     });
 
-    // Manipulador de mudança para os campos do caso
     const handleCaseChange = (e) => {
         const { name, value } = e.target;
         setCaseData((prevData) => ({
@@ -47,19 +34,11 @@ function ModalCase({ isOpen, onClose, clients }) {
         };
 
         try {
-            const response = await fetch('https://localhost:5001/api/cases', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            });
-            if (!response.ok) {
-                throw new Error('Erro ao salvar o processo');
-            }
+            await CaseService.createCase(data);
+            statusNotification.showSuccess('Processo criado com sucesso');
             onClose();
         } catch (error) {
-            console.error('Erro ao salvar o processo:', error);
+            statusNotification.showError('Erro ao criar o processo');
         }
     };
 

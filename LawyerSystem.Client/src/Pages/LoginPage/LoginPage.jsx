@@ -5,20 +5,9 @@ import Button from "../../Components/Button.jsx"
 import { useAuth } from "../../Context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import './LoginPage.css'
+import statusNotification from "../../utils/status_notification";
+
 function LoginPage() {
-
-    const showError = (message) => {
-        toast.error(message, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-
-        });
-    };
 
     const { login } = useAuth();
 
@@ -52,7 +41,7 @@ function LoginPage() {
             window.location.href = '/initialpage';
 
         } catch (err) {
-            showError('Erro ao fazer login');
+            statusNotification.showError('Erro ao fazer login');
         }
 
     };
