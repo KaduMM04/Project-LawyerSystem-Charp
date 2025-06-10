@@ -14,8 +14,8 @@ function LawyerListPage({ onEdit }) {
     const getLawyers = async () => {
         try {
 
-            setLawyers(LawyerService.getAllLawyers(lawyersData));
-            setUsers(UserService.getAllUsers(usersData));
+            setLawyers(await LawyerService.getAllLawyers());
+            setUsers(await UserService.getAllUsers());
         } catch (error) {
             statusNotification.showError(error || 'Erro ao carregar advogados');
             setLawyers([]);

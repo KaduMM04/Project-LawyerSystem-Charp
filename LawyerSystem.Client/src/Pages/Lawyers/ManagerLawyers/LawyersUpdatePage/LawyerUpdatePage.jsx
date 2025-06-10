@@ -46,7 +46,7 @@ function LawyerUpdatePage({ user, lawyer }) {
         }
 
         try {
-            getAddressByCep(zipCode)
+            const data = await getAddressByCep(zipCode);
         
             setForm((prevForm) => ({
                 ...prevForm,
