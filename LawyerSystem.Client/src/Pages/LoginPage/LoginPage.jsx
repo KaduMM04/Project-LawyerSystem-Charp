@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import Container from "../../Components/Container.jsx"
 import { toast } from 'react-toastify';
 import Button from "../../Components/Button.jsx"
@@ -6,10 +6,10 @@ import { useAuth } from "../../Context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import './LoginPage.css'
 import statusNotification from "../../utils/status_notification";
+import { returnPageByRole } from "../../api/enums/Role.js"
 
 
 function LoginPage() {
-    const navigate = useNavigate();
     const { login } = useAuth();
     const navigate = useNavigate();
 
@@ -18,7 +18,6 @@ function LoginPage() {
         Senha: '',
     });
 
-    const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -33,25 +32,9 @@ function LoginPage() {
         };
 
         try {
-            const loggedInUser = await login(UserLogin);
-
-            if (loggedInUser && loggedInUser.role !== undefined) {
-                
-                // --- LÓGICA FINAL E CORRETA ---
-                // Ajustado para os valores do seu enum C#
-                switch (loggedInUser.role) {
-                    case 1: // Advogado
-                        navigate('/initialpage');
-                        break;
-                    case 2: // Cliente
-                        navigate('/client/cases');
-                        break;
-                    default:
-                        console.warn("Role numérica não reconhecida:", loggedInUser.role);
-                        navigate('/'); 
-                        break;
-                }
-            }
+            await login(UserLogin);
+            const loggedInUser = JSON.parse(localStorage.getItem('user'));
+            navigate(returnPageByRole(loggedInUser.role));
         } catch (err) {
             statusNotification.showError('Erro ao fazer login');
         }
@@ -71,7 +54,6 @@ function LoginPage() {
                             onChange={handleChange}
                             required
                             placeholder=" "
-                            disabled={isLoading}
                         />
                         <label className="login-label">Login</label>
                     </div>
@@ -85,7 +67,6 @@ function LoginPage() {
                             onChange={handleChange}
                             required
                             placeholder=" "
-                            disabled={isLoading}
                         />
                         <label className="login-label">Senha</label>
                     </div>
