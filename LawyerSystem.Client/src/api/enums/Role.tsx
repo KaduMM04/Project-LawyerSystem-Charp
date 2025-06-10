@@ -1,18 +1,19 @@
-import { ClientCasesPages, InitialPages } from "../../web_routes";
+import ClientCases from "../../Pages/Client/ClientCases/ClientCases";
+import InitialPage from "../../Pages/Lawyers/InitialPage/InitialPage";
 
 export enum Role {
     advogado = 1,
     cliente = 2,
 }
 
-export function returnPageByRole(role: Role): string {
+export function loadPageByRole(role: Role): any {
     
     switch (role) {
         case Role.advogado:
-            return InitialPages.INITIAL_PAGE;
+            return InitialPage;
         case Role.cliente:
-            return ClientCasesPages.CLIENT_CASES_PAGE;
+            return ClientCases;
         default:
-            return InitialPages.INITIAL_PAGE;
+            return InitialPage;
     }
 }

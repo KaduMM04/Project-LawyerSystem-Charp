@@ -15,3 +15,7 @@ export enum ClientCasesPages {
 export enum InitialPages {
     INITIAL_PAGE = "/initialpage",
 }
+
+export enum ProfilePages {
+    USER_PROFILE = "/profile",
+}

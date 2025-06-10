@@ -396,3 +396,37 @@ body {
     color: #64748b;
     font-size: 1.1rem;
 }
+
+/* Centraliza a tabela e define largura máxima */
+.recent-activities-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+.recent-activities-table th,
+.recent-activities-table td {
+  padding: 0.75rem;
+  text-align: center; /* Centraliza o texto */
+  vertical-align: middle;
+}
+
+.recent-activities-table th {
+  color: #64748b;
+  font-weight: 600;
+  background: #f8fafc;
+}
+
+.recent-activities-table tr {
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.recent-activities-table td:first-child {
+  font-weight: 600;
+}
+
+.no-data {
+  text-align: center;
+  color: #64748b;
+  padding: 1rem 0;
+}

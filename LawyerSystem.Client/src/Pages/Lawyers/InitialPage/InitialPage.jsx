@@ -75,22 +75,20 @@ function InitialPage() {
 
     const recentCases = cases.slice(0, 5).map(c => ({
         type: 'Caso',
-        title: c.Type,
-        description: c.Description,
-        status: c.Status,
-        date: null,
-        responsible: c.LawyerOAB || '',
+        title: c.typeCases,
+        description: c.description,
+        status: c.status,
+        date: c.createAt,
     }));
     const recentEvents = events
         .sort((a, b) => new Date(b.EventDate) - new Date(a.EventDate))
         .slice(0, 5)
         .map(e => ({
             type: 'Evento',
-            title: e.Title,
-            description: e.Description,
+            title: e.title,
+            description: e.description,
             status: e.EventStatus,
             date: e.EventDate,
-            responsible: '',
         }));
     const recentActivities = [...recentEvents, ...recentCases];
 
@@ -140,7 +138,6 @@ function InitialPage() {
                     <Button text="Novo Caso" className="primary-button" onClick={() => navigate(CasesPages.MANAGER_CASES)} />
                 </div>
 
-                {/* Resumo rápido e próxima audiência */}
                 <div className="dashboard-summary">
                     <div className="card dashboard-card">
                         <div className="dashboard-icon"><i className="fa fa-briefcase"></i></div>
@@ -183,7 +180,7 @@ function InitialPage() {
                     </div>
                     <div className="card-content">
                         {recentActivities.length > 0 ? (
-                            <table style={{width:'100%', borderCollapse:'collapse'}}>
+                            <table className="recent-activities-table">
                                 <thead>
                                     <tr style={{textAlign:'left', color:'#64748b'}}>
                                         <th style={{padding:'0.5rem'}}>Tipo</th>
