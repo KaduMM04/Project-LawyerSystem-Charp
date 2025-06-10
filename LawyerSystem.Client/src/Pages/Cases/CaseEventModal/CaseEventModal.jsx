@@ -3,6 +3,7 @@ import { Modal, Button, Form, Input, Select, List } from 'antd';
 import { ToastContainer, toast } from 'react-toastify';
 import 'antd/dist/antd.css';
 import './CaseEventModal.css';
+import CaseEventService from '../../../api/services/case_event';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -40,29 +41,13 @@ const CaseEventModal = ({ isOpen, onClose, caseId }) => {
                 CaseId: caseId, 
             };
             
-            // Convert EventType and EventStatus to integers
             data.EventType = parseInt(data.EventType, 10);
             data.EventStatus = parseInt(data.EventStatus, 10);
+            CaseEventService.createCaseEvent(data);
 
-            console.log('Submitting event data:', data);
-
-            const response = await fetch(`http://localhost:5000/api/caseEvent/create`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            });
-
-            if (!response.ok) {
-                showError('Erro ao enviar o formulário. Por favor, tente novamente.');
-                return;
-            }
-
-            // Reset the form and optionally update the events list
             antdForm.resetFields();
         } catch (ex) {
-            console.error('Error submitting form:', ex);
+            
             showError('Erro ao enviar o formulário. Por favor, tente novamente.');
         }
     };
