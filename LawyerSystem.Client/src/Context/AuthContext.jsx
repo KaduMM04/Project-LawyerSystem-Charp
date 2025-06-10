@@ -10,6 +10,7 @@ export function AuthProvider({ children }) {
 
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(null);
+    const [authLoading, setAuthLoading] = useState(true);
 
     const showError = (message) => {
         toast.error(message, {
@@ -40,11 +41,12 @@ export function AuthProvider({ children }) {
             }
 
         } catch (error) {
-            console.error("Erro ao fazer parse do usu�rio salvo:", error);
+            console.error("Erro ao fazer parse do usuário salvo:", error);
             localStorage.removeItem('user');
             setUser(null);
             setToken(null);
         }
+        setAuthLoading(false);
     }, []);
 
     const login = async (loginData) => {
@@ -76,7 +78,7 @@ export function AuthProvider({ children }) {
 
     const isAuthenticated = !!user && !!token;
     return (
-        <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated }}>
+        <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated, authLoading }}>
             {children}
         </AuthContext.Provider>
     );
