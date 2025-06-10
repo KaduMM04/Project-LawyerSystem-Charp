@@ -1,4 +1,4 @@
-import Button from "../../../Components/Button";
+﻿import Button from "../../../Components/Button";
 import { useNavigate } from 'react-router-dom';
 import "./InitialPage.css"
 
@@ -36,7 +36,7 @@ function InitialPage() {
                         <h5>30/02/2029</h5>
                         <h5>Caso Souza</h5>
                         <h5>25/12/1784</h5>
-                        <h5>sei l�</h5>
+                        <h5>sei lá</h5>
                     </div>
                 </div>
 

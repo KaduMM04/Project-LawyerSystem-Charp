@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../../../Components/Button';
 import RegisterLawyerPage from "./RegisterLawyerPage/RegisterLawyer.jsx";

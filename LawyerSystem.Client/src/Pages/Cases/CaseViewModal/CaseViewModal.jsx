@@ -1,4 +1,4 @@
-// CaseViewModal.jsx
+ï»¿// CaseViewModal.jsx
 import React, { useEffect, useState } from 'react';
 import {
     Modal,
@@ -50,9 +50,9 @@ const CaseViewModal = ({ isOpen, onClose, caseData }) => {
 
     const eventTypeMap = {
         0: 'Reuniao',
-        1: 'Audiência',
-        2: 'Petição',
-        3: 'Sentença',
+        1: 'AudiÃªncia',
+        2: 'PetiÃ§Ã£o',
+        3: 'SentenÃ§a',
         4: 'Despacho',
     };
 
@@ -90,7 +90,7 @@ const CaseViewModal = ({ isOpen, onClose, caseData }) => {
                 const userInfo = await responseUser.json();
 
                 console.log('Dados do cliente:', clientInfo);
-                console.log('Dados do usuário:', userInfo);
+                console.log('Dados do usuÃ¡rio:', userInfo);
 
                 setUser(userInfo);
                 setClientData(clientInfo);
@@ -135,18 +135,18 @@ const CaseViewModal = ({ isOpen, onClose, caseData }) => {
                     textColor="primary"
                     aria-label="Detalhes do processo"
                 >
-                    <Tab label="Informações do Caso" icon={<GavelIcon />} iconPosition="start" />
-                    <Tab label="Informações do Cliente" icon={<PersonIcon />} iconPosition="start" />
+                    <Tab label="InformaÃ§Ãµes do Caso" icon={<GavelIcon />} iconPosition="start" />
+                    <Tab label="InformaÃ§Ãµes do Cliente" icon={<PersonIcon />} iconPosition="start" />
                     <Tab label="Eventos do Caso" icon={<EventIcon />} iconPosition="start" />
                 </Tabs>
 
                 {tabIndex === 0 && (
                     <Card sx={{ mt: 2 }}>
-                        <CardHeader avatar={<Avatar><GavelIcon /></Avatar>} title="Informações do Caso" />
+                        <CardHeader avatar={<Avatar><GavelIcon /></Avatar>} title="InformaÃ§Ãµes do Caso" />
                         <CardContent>
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={6}>
-                                    <Typography><b>Número do Processo:</b> {caseData.caseNumber}</Typography>
+                                    <Typography><b>NÃºmero do Processo:</b> {caseData.caseNumber}</Typography>
                                     <Typography><b>Tipo:</b> {caseData.typeCases}</Typography>
                                     <Typography><b>Status:</b> {caseData.status}</Typography>
                                 </Grid>
@@ -154,11 +154,11 @@ const CaseViewModal = ({ isOpen, onClose, caseData }) => {
                                     <Typography
                                         title={caseData.description}
                                         sx={{
-                                            whiteSpace: 'pre-wrap',      // mantém quebras de linha do texto original e quebra linhas longas
-                                            wordBreak: 'break-word',     // força quebra de palavras muito longas
+                                            whiteSpace: 'pre-wrap',      // mantÃ©m quebras de linha do texto original e quebra linhas longas
+                                            wordBreak: 'break-word',     // forÃ§a quebra de palavras muito longas
                                         }}
                                     >
-                                        <b>Descrição:</b> {caseData.description}
+                                        <b>DescriÃ§Ã£o:</b> {caseData.description}
                                     </Typography>
                                     
                                 </Grid>
@@ -169,10 +169,10 @@ const CaseViewModal = ({ isOpen, onClose, caseData }) => {
 
                 {tabIndex === 1 && (
                     <Card sx={{ mt: 2 }}>
-                        <CardHeader avatar={<Avatar><PersonIcon /></Avatar>} title="Informações do Cliente" />
+                        <CardHeader avatar={<Avatar><PersonIcon /></Avatar>} title="InformaÃ§Ãµes do Cliente" />
                         <CardContent>
                             {clientError ? (
-                                <Typography color="error">Erro ao carregar informações do cliente.</Typography>
+                                <Typography color="error">Erro ao carregar informaÃ§Ãµes do cliente.</Typography>
                             ) : clientData ? (
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} sm={6}>
@@ -184,7 +184,7 @@ const CaseViewModal = ({ isOpen, onClose, caseData }) => {
                                     </Grid>
                                 </Grid>
                             ) : (
-                                <Typography variant="body2">Carregando informações do cliente...</Typography>
+                                <Typography variant="body2">Carregando informaÃ§Ãµes do cliente...</Typography>
                             )}
                         </CardContent>
                     </Card>
@@ -204,7 +204,7 @@ const CaseViewModal = ({ isOpen, onClose, caseData }) => {
                                                 <ListItemText
                                                     primary={
                                                         <Typography variant="subtitle1">
-                                                            {eventTypeMap[event.eventType] || event.eventType} — {new Date(event.eventDate).toLocaleString('pt-BR', {
+                                                            {eventTypeMap[event.eventType] || event.eventType} â€” {new Date(event.eventDate).toLocaleString('pt-BR', {
                                                                 day: '2-digit',
                                                                 month: '2-digit',
                                                                 year: 'numeric',
@@ -219,11 +219,11 @@ const CaseViewModal = ({ isOpen, onClose, caseData }) => {
                                                             <Typography
                                                                 title={caseData.description}
                                                                 sx={{
-                                                                    whiteSpace: 'pre-wrap',      // mantém quebras de linha do texto original e quebra linhas longas
-                                                                    wordBreak: 'break-word',     // força quebra de palavras muito longas
+                                                                    whiteSpace: 'pre-wrap',      // mantÃ©m quebras de linha do texto original e quebra linhas longas
+                                                                    wordBreak: 'break-word',     // forÃ§a quebra de palavras muito longas
                                                                 }}
                                                             >
-                                                                <b>Descrição:</b> {event.description}
+                                                                <b>DescriÃ§Ã£o:</b> {event.description}
                                                             </Typography>
                                                             {event.notes && (
                                                                 <Typography variant="body2"><b>Notas:</b> {event.notes}</Typography>

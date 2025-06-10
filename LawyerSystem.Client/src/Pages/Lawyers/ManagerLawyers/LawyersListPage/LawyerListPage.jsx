@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+Ôªøimport { useEffect, useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import './LawyerListPage.css';
 
@@ -67,9 +67,9 @@ function LawyerListPage({ onEdit }) {
                             <div className="lawyer-infos">
                                 <div className="lawyer-details">
                                     <div><strong>OAB:</strong> {lawyer.OAB}</div>
-                                    <div><strong>Nome:</strong> {user ? user.name : 'Usu·rio n„o encontrado'}</div>
-                                    <div><strong>Email:</strong> {user ? user.email : 'Usu·rio n„o encontrado'}</div>
-                                    <div><strong>¡rea de atuaÁ„o:</strong> {lawyer.AreaOfExpertise}</div>
+                                    <div><strong>Nome:</strong> {user ? user.name : 'Usu√°rio n√£o encontrado'}</div>
+                                    <div><strong>Email:</strong> {user ? user.email : 'Usu√°rio n√£o encontrado'}</div>
+                                    <div><strong>√Årea de atua√ß√£o:</strong> {lawyer.AreaOfExpertise}</div>
                                 </div>
                                 {user && (
                                     <button

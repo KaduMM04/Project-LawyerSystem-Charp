@@ -1,4 +1,4 @@
-// ModalCase.jsx
+Ôªø// ModalCase.jsx
 import React, { useState } from 'react';
 import {
     Drawer,
@@ -15,7 +15,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 
 function ModalCase({ isOpen, onClose, clients }) {
-    // Obter usu·rio e OAB do advogado
+    // Obter usu√°rio e OAB do advogado
     const user = JSON.parse(localStorage.getItem('user'));
     const lawyerOAB = user?.lawyerOAB || '';
 
@@ -26,7 +26,7 @@ function ModalCase({ isOpen, onClose, clients }) {
         clientId: '',
     });
 
-    // Manipulador de mudanÁa para os campos do caso
+    // Manipulador de mudan√ßa para os campos do caso
     const handleCaseChange = (e) => {
         const { name, value } = e.target;
         setCaseData((prevData) => ({
@@ -89,20 +89,20 @@ function ModalCase({ isOpen, onClose, clients }) {
                                 <em>Selecione</em>
                             </MenuItem>
                             <MenuItem value="0">Direito Civil</MenuItem>
-                            <MenuItem value="1">FamÌlia e Sucessıes</MenuItem>
+                            <MenuItem value="1">Fam√≠lia e Sucess√µes</MenuItem>
                             <MenuItem value="2">Direito Empresarial</MenuItem>
                             <MenuItem value="3">Direito Trabalhista</MenuItem>
                             <MenuItem value="4">Direito Penal</MenuItem>
-                            <MenuItem value="5">Direito Tribut·rio</MenuItem>
+                            <MenuItem value="5">Direito Tribut√°rio</MenuItem>
                             <MenuItem value="6">Direito Administrativo</MenuItem>
                             <MenuItem value="7">Direito Constitucional</MenuItem>
-                            <MenuItem value="8">Direito Imobili·rio</MenuItem>
+                            <MenuItem value="8">Direito Imobili√°rio</MenuItem>
                             <MenuItem value="9">Direito Ambiental</MenuItem>
                         </Select>
                     </FormControl>
 
                     <TextField
-                        label="DescriÁ„o"
+                        label="Descri√ß√£o"
                         name="description"
                         value={caseData.description}
                         onChange={handleCaseChange}

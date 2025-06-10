@@ -1,4 +1,4 @@
-import React from 'react';
+ï»¿import React from 'react';
 import { Modal, Button, Form, Input, Select, List } from 'antd';
 import { ToastContainer, toast } from 'react-toastify';
 import 'antd/dist/antd.css';
@@ -26,7 +26,7 @@ const CaseEventModal = ({ isOpen, onClose, caseId }) => {
         try {
 
             if (!caseId) {
-                showError('Erro: ID do caso não foi definido.');
+                showError('Erro: ID do caso nÃ£o foi definido.');
                 return;
             }
             const formattedDate = new Date(values.EventDate).toISOString();
@@ -55,7 +55,7 @@ const CaseEventModal = ({ isOpen, onClose, caseId }) => {
             });
 
             if (!response.ok) {
-                showError('Erro ao enviar o formulário. Por favor, tente novamente.');
+                showError('Erro ao enviar o formulÃ¡rio. Por favor, tente novamente.');
                 return;
             }
 
@@ -63,7 +63,7 @@ const CaseEventModal = ({ isOpen, onClose, caseId }) => {
             antdForm.resetFields();
         } catch (ex) {
             console.error('Error submitting form:', ex);
-            showError('Erro ao enviar o formulário. Por favor, tente novamente.');
+            showError('Erro ao enviar o formulÃ¡rio. Por favor, tente novamente.');
         }
     };
 
@@ -96,15 +96,15 @@ const CaseEventModal = ({ isOpen, onClose, caseId }) => {
             >
                 <Form.Item
                     name="Title"
-                    label="Título"
-                    rules={[{ required: true, message: 'Por favor, insira um título' }]}
+                    label="TÃ­tulo"
+                    rules={[{ required: true, message: 'Por favor, insira um tÃ­tulo' }]}
                 >
                     <Input />
                 </Form.Item>
                 <Form.Item
                     name="Description"
-                    label="Descrição"
-                    rules={[{ required: true, message: 'Por favor, insira uma descrição' }]}
+                    label="DescriÃ§Ã£o"
+                    rules={[{ required: true, message: 'Por favor, insira uma descriÃ§Ã£o' }]}
                 >
                     <Input />
                 </Form.Item>
@@ -121,10 +121,10 @@ const CaseEventModal = ({ isOpen, onClose, caseId }) => {
                     rules={[{ required: true, message: 'Por favor, selecione um tipo de evento' }]}
                 >
                     <Select placeholder="Selecione o tipo de evento">
-                        <Option value="0">Reunião</Option>
-                        <Option value="1">Audiência</Option>
-                        <Option value="2">Petição</Option>
-                        <Option value="3">Sentença</Option>
+                        <Option value="0">ReuniÃ£o</Option>
+                        <Option value="1">AudiÃªncia</Option>
+                        <Option value="2">PetiÃ§Ã£o</Option>
+                        <Option value="3">SentenÃ§a</Option>
                         <Option value="4">Despacho</Option>
                     </Select>
                 </Form.Item>

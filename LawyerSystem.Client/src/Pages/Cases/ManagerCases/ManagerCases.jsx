@@ -1,4 +1,4 @@
-// ManagerCases.jsx
+ï»¿// ManagerCases.jsx
 import React, { useState, useEffect } from 'react';
 import {
     Container,
@@ -56,13 +56,13 @@ function ManagerCases() {
             try {
                 const response = await fetch('http://localhost:5000/user/all');
                 if (!response.ok) {
-                    throw new Error('Falha ao buscar os usuários');
+                    throw new Error('Falha ao buscar os usuÃ¡rios');
                 }
                 const data = await response.json();
                 const clientUsers = data.filter((user) => user.role === 'Cliente');
                 setClients(clientUsers);
             } catch (error) {
-                console.error('Erro ao buscar usuários:', error);
+                console.error('Erro ao buscar usuÃ¡rios:', error);
                 setClients([]);
             }
         };
@@ -71,10 +71,10 @@ function ManagerCases() {
         fetchClients();
     }, []);
 
-    // Função para obter o nome do cliente pelo clientId
+    // FunÃ§Ã£o para obter o nome do cliente pelo clientId
     const getClientName = (clientId) => {
         const clientUser = clients.find((user) => user.clientId === clientId);
-        return clientUser ? clientUser.name : 'Cliente não encontrado';
+        return clientUser ? clientUser.name : 'Cliente nÃ£o encontrado';
     };
 
     // Filtro de busca
@@ -90,22 +90,22 @@ function ManagerCases() {
         );
     });
 
-    // Função para abrir o CaseEventModal
+    // FunÃ§Ã£o para abrir o CaseEventModal
     const handleOpenCaseEventModal = (caseItem) => {
         setSelectedCaseForEvent(caseItem);
     };
 
-    // Função para fechar o CaseEventModal
+    // FunÃ§Ã£o para fechar o CaseEventModal
     const handleCloseCaseEventModal = () => {
         setSelectedCaseForEvent(null);
     };
 
-    // Função para abrir o CaseViewModal
+    // FunÃ§Ã£o para abrir o CaseViewModal
     const handleOpenCaseDetailModal = (caseItem) => {
         setSelectedCaseForView(caseItem);
     };
 
-    // Função para fechar o CaseViewModal
+    // FunÃ§Ã£o para fechar o CaseViewModal
     const handleCloseCaseDetailModal = () => {
         setSelectedCaseForView(null);
     };
@@ -120,7 +120,7 @@ function ManagerCases() {
                 <TextField
                     fullWidth
                     variant="outlined"
-                    placeholder="Buscar por número, status, tipo ou cliente..."
+                    placeholder="Buscar por nÃºmero, status, tipo ou cliente..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     InputProps={{

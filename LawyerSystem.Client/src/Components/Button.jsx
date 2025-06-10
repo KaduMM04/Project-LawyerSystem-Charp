@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import "../Style/Button.css";
 
 function Button({ type, text, onClick, className, style, path }) {

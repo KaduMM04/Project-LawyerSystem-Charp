@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+Ôªøimport React, { useState } from "react"
 import { ToastContainer, toast } from 'react-toastify';
 import Button from "../../../../Components/Button.jsx"
 import './LawyerUpdatePage.css'
@@ -66,7 +66,7 @@ function LawyerUpdatePage({ user, lawyer }) {
         }
 
         if (zipCode.length !== 8) {
-            showError("CEP inv·lido.");
+            showError("CEP inv√°lido.");
             return;
         }
 
@@ -75,7 +75,7 @@ function LawyerUpdatePage({ user, lawyer }) {
             const data = await response.json();
 
             if (data.erro) {
-                showError("CEP n„o encontrado.");
+                showError("CEP n√£o encontrado.");
                 return;
             }
 
