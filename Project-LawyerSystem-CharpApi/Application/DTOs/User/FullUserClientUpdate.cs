@@ -9,6 +9,6 @@ public class FullUserClientUpdate
 
     public AddressDto? AddressDto { get; set; }
 
-    public ClientDto ClientDto { get; set; }
+    public ClientDto? ClientDto { get; set; }
 
 }
