@@ -1,0 +1,95 @@
+/* Estilo para a página inteira garantir o layout com a sidebar */
+.client-profile-page {
+    display: flex;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Espaço principal ao lado da sidebar */
+.client-profile-content {
+    margin-left: 60px; /* Espaço para a sidebar recolhida */
+    padding: 40px 50px;
+    flex-grow: 1;
+    background: #ffffff;
+    border-radius: 28px;
+    box-shadow: 0 10px 40px rgba(40, 50, 70, 0.08);
+    transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    min-height: 100vh;
+}
+
+/* Efeito de expansão quando a sidebar está em hover */
+.sidebar:hover ~ .client-profile-content {
+    margin-left: 220px; /* Espaço para a sidebar expandida */
+}
+
+/* Cabeçalho do perfil */
+.profile-header {
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+.profile-header h2 {
+    color: #0a2631;
+    font-size: 2rem;
+    margin-bottom: 6px;
+}
+
+.profile-header p {
+    font-size: 1.1rem;
+    color: #7f8c8d; /* Cor secundária para a descrição */
+}
+
+/* Grid para os detalhes do perfil */
+.profile-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Layout de grid responsivo */
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+/* Card de informação individual */
+.info-card {
+    background-color: #f9fafc;
+    padding: 24px; /* Aumentamos o padding para dar mais respiro ao texto */
+    border-radius: 16px;
+    border: 1px solid #eef2f7;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(44, 62, 80, 0.1);
+}
+
+/* Texto dentro do card (agora é o único elemento) */
+.info-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-text strong {
+    font-size: 0.9rem;
+    color: #5d6d7e;
+    font-weight: 600;
+    margin-bottom: 6px; /* Um pouco mais de espaço */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-text span {
+    font-size: 1.15rem; /* Um pouco maior para mais destaque */
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+/* Seção de ações (botões) */
+.profile-actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid #eef2f7; /* Linha sutil para separar */
+    justify-content: flex-start;
+}
+
+/* Estilos para o seu componente Button (ajuste conforme necessário) */
+/* Este é um exemplo de como você poderia estilizar os botões */

@@ -1,0 +1,109 @@
+.cases-page {
+    margin-left: 270px;
+    padding: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+    background-color: #f9fbfc;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    color: #1d3b47;
+    border-radius: 15px;
+}
+
+.cases-header {
+    margin-bottom: 20px;
+}
+
+.cases-header h1 {
+    color: #0a2631;
+    font-size: 2rem;
+    margin-bottom: 6px;
+}
+
+.cases-header p {
+    color: #4f5f69;
+    font-size: 1rem;
+}
+
+/* Layout de colunas */
+.cases-container {
+    display: flex;
+    gap: 20px;
+}
+
+/* Coluna da esquerda: Lista de processos */
+.cases-list-column {
+    width: 55%;
+}
+
+.cases-list-column h2 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: #0a2631;
+}
+
+/* Cartão de processo */
+.case-card {
+    background: #fff;
+    border: 1.5px solid #e5ebf1;
+    border-radius: 16px;
+    padding: 30px 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+.case-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.case-name {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1d3b47;
+}
+
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.status-badge.ativo {
+    background-color: #00c2b2;
+}
+
+.status-badge.arquivado {
+    background-color: #7d8a92;
+}
+
+.case-number,
+.case-update {
+    font-size: 0.9rem;
+    margin: 4px 0;
+    color: #5c6b74;
+}
+
+/* Estilo ao selecionar um processo */
+.case-card.selected {
+    border-color: #00c2b2;
+    box-shadow: 0 0 0 4px rgba(0, 194, 178, 0.15);
+}
+
+.case-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* Coluna da direita: Timeline */
+.timeline-column {
+    width: 45%;
+}

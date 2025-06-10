@@ -7,3 +7,11 @@ export enum AuthPages {
 export enum CasesPages { 
     MANAGER_CASES = "/managerCases"
 }
+
+export enum ClientCasesPages {
+    CLIENT_CASES_PAGE = "/client/cases"
+}
+
+export enum InitialPages {
+    INITIAL_PAGE = "/initialpage",
+}
