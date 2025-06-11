@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useAuth } from '../../../Context/AuthContext';
 
 import Button from "../../../Components/Button";
 import ClientSidebar from "../../../Components/ClientSidebar/ClientSidebar";
@@ -9,8 +10,11 @@ import "../../../Components/ClientModal/ClientModal.css";
 import ClientService from '../../../api/services/client';
 import statusNotification from '../../../utils/status_notification';
 
+
+
 const ClientProfile = () => {
-    // O 'id' da URL é o ID DO USUÁRIO
+    const { user } = useAuth();
+
     const { id } = useParams(); 
     const [isModalOpen, setIsModalOpen] = useState(false);
     
@@ -30,7 +34,6 @@ const ClientProfile = () => {
             setIsLoading(true);
             setError('');
             try {
-                const user = localStorage.getItem('user');
                 setProfileData({
                     user: user,
                     client: await ClientService.getClientById(user.clientId)
@@ -44,7 +47,7 @@ const ClientProfile = () => {
         };
 
         fetchSequencialData();
-    }, [id]); 
+    }, user); 
 
     const handleEditRequest = async (e) => {
         e.preventDefault();

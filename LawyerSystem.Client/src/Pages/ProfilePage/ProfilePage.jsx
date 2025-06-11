@@ -5,6 +5,11 @@ import Button from "../../Components/Button";
 import { useAuth } from '../../Context/AuthContext';
 import { AuthPages } from "../../web_routes";
 import "../../Style/ProfilePage.css";
+import UserService from "../../api/services/user";
+import AuthService from "../../api/services/auth";
+
+import statusNotification from "../../utils/status_notification";
+import { Role } from "../../api/enums/Role";
 
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
@@ -18,7 +23,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 
 function ProfilePage() {
     const navigate = useNavigate();
-    const { user, isAuthenticated, authLoading, logout } = useAuth();
+    const { user, isAuthenticated, authLoading, logout, updateUser } = useAuth();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [editMode, setEditMode] = useState(false);
@@ -70,23 +75,98 @@ function ProfilePage() {
                 email: user.email || '',
                 phone: user.phone || '',
                 oab: user.oab || '',
-                specialization: user.specialization || '',
-                bio: user.bio || ''
-            });
+                specialization: user.AreaOfExpertise || '',
+            }
+        );
+            
         }
         setEditMode(false);
     };
 
+    const reloadUser = async () => {
+        try {
+            const updatedUser = await UserService.getUserById(user.id);
+            updateUser(updatedUser);
+            setFormData({
+                name: updatedUser.name || '',
+                email: updatedUser.email || '',
+                phone: updatedUser.phone || '',
+                oab: updatedUser.oab || '',
+                specialization: updatedUser.specialization || '',
+                bio: updatedUser.bio || ''
+            });
+        } catch (err) {
+            console.error('Error reloading user data:', err);
+            statusNotification.showError('Erro ao atualizar dados do usuário');
+        }
+    }
+
+    async function createPatchData() {
+        const commonPatchData = {
+            userUpdate: {
+                name: formData.name || "",
+                email: formData.email || "",
+                Phone: formData.phone || "",
+            }
+        };
+        console.log(user?.role);
+        console.log(Role.advogado);
+
+        if (user?.role == Role.advogado) {
+            return {
+                ...commonPatchData,
+                address: {
+                    Street: user?.address?.Street || "",
+                    Number: user?.address?.Number || "",
+                    Complement: user?.address?.Complement || "",
+                    Neighborhood: user?.address?.Neighborhood || "",
+                    City: user?.address?.City || "",
+                    State: user?.address?.State || "",
+                    ZipCode: user?.address?.ZipCode || ""
+                },
+                lawyer: {
+                    AreaOfExpertise: formData.specialization || ""
+                }
+            };
+        }
+
+        return {
+            ...commonPatchData,
+            addressDto: {
+                Street: user?.address?.Street || "",
+                Number: user?.address?.Number || "",
+                Complement: user?.address?.Complement || "",
+                Neighborhood: user?.address?.Neighborhood || "",
+                City: user?.address?.City || "",
+                State: user?.address?.State || "",
+                ZipCode: user?.address?.ZipCode || ""
+            },
+            clientDto: {
+                Profission: user?.profission || "",
+                Representative: user?.representative || "",
+                MaritalStatus: user?.maritalStatus || "",
+                CompanyName: user?.companyName || ""
+            }
+        };
+    }
+
     const handleSaveProfile = async () => {
         try {
-            setLoading(true);
-            setTimeout(() => {
-                setEditMode(false);
-                setLoading(false);
-            }, 1000);
+            const data = await createPatchData();
+            
+            if (user?.role === Role.advogado) {
+                await AuthService.patchLawyer(data);
+            } else {
+                await AuthService.patchClient(data);
+            }
+            
+            await reloadUser();
+            statusNotification.showSuccess('Perfil atualizado com sucesso');
+            setEditMode(false);
         } catch (err) {
-            setError(err.message);
-            setLoading(false);
+            console.error('Error details:', err);
+            statusNotification.showError(err?.message || 'Erro ao atualizar perfil');
+            setEditMode(false);
         }
     };
 
@@ -115,12 +195,6 @@ function ProfilePage() {
         );
     }
 
-    // Mock statistics data
-    const stats = [
-        { icon: <GavelIcon />, value: 15, label: "Casos Ativos" },
-        { icon: <EventIcon />, value: 8, label: "Eventos Pendentes" },
-        { icon: <PersonIcon />, value: 24, label: "Clientes" }
-    ];
 
     return (
         <div className="profile-page-container">
@@ -150,18 +224,6 @@ function ProfilePage() {
                             />
                         </div>
                     )}
-                </div>
-
-                <div className="profile-stats">
-                    {stats.map((stat, index) => (
-                        <div key={index} className="profile-stat-card">
-                            <div className="profile-stat-icon">
-                                {stat.icon}
-                            </div>
-                            <div className="profile-stat-value">{stat.value}</div>
-                            <div className="profile-stat-label">{stat.label}</div>
-                        </div>
-                    ))}
                 </div>
 
                 <div className="profile-tabs">
@@ -216,7 +278,7 @@ function ProfilePage() {
                                     <>
                                         <div>
                                             <h2 className="profile-name">{user?.name || "Usuário"}</h2>
-                                            <p className="profile-role">Advogado</p>
+                                            <p className="profile-role">{user?.role == Role.advogado ? "Advogado" : "Cliente"}</p>
                                         </div>
                                         
                                         <div className="profile-info-grid">
@@ -364,5 +426,4 @@ function ProfilePage() {
         </div>
     );
 }
-
-export default ProfilePage; 
+export default ProfilePage;

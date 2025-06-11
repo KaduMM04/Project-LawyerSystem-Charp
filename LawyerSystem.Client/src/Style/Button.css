@@ -1,4 +1,3 @@
-
 /*Ptern button*/
 .PatternButton {
     box-shadow: 1px 1px 1px 0.5px rgba(0, 0, 0, 0.2);
@@ -154,4 +153,68 @@
         background-color: #264653;
         color: #FFFFFF;
         transform: translateY(-2px);
+}
+
+/* Profile page buttons */
+.profile-button {
+    background-color: #264653;
+    color: #FFFFFF;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.profile-button:hover {
+    background-color: #3a5a70;
+    transform: translateY(-2px);
+}
+
+.profile-button-secondary {
+    background-color: #FFFFFF;
+    color: #264653;
+    padding: 12px 24px;
+    border: 2px solid #264653;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.profile-button-secondary:hover {
+    background-color: #f0f5f7;
+    transform: translateY(-2px);
+}
+
+.profile-button-danger {
+    background-color: #e63946;
+    color: #FFFFFF;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.profile-button-danger:hover {
+    background-color: #d62828;
+    transform: translateY(-2px);
 }
