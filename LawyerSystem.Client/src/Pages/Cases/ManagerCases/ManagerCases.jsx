@@ -1,5 +1,4 @@
-﻿// ManagerCases.jsx
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import {
     Container,
     TextField,
@@ -26,6 +25,9 @@ import ModalCase from '../CaseModal/ModalCase';
 import CaseEventModal from '../CaseEventModal/CaseEventModal';
 import CaseViewModal from '../CaseViewModal/CaseViewModal';
 import Sidebar from '../../../Components/Sidebar/Sidebar';
+import CaseService from '../../../api/services/case';
+import UserService from '../../../api/services/user';
+import statusNotification from '../../../utils/status_notification';
 
 function ManagerCases() {
     const [cases, setCases] = useState([]);
@@ -36,33 +38,22 @@ function ManagerCases() {
     const [selectedCaseForView, setSelectedCaseForView] = useState(null);
 
     useEffect(() => {
-        // Buscar os casos
         const fetchCases = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/case/all');
-                if (!response.ok) {
-                    throw new Error('Falha ao buscar os casos');
-                }
-                const data = await response.json();
+                const data = await CaseService.getAllCases();
                 setCases(data);
             } catch (error) {
                 console.error('Erro ao buscar casos:', error);
                 setCases([]);
             }
         };
-
-        // Buscar os clientes
         const fetchClients = async () => {
             try {
-                const response = await fetch('http://localhost:5000/user/all');
-                if (!response.ok) {
-                    throw new Error('Falha ao buscar os usuários');
-                }
-                const data = await response.json();
+                const data = await UserService.getAllUsers();
                 const clientUsers = data.filter((user) => user.role === 'Cliente');
                 setClients(clientUsers);
             } catch (error) {
-                console.error('Erro ao buscar usuários:', error);
+                statusNotification.showError(error || 'Erro ao buscar clientes');
                 setClients([]);
             }
         };
@@ -71,13 +62,11 @@ function ManagerCases() {
         fetchClients();
     }, []);
 
-    // Função para obter o nome do cliente pelo clientId
     const getClientName = (clientId) => {
         const clientUser = clients.find((user) => user.clientId === clientId);
         return clientUser ? clientUser.name : 'Cliente não encontrado';
     };
 
-    // Filtro de busca
     const filteredCases = cases.filter((caseItem) => {
         const searchLower = search.toLowerCase();
         const clientName = getClientName(caseItem.clientId).toLowerCase();

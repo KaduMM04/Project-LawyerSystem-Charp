@@ -59,7 +59,6 @@ public class AuthController : Controller
         try
         {
 
-
             await _authService.RegisterFullClientUser(
                 fullClientUserDto.UserDto,
                 fullClientUserDto.AddressDto,
@@ -113,6 +112,7 @@ public class AuthController : Controller
             return BadRequest(e.Message);
         }
     }
+
     [HttpPatch("patch/client")]
     public async Task<IActionResult> PatchUserClient([FromBody] FullUserClientUpdate userClientUpdate)
     {

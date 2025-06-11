@@ -25,6 +25,10 @@ import {
     Event as EventIcon,
 } from '@mui/icons-material';
 import { styled } from '@mui/system';
+import CaseEventService from '../../../api/services/case_event';
+import ClientService from '../../../api/services/client';
+import UserService from '../../../api/services/user';	
+import statusNotification from '../../../utils/status_notification';
 
 const StyledModalBox = styled(Box)(({ theme }) => ({
     position: 'absolute',
@@ -64,42 +68,25 @@ const CaseViewModal = ({ isOpen, onClose, caseData }) => {
 
         const fetchCaseEvents = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/caseEvent/all', { signal });
-                if (!response.ok) throw new Error('Falha ao buscar eventos do caso');
-                const data = await response.json();
+                const data = await CaseEventService.getAllCaseEvents();
 
                 setCaseEvents(data.filter(event => event.caseId === caseData.id));
             } catch (error) {
-                if (error.name !== 'AbortError') {
-                    console.error('Erro ao buscar eventos do caso:', error);
-                }
+                statusNotification.showError(err || 'Erro ao buscar eventos do caso');
             }
         };
 
         const fetchClientData = async () => {
             try {
-                console.log("casedata", caseData);
-
-                const responseClient = await fetch(`http://localhost:5000/api/client/${caseData.clientId}`, { signal });
-                if (!responseClient.ok) throw new Error('Falha ao buscar dados do cliente');
-                const clientInfo = await responseClient.json();
-
-                console.log("clienteData", clientInfo);
-
-                const responseUser = await fetch(`http://localhost:5000/user/clientUser/${clientInfo.id}`, { signal });
-                const userInfo = await responseUser.json();
-
-                console.log('Dados do cliente:', clientInfo);
-                console.log('Dados do usuário:', userInfo);
-
+                const clientInfo = await ClientService.getClientById(caseData.clientId)
+                const userInfo = await UserService.getUserById(clientInfo.userId);
+                
                 setUser(userInfo);
                 setClientData(clientInfo);
                 setClientError(false);
             } catch (error) {
-                if (error.name !== 'AbortError') {
-                    console.error('Erro ao buscar dados do cliente:', error);
-                    setClientError(true);
-                }
+                statusNotification.showError(error || 'Erro ao buscar informações do cliente');
+                setClientError(true);
             }
         };
 

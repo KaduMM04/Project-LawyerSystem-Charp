@@ -14,6 +14,17 @@ function formatDate(dateStr) {
     return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
 }
 
+const eventStatusMap = {
+    0: "Agendado",
+    1: "Realizado",
+    2: "Cancelado",
+    3: "Adiado"
+};
+
+function getEventStatusLabel(status) {
+    return eventStatusMap[status] ?? status;
+}
+
 function timeAgo(dateStr) {
     if (!dateStr) return '';
     const now = new Date();
@@ -75,24 +86,24 @@ function InitialPage() {
 
     const recentCases = cases.slice(0, 5).map(c => ({
         type: 'Caso',
-        title: c.Type,
-        description: c.Description,
-        status: c.Status,
-        date: null,
-        responsible: c.LawyerOAB || '',
+        title: c.typeCases,
+        description: c.description,
+        status: c.status,
+        date: c.createAt,
     }));
+   
     const recentEvents = events
         .sort((a, b) => new Date(b.EventDate) - new Date(a.EventDate))
         .slice(0, 5)
         .map(e => ({
             type: 'Evento',
-            title: e.Title,
-            description: e.Description,
-            status: e.EventStatus,
-            date: e.EventDate,
-            responsible: '',
+            title: e.title,
+            description: e.description,
+            status: e.eventStatus,
+            date: e.eventDate,
         }));
     const recentActivities = [...recentEvents, ...recentCases];
+  
 
     const nextEvent = events
         .filter(e => new Date(e.EventDate) > new Date())
@@ -140,7 +151,6 @@ function InitialPage() {
                     <Button text="Novo Caso" className="primary-button" onClick={() => navigate(CasesPages.MANAGER_CASES)} />
                 </div>
 
-                {/* Resumo rápido e próxima audiência */}
                 <div className="dashboard-summary">
                     <div className="card dashboard-card">
                         <div className="dashboard-icon"><i className="fa fa-briefcase"></i></div>
@@ -183,15 +193,13 @@ function InitialPage() {
                     </div>
                     <div className="card-content">
                         {recentActivities.length > 0 ? (
-                            <table style={{width:'100%', borderCollapse:'collapse'}}>
+                            <table className="recent-activities-table">
                                 <thead>
                                     <tr style={{textAlign:'left', color:'#64748b'}}>
                                         <th style={{padding:'0.5rem'}}>Tipo</th>
                                         <th style={{padding:'0.5rem'}}>Título</th>
-                                        <th style={{padding:'0.5rem'}}>Descrição</th>
                                         <th style={{padding:'0.5rem'}}>Status</th>
                                         <th style={{padding:'0.5rem'}}>Quando</th>
-                                        <th style={{padding:'0.5rem'}}>Responsável</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -199,10 +207,8 @@ function InitialPage() {
                                         <tr key={idx} style={{borderBottom:'1px solid #f1f5f9'}}>
                                             <td style={{padding:'0.5rem', fontWeight:600, color:item.type==='Caso'?'#3b82f6':'#22c55e'}}>{item.type}</td>
                                             <td style={{padding:'0.5rem'}}>{item.title}</td>
-                                            <td style={{padding:'0.5rem'}}>{item.description}</td>
-                                            <td style={{padding:'0.5rem'}}>{item.status}</td>
+                                            <td style={{ padding: '0.5rem' }}>{getEventStatusLabel(item.status)}</td>
                                             <td style={{padding:'0.5rem'}}>{item.date ? timeAgo(item.date) : '-'}</td>
-                                            <td style={{padding:'0.5rem'}}>{item.responsible || '-'}</td>
                                         </tr>
                                     ))}
                                 </tbody>

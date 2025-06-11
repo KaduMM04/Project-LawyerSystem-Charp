@@ -1,6 +1,9 @@
 ﻿import { useEffect, useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import './LawyerListPage.css';
+import LawyerService from '../../../../api/services/lawyer';
+import UserService from '../../../../api/services/user';
+import statusNotification from '../../../../utils/status_notification';
 
 function LawyerListPage({ onEdit }) { 
     const [lawyers, setLawyers] = useState([]);
@@ -10,22 +13,11 @@ function LawyerListPage({ onEdit }) {
 
     const getLawyers = async () => {
         try {
-            const responseLawyers = await fetch('http://localhost:5000/api/Lawyer/all');
-            if (!responseLawyers.ok) {
-                throw new Error('Failed to fetch lawyers');
-            }
 
-            const responseUser = await fetch('http://localhost:5000/user/all');
-            if (!responseUser.ok) {
-                throw new Error('Failed to fetch users');
-            }
-
-            const lawyersData = await responseLawyers.json();
-            const userData = await responseUser.json();
-            setLawyers(lawyersData);
-            setUsers(userData);
+            setLawyers(await LawyerService.getAllLawyers());
+            setUsers(await UserService.getAllUsers());
         } catch (error) {
-            console.error('Error fetching lawyers:', error);
+            statusNotification.showError(error || 'Erro ao carregar advogados');
             setLawyers([]);
             setUsers([]);
         }

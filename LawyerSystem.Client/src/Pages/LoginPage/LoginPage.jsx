@@ -6,7 +6,7 @@ import { useAuth } from "../../Context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import './LoginPage.css'
 import statusNotification from "../../utils/status_notification";
-import { returnPageByRole } from "../../api/enums/Role.js"
+import { InitialPages } from "../../web_routes";
 
 
 function LoginPage() {
@@ -33,8 +33,7 @@ function LoginPage() {
 
         try {
             await login(UserLogin);
-            const loggedInUser = JSON.parse(localStorage.getItem('user'));
-            navigate(returnPageByRole(loggedInUser.role));
+            navigate(InitialPages.INITIAL_PAGE);
         } catch (err) {
             statusNotification.showError('Erro ao fazer login');
         }

@@ -20,16 +20,21 @@ public class AuthService
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
-
+    private readonly IConfiguration _configuration;
     /// <summary>
     /// Initializes a new instance of the <see cref="AuthService"/> class.
     /// </summary>
     /// <param name="userRepository">The user repository for accessing user data.</param>
     /// <param name="mapper">The mapper for object-to-object mapping.</param>
-    public AuthService(IUserRepository userRepository, IMapper mapper)
+    /// <param name="configuration"></param>
+    public AuthService(
+        IUserRepository userRepository,
+        IMapper mapper,
+        IConfiguration configuration)
     {
         _userRepository = userRepository;
         _mapper = mapper;
+        _configuration = configuration;
     }
 
     /// <summary>
@@ -332,13 +337,23 @@ public class AuthService
     /// <returns>A JWT token as a string.</returns>
     private string GenerateToken(User user)
     {
+        DotNetEnv.Env.Load();
+
+        var secretKey = _configuration["secretKey"];
+
+        if (string.IsNullOrEmpty(secretKey))
+        {
+            throw new ArgumentNullException(nameof(secretKey), "Secret key cannot be null or empty.");
+        }
+
         var claims = new[]
         {
-          new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-          new Claim(ClaimTypes.Email, user.Email.ToString()),
-          new Claim(ClaimTypes.Role, user.Role.ToString()),
+           new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+           new Claim(ClaimTypes.Email, user.Email.ToString()),
+           new Claim(ClaimTypes.Role, user.Role.ToString()),
         };
-        var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("MyS3cur3K3yThatIsAtLeast32Chars!"));
+
+        var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secretKey));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
@@ -351,7 +366,8 @@ public class AuthService
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    public async Task UpdateUserClientAsync(UserUpdateDto? userUpdate,
+    public async Task UpdateUserClientAsync(
+        UserUpdateDto? userUpdate,
         AddressDto? addressDto,
         ClientDto? clientDto)
     {

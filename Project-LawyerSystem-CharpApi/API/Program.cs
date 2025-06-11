@@ -4,9 +4,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Project_LawyerSystem_CharpApi.Application.Services;
 using Project_LawyerSystem_CharpApi.Domain.Interfaces;
+using Project_LawyerSystem_CharpApi.Infrastructure.CustomMigration;
 using Project_LawyerSystem_CharpApi.Infrastructure.Data;
 using Project_LawyerSystem_CharpApi.Infrastructure.Repositories;
+using System.Text;
 
+DotNetEnv.Env.Load();
 // Db Set
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,26 +31,31 @@ builder.Services.AddCors(options =>
     });
 });
 
-// JWT configuration
+var secretKey = builder.Configuration["secretKey"];
 
-// builder.Services.AddAuthentication(options =>
-// {
-//    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-// })
-// .AddJwtBearer(options =>
-// {
-//    options.TokenValidationParameters = new TokenValidationParameters
-//    {
-//        ValidateIssuer = true,
-//        ValidateAudience = true,
-//        ValidateLifetime = true,
-//        ValidateIssuerSigningKey = true,
-//        ValidIssuer = "http://localhost:5000",
-//        ValidAudience = "http://localhost:5000",
-//        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes())
-//    };
-// });
+if (string.IsNullOrEmpty(secretKey))
+{
+    throw new Exception("JWT Secret Key is not configured in the environment variables.");
+}
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = "http://localhost:5000",
+        ValidAudience = "http://localhost:5000",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+    };
+});
 
 // Sawgger configuration
 builder.Services.AddSwaggerGen(c =>
@@ -89,6 +97,26 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+
+    // Crie o UserMigration dentro do escopo!
+    var migration = new UserMigration(
+        builder.Configuration,
+        scope.ServiceProvider.GetRequiredService<AppDbContext>(),
+        scope.ServiceProvider.GetRequiredService<AuthService>());
+
+#pragma warning disable SA1503
+    if (!await migration.TestDb()) throw new Exception("Database connection failed");
+#pragma warning restore SA1503
+
+    Console.WriteLine("teste");
+
+    await migration.CreateMainData();
+}
+
 app.UseCors("FrontendPolicy");
 app.UseAuthentication();
 app.MapControllers();
@@ -99,3 +127,5 @@ app.Map("/", () =>
     return Results.Redirect("/swagger");
 });
 app.Run();
+
+

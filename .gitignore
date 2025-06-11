@@ -44,3 +44,5 @@ project.nuget.cache
 # Resharper
 _ReSharper*/
 *.DotSettings.user
+
+*.env

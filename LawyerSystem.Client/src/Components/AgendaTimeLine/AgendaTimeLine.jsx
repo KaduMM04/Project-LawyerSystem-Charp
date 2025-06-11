@@ -1,6 +1,5 @@
-// src/Components/AgendaTimeline/AgendaTimeline.jsx
 import React from 'react';
-import './AgendaTimeline.css';
+import './AgendaTimeLine.css';
 import GavelIcon from '@mui/icons-material/Gavel'; // Exemplo de ícone
 
 const AgendaTimeline = ({ eventos, selectedCase }) => {
@@ -26,7 +25,6 @@ const AgendaTimeline = ({ eventos, selectedCase }) => {
                         <div key={evento.id} className="timeline-item">
                             <div className="timeline-marker"><GavelIcon fontSize="small" /></div>
                             <div className="timeline-content">
-                                {/* Usando os nomes exatos da sua API */}
                                 <span className="timeline-date">{evento.eventDate}</span>
                                 <h4 className="evento-title">{evento.description}</h4>
                                 {evento.notes && <p className="evento-processo">Notas: {evento.notes}</p>}
